@@ -1,13 +1,26 @@
-import { FC } from 'react';
-import { useAuthData } from '../Data';
-import { API_PASSWORD, API_USERNAME } from '../../constant';
+import { FC, ReactElement } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import { useAppVersionQuery } from '../Data';
 
-export const Auth: FC = () => {
-  const { data, error, isError } = useAuthData(API_USERNAME, API_PASSWORD);
+export const Auth: FC<{ children: ReactElement }> = ({ children }) => {
+  const history = useHistory();
+  const { pathname: currentPath } = useLocation();
+  const { data, isSuccess: isAuthenticated, isFetching } = useAppVersionQuery();
 
-  return (
-    <pre>
-      <code>{JSON.stringify(isError ? error : data, null, 2)}</code>
-    </pre>
-  );
+  if (isFetching) {
+    <div>Loading...</div>;
+  }
+
+  if (!isFetching && !isAuthenticated) {
+    if (currentPath !== '/login') {
+      history.push('/login');
+    }
+    return null;
+  }
+
+  if (data) {
+    return children;
+  }
+
+  return null;
 };

@@ -1,3 +1,3 @@
-import { renderApp } from './Components/App';
+import { renderApp } from './Components/Root';
 
 renderApp();

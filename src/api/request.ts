@@ -1,26 +1,38 @@
 import { tryCatch, tryCatchSync } from '../utils';
+import { buildError, getHeaders } from './utils';
+
+export const rawRequest = (url: string, options?: RequestInit) => fetch(url, options);
 
 export const request = async (url: string, options?: RequestInit) => {
-  const response = await fetch(url, options);
+  const response = await rawRequest(url, options);
 
-  if (response.status >= 200 && response.status < 400) {
+  const text = await response.text();
+  if (response.ok) {
+    return text;
+  }
+
+  throw buildError(text, { response, object: { message: text } });
+};
+
+export const requestJson = async <T>(url: string, options?: RequestInit): Promise<T> => {
+  const response = await rawRequest(url, options);
+
+  if (response.ok) {
     return response.json();
   }
 
   const text = await tryCatch(() => response.text(), `{INVALID_JSON}`);
-  const jsonError = tryCatchSync(() => JSON.parse(text), { message: text || 'Unknown error' });
+  const object = tryCatchSync<{ message: string }>(() => JSON.parse(text), {
+    message: text || 'Unknown error',
+  });
 
-  throw jsonError;
+  throw buildError(object.message, { response, object });
 };
 
 export const apiRequest = async (endpoint: string, options: RequestInit = {}) => {
   // Add content-type to headers for all api requests
-  const { headers: originalHeaders } = options;
-  const headers = new Headers(Object.entries(originalHeaders ?? {}));
+  const headers = getHeaders(options.headers);
   headers.set('content-type', 'application/json');
 
-  const response = await request(endpoint, { ...options, headers });
-  const json = await response.json();
-
-  return json;
+  return requestJson(endpoint, { ...options, headers });
 };

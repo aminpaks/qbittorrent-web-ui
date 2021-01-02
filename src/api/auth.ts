@@ -1,11 +1,19 @@
-import { apiRequest } from './request';
-import { buildEndpointUrl } from './utils';
+import { getFormData } from '../utils';
+import { request } from './request';
+import { buildEndpointUrl, buildError } from './utils';
 
-export const requestAuthLoginV2 = (username: string = 'admin', password: string = 'adminadmin') =>
-  apiRequest(buildEndpointUrl(`/api/v2/auth/login`), {
+export const apiV2AuthLogin = (
+  username: string = 'admin',
+  password: string = 'adminadmin'
+): Promise<{ authenticated: boolean }> =>
+  request(buildEndpointUrl(`/api/v2/auth/login`), {
     method: 'POST',
-    body: JSON.stringify({
-      username,
-      password,
-    }),
+    body: getFormData({ username, password }),
+  }).then(response => {
+    if (response.indexOf('Ok') === 0) {
+      return {
+        authenticated: true,
+      };
+    }
+    throw buildError('Authentication failed!', { object: { authenticated: false } });
   });

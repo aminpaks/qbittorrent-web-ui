@@ -17,6 +17,10 @@ const htmlTemplateContent = String(Fs.readFileSync(htmlTemplatePath)).replace(
   publicUrl
 );
 
+const PROXY_HOST_TARGET = process.env.QBT_API_HOST;
+const url = new URL(PROXY_HOST_TARGET);
+const PROXY_HOST = url.host;
+
 // Prepare env variables
 const envVariables = Object.entries(process.env).reduce((acc, entry) => {
   const [key, value] = entry;
@@ -27,9 +31,7 @@ const envVariables = Object.entries(process.env).reduce((acc, entry) => {
 }, {});
 envVariables['process.env.NODE_ENV'] = JSON.stringify(process.env.NODE_ENV);
 envVariables['process.env.QBT_DEV_SERVER_URL'] = JSON.stringify('http://localhost:9000');
-
-const PROXY_HOST_TARGET = process.env.QBT_API_HOST;
-console.log('Webpack proxy target: ', PROXY_HOST_TARGET);
+console.log('Webpack proxy: localhost:9000 -> ' + PROXY_HOST + '\n\n');
 
 module.exports = {
   mode: 'development',
@@ -70,7 +72,9 @@ module.exports = {
       '/api': {
         target: PROXY_HOST_TARGET,
         bypass: function (req) {
+          req.headers['host'] = PROXY_HOST;
           req.headers['origin'] = PROXY_HOST_TARGET;
+          req.headers['referer'] = PROXY_HOST_TARGET;
         },
       },
     },

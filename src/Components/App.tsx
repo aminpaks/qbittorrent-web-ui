@@ -1,23 +1,13 @@
-import { render } from 'react-dom';
-import { QueryClientProvider, QueryClient } from 'react-query';
-import { Auth } from './Auth';
+import { FC } from 'react';
+import { useAppVersionQuery } from './Data';
+import { MainLayout } from './Layout';
 
-const queryClient = new QueryClient();
+export const App: FC = () => {
+  const { data: qbtVersion } = useAppVersionQuery();
 
-export const App = () => {
   return (
-    <div>
-      <div>qBittorrent Web UI</div>
-      <Auth />
-    </div>
-  );
-};
-
-export const renderApp = (rootElementQuerySelector = '#root') => {
-  render(
-    <QueryClientProvider client={queryClient}>
-      <App />
-    </QueryClientProvider>,
-    document.querySelector(rootElementQuerySelector)
+    <MainLayout qbtVersion={qbtVersion || ''}>
+      <div>Application main window</div>
+    </MainLayout>
   );
 };
