@@ -9,9 +9,9 @@ import {
   TextField,
   Typography,
 } from '../materialUiCore';
-import { mStyles } from '../common';
 import { LockOpen } from '../materialUiIcons';
-import { LoginHeader } from './LoginHeader';
+import { mStyles } from '../common';
+import { AppHeader } from '../AppHeader';
 import { MainLayout } from '../Layout';
 import { DisplayApiError } from '../DisplayApiError';
 import { useAppVersionQuery, useLoginMutation } from '../Data';
@@ -58,7 +58,7 @@ export const Login: FC = () => {
   }, [isSuccess]);
 
   return (
-    <MainLayout header={<LoginHeader />} qbtVersion="">
+    <MainLayout header={<AppHeader qbtVersion="" />} qbtVersion="">
       <section className={classes.loginRoot}>
         <Box marginBottom={2} component="header">
           <Typography variant="h4" component="h1">

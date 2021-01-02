@@ -1,9 +1,9 @@
 import { FC } from 'react';
-import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
-import MuiThemeProvider from '@material-ui/styles/ThemeProvider';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import pink from '@material-ui/core/colors/pink';
 import indigo from '@material-ui/core/colors/indigo';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
+import MuiThemeProvider from '@material-ui/styles/ThemeProvider';
 
 const theme = createMuiTheme({
   palette: {
@@ -26,6 +26,7 @@ const theme = createMuiTheme({
       '@global': {
         html: {
           cursor: 'default',
+          userSelect: 'none',
         },
         'body .MuiFormControl-root': {
           margin: 8,

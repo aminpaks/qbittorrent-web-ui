@@ -29,10 +29,10 @@ export const requestJson = async <T>(url: string, options?: RequestInit): Promis
   throw buildError(object.message, { response, object });
 };
 
-export const apiRequest = async (endpoint: string, options: RequestInit = {}) => {
+export const apiRequest = async <T>(endpoint: string, options: RequestInit = {}) => {
   // Add content-type to headers for all api requests
   const headers = getHeaders(options.headers);
   headers.set('content-type', 'application/json');
 
-  return requestJson(endpoint, { ...options, headers });
+  return requestJson<T>(endpoint, { ...options, headers });
 };

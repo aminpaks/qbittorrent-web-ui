@@ -1,9 +1,15 @@
 import { Lazy } from '../types';
 
-export const tryCatchSync = <T>(lazy: Lazy<T>, fallback: ((reason: unknown) => T) | T): T => {
+export const tryCatchSync = <T>(
+  lazy: Lazy<T>,
+  fallback: ((reason: unknown) => T) | T
+): NonNullable<T> => {
   let reason: unknown;
   try {
-    return lazy();
+    const result = lazy();
+    if (result != null) {
+      return result as NonNullable<T>;
+    }
   } catch (e) {
     reason = e;
   }

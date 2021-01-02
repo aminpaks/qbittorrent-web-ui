@@ -1,6 +1,8 @@
 import { FC, ReactElement } from 'react';
+import { AppHeader } from '../AppHeader';
+import { AppStatusBar } from '../AppStatusbar';
 import { mStyles } from '../common';
-import { AppBar, Typography } from '../materialUiCore';
+import { AppBar } from '../materialUiCore';
 
 const useStyles = mStyles(({ spacing }) => ({
   mainLayoutRoot: {
@@ -22,30 +24,18 @@ const useStyles = mStyles(({ spacing }) => ({
   },
 }));
 
-const DefaultHeader: FC<{ className: string; qbtVersion: string }> = ({
-  className,
-  qbtVersion,
-}) => {
-  return (
-    <div className={className}>
-      <Typography variant="body1">qBittorrent {qbtVersion}</Typography>
-    </div>
-  );
-};
-
 export const MainLayout: FC<{
   header?: ReactElement;
+  statusBar?: ReactElement;
   qbtVersion: string;
-  variant?: 'full' | 'compact';
-}> = ({ header, qbtVersion, children }) => {
+}> = ({ header, statusBar, qbtVersion, children }) => {
   const classes = useStyles();
 
   return (
     <div className={classes.mainLayoutRoot}>
-      <AppBar position="static">
-        {header || <DefaultHeader className={classes.appBarContainer} qbtVersion={qbtVersion} />}
-      </AppBar>
+      <AppBar position="static">{header || <AppHeader qbtVersion={qbtVersion} />}</AppBar>
       <div className={classes.mainLayoutContainer}>{children}</div>
+      {statusBar || <AppStatusBar />}
     </div>
   );
 };
