@@ -27,6 +27,7 @@ const theme = createMuiTheme({
         html: {
           cursor: 'default',
           userSelect: 'none',
+          '-webkit-font-smoothing': 'antialiased',
         },
         'body .MuiFormControl-root': {
           margin: 8,

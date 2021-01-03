@@ -1,5 +1,6 @@
 // Reference from https://stackoverflow.com/a/14919494
-export const humanFileSize = (bytes: number, si = false, dp = 1) => {
+const tooManyZerosRE = /\.0+/;
+export const humanFileSize = (bytes: number = 0, si = false, dp = 2) => {
   const thresh = si ? 1000 : 1024;
 
   if (Math.abs(bytes) < thresh) {
@@ -17,5 +18,5 @@ export const humanFileSize = (bytes: number, si = false, dp = 1) => {
     ++u;
   } while (Math.round(Math.abs(bytes) * r) / r >= thresh && u < units.length - 1);
 
-  return bytes.toFixed(dp) + ' ' + units[u];
+  return bytes.toFixed(dp).replace(tooManyZerosRE, '.0') + ' ' + units[u];
 };

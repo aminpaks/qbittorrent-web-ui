@@ -2,7 +2,7 @@ import produce from 'immer';
 import { createContext, FC, useContext, useEffect, useRef, useState } from 'react';
 import { apiV2SyncMaindata, ServerState, SyncMaindata, Torrent } from '../../api';
 import { TorrentCollection } from '../../types';
-import { tryCatch, unsafeMutateObject } from '../../utils';
+import { tryCatch } from '../../utils';
 
 const initialServerState = {} as ServerState;
 const initialTorrentsState = { collection: {}, hashList: [] } as {
