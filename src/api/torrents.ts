@@ -68,4 +68,6 @@ export interface Torrent {
   upspeed: number; //	Torrent upload speed (bytes/s)
 }
 
+export type TorrentKeys = keyof Torrent;
+
 export const apiV2TorrentsInfo = () => apiRequest<Torrent[]>(`/api/v2/torrents/info`);

@@ -12,10 +12,7 @@ const clientEntry = Path.resolve(rootPath, 'src', 'main.ts');
 const publicUrl = '';
 
 const htmlTemplatePath = Path.resolve(assetsPath, '', 'index.html');
-const htmlTemplateContent = String(Fs.readFileSync(htmlTemplatePath)).replace(
-  /%PUBLIC_URL%/g,
-  publicUrl
-);
+const htmlTemplateContent = String(Fs.readFileSync(htmlTemplatePath)).replace(/%PUBLIC_URL%/g, publicUrl);
 
 const PROXY_HOST_TARGET = process.env.QBT_API_HOST;
 const url = new URL(PROXY_HOST_TARGET);
@@ -63,6 +60,8 @@ module.exports = {
   ],
   devServer: {
     port: 9000,
+    host: '0.0.0.0',
+    disableHostCheck: true,
     // contentBase: buildFolderPath,
     // publicPath: '/build/',
     watchOptions: {

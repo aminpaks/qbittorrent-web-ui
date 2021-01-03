@@ -1,6 +1,6 @@
 import { FC, ReactElement } from 'react';
 import { AppHeader } from '../AppHeader';
-import { AppStatusBar } from '../AppStatusbar';
+import { AppStatusBar } from '../AppStatusBar';
 import { mStyles } from '../common';
 import { AppBar } from '../materialUiCore';
 

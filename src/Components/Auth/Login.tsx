@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from '../materialUiCore';
-import { LockOpen } from '../materialUiIcons';
+import { LockOpenIcon } from '../materialUiIcons';
 import { mStyles } from '../common';
 import { AppHeader } from '../AppHeader';
 import { MainLayout } from '../Layout';
@@ -98,7 +98,7 @@ export const Login: FC = () => {
             color="primary"
             variant="contained"
             disabled={!(username && password) || isLoading}
-            endIcon={isLoading ? <CircularProgress /> : <LockOpen />}
+            endIcon={isLoading ? <CircularProgress /> : <LockOpenIcon />}
             onClick={handleLogin}
           >
             Login

@@ -1,10 +1,14 @@
 import produce from 'immer';
 import { createContext, FC, useContext, useEffect, useRef, useState } from 'react';
 import { apiV2SyncMaindata, ServerState, SyncMaindata, Torrent } from '../../api';
-import { tryCatch } from '../../utils';
+import { TorrentCollection } from '../../types';
+import { tryCatch, unsafeMutateObject } from '../../utils';
 
 const initialServerState = {} as ServerState;
-const initialTorrentsState = {} as Record<string, Torrent>;
+const initialTorrentsState = { collection: {}, hashList: [] } as {
+  collection: TorrentCollection;
+  hashList: string[];
+};
 
 const ServerContext = createContext(initialServerState);
 const TorrentsContext = createContext(initialTorrentsState);
@@ -26,26 +30,26 @@ export const AppContextProvider: FC = ({ children }) => {
         debugger;
       }
 
-      const torrentsEntries = Object.entries(torrents);
+      const torrentHashes = Object.keys(torrents);
       if (full_update) {
-        setTorrentsState(
-          torrentsEntries.reduce((acc, [hash, item], index) => {
-            acc[hash] = { index: index + 1, hash, ...item } as Torrent;
-            return acc;
-          }, {} as Record<string, Torrent>)
-        );
-      } else if (torrentsEntries.length > 0) {
+        setTorrentsState({
+          collection: torrents as TorrentCollection,
+          hashList: torrentHashes,
+        });
+      } else if (torrentHashes.length > 0) {
         setTorrentsState(s => {
           return produce(s, draft => {
-            let currentIndex = Object.keys(draft).length;
-            torrentsEntries.forEach(([hash, item]: [string, any]) => {
-              const currentItem = draft[hash] as any;
+            torrentHashes.forEach(hash => {
+              const currentItem = draft.collection[hash] as Torrent | null;
+              const torrent = torrents[hash];
               if (currentItem) {
-                for (const key in item) {
-                  currentItem[key] = item[key];
-                }
+                Object.entries(torrent).forEach(item => {
+                  const [key, value] = item as [keyof Torrent, never];
+                  currentItem[key] = value;
+                });
               } else {
-                draft[hash] = { index: ++currentIndex, hash, ...item };
+                draft.collection[hash] = torrent as Torrent;
+                draft.hashList.push(hash);
               }
             });
           });

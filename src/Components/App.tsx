@@ -2,8 +2,7 @@ import { FC } from 'react';
 import { mStyles } from './common';
 import { useAppVersionQuery } from './Data';
 import { MainLayout } from './Layout';
-import { Box } from './materialUiCore';
-import { TorrentsContainer } from './Torrents';
+import TorrentsContainer from './Torrents';
 
 const useStyles = mStyles(() => ({
   torrentContainer: {
@@ -18,9 +17,9 @@ export const App: FC = () => {
 
   return (
     <MainLayout qbtVersion={qbtVersion || ''}>
-      <Box className={classes.torrentContainer}>
+      <div className={classes.torrentContainer}>
         <TorrentsContainer />
-      </Box>
+      </div>
     </MainLayout>
   );
 };
