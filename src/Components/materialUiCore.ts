@@ -1,4 +1,4 @@
-import { SvgIconTypeMap } from '@material-ui/core/SvgIcon';
+import { SvgIconTypeMap } from '@material-ui/core/SvgIcon/index';
 import AppBar from '@material-ui/core/AppBar';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';

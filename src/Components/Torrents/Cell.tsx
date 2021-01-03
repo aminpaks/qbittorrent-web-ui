@@ -1,7 +1,8 @@
 import { CSSProperties, FC, memo, MouseEventHandler } from 'react';
 import { Torrent } from '../../api';
 import { cellRenderer } from './renderers';
-import { ExtendedTorrentKeys, getTableColumn } from './columns';
+import { getTableColumn } from './columns';
+import { ExtendedTorrentKeys } from './types';
 
 export const HeaderCell: FC<{ index: number; style: CSSProperties }> = memo(({ index, style }) => {
   const column = getTableColumn(index);

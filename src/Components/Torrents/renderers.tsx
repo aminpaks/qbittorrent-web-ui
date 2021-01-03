@@ -1,12 +1,12 @@
 import { CSSProperties, FC, MouseEventHandler, ReactNode } from 'react';
 import { TableHeaderProps } from 'react-virtualized';
 import { DayJs } from '../common';
-import { IconButton, LinearProgress, Menu, MenuItem } from '../materialUiCore';
+import { IconButton, LinearProgress } from '../materialUiCore';
 import { MoreVertIcon } from '../materialUiIcons';
 import { getTorrentStateIcon, getTorrentStateString } from './utils';
 import { formatPercentage, humanFileSize } from '../../utils';
-import { Torrent, TorrentState } from '../../api';
-import { ExtendedTorrentKeys } from './columns';
+import { TorrentState } from '../../api';
+import { ExtendedTorrentKeys } from './types';
 
 const DivBox: FC<CSSProperties> = ({
   textAlign,
