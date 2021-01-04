@@ -8,3 +8,6 @@ package-lock.json
 
 # env variable files
 .env.*
+
+# built languages
+/public/lang

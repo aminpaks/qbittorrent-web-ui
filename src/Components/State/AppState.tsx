@@ -19,6 +19,8 @@ export const AppContextProvider: FC = ({ children }) => {
   const [torrentsState, setTorrentsState] = useState(initialTorrentsState);
 
   useEffect(() => {
+    let tid: number | null = null;
+
     async function fetchMaindata() {
       const sync = await tryCatch(() => apiV2SyncMaindata(referenceId.current), {} as SyncMaindata);
       const { rid, full_update, torrents = {}, torrents_removed, server_state } = sync;
@@ -71,14 +73,18 @@ export const AppContextProvider: FC = ({ children }) => {
         }
       }
 
-      const tid = setTimeout(() => {
+      tid = window.setTimeout(() => {
         fetchMaindata();
-      }, 1000);
-
-      return () => clearTimeout(tid);
+      }, 10_000);
     }
 
     fetchMaindata();
+
+    return () => {
+      if (tid) {
+        window.clearTimeout(tid);
+      }
+    };
   }, []);
 
   return (

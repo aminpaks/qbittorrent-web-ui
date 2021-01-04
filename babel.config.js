@@ -4,7 +4,7 @@ module.exports = {
       '@babel/preset-env',
       {
         targets: {
-          chrome: '80',
+          chrome: '60',
         },
       },
     ],
@@ -23,8 +23,17 @@ module.exports = {
     ],
   ],
   plugins: [
+    '@babel/plugin-proposal-numeric-separator',
     '@babel/plugin-proposal-optional-chaining',
     '@babel/plugin-proposal-nullish-coalescing-operator',
     '@babel/plugin-transform-runtime',
+    [
+      'react-intl',
+      {
+        idInterpolationPattern: '[sha512:contenthash:base64:6]',
+        extractFromFormatMessageCall: true,
+        ast: true,
+      },
+    ],
   ],
 };

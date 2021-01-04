@@ -1,0 +1,83 @@
+{
+  "5sg7KC": {
+    "defaultMessage": "Password"
+  },
+  "A6sL8J": {
+    "defaultMessage": "Remember me"
+  },
+  "AyGauy": {
+    "defaultMessage": "Login"
+  },
+  "Bw/0Hs": {
+    "defaultMessage": "Up Limit"
+  },
+  "CQg6pe": {
+    "defaultMessage": "DHT nodes"
+  },
+  "HAlOn1": {
+    "defaultMessage": "Name"
+  },
+  "JCIgkj": {
+    "defaultMessage": "Username"
+  },
+  "JjgJTA": {
+    "defaultMessage": "Peers"
+  },
+  "K3uH1C": {
+    "defaultMessage": "offline"
+  },
+  "KFacRB": {
+    "defaultMessage": "Ratio"
+  },
+  "LwdDVa": {
+    "defaultMessage": "Uploaded"
+  },
+  "OlwlCi": {
+    "defaultMessage": "Downloaded"
+  },
+  "Wlgvpl": {
+    "defaultMessage": "S Download"
+  },
+  "XSvdcz": {
+    "defaultMessage": "Seeds"
+  },
+  "YeKWbP": {
+    "defaultMessage": "Authentication"
+  },
+  "agOXPD": {
+    "defaultMessage": "Size"
+  },
+  "cWcKDP": {
+    "defaultMessage": "limited"
+  },
+  "gKhP3B": {
+    "defaultMessage": "Up Speed"
+  },
+  "lnCIis": {
+    "defaultMessage": "free"
+  },
+  "oZAjck": {
+    "defaultMessage": "S Upload"
+  },
+  "pbYuwH": {
+    "defaultMessage": "Total Size"
+  },
+  "rzuqCK": {
+    "defaultMessage": "Down Limit"
+  },
+  "sIMS7i": {
+    "defaultMessage": "Progress"
+  },
+  "tS6Alu": {
+    "defaultMessage": "Down Speed"
+  },
+  "tzMNF3": {
+    "defaultMessage": "Status"
+  },
+  "v3MWTZ": {
+    "defaultMessage": "online"
+  },
+  "wNCvfg": {
+    "defaultMessage": "Added On"
+  }
+}

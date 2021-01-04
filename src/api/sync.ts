@@ -1,6 +1,8 @@
 import { requestJson } from './request';
 import { Torrent } from './torrents';
 
+export type ConnectionStatus = 'connected' | 'firewalled' | 'disconnected';
+
 export interface ServerState {
   dl_info_speed: number; //	Global download rate (bytes/s)
   dl_info_data: number; //	Data downloaded this session (bytes)
@@ -9,7 +11,7 @@ export interface ServerState {
   dl_rate_limit: number; //	Download rate limit (bytes/s)
   up_rate_limit: number; //	Upload rate limit (bytes/s)
   dht_nodes: number; //	DHT nodes connected to
-  connection_status: string; //	Connection status. See possible values here below
+  connection_status: ConnectionStatus; //	Connection status. See possible values here below
   free_space_on_disk: number;
 }
 

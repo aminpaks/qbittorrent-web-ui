@@ -5,13 +5,13 @@ const Webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const rootPath = Path.resolve(__dirname);
-const assetsPath = Path.resolve(rootPath, 'assets');
+const publicFolderPath = Path.resolve(rootPath, 'public');
 const buildFolderPath = Path.resolve(rootPath, 'build');
 const clientEntry = Path.resolve(rootPath, 'src', 'main.ts');
 
 const publicUrl = '';
 
-const htmlTemplatePath = Path.resolve(assetsPath, '', 'index.html');
+const htmlTemplatePath = Path.resolve(publicFolderPath, '', 'index.html');
 const htmlTemplateContent = String(Fs.readFileSync(htmlTemplatePath)).replace(/%PUBLIC_URL%/g, publicUrl);
 
 const PROXY_HOST_TARGET = process.env.QBT_API_HOST;
@@ -28,7 +28,10 @@ const envVariables = Object.entries(process.env).reduce((acc, entry) => {
 }, {});
 envVariables['process.env.NODE_ENV'] = JSON.stringify(process.env.NODE_ENV);
 envVariables['process.env.QBT_DEV_SERVER_URL'] = JSON.stringify('http://localhost:9000');
+envVariables['process.env.PUBLIC_URL'] = JSON.stringify(publicUrl);
 console.log('Webpack proxy: localhost:9000 -> ' + PROXY_HOST + '\n\n');
+
+const excludePaths = /(node_modules|bower_components)/;
 
 module.exports = {
   mode: 'development',
@@ -47,7 +50,7 @@ module.exports = {
     rules: [
       {
         test: /\.(j|t)sx?$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: excludePaths,
         use: {
           loader: 'babel-loader',
         },
@@ -62,11 +65,10 @@ module.exports = {
     port: 9000,
     host: '0.0.0.0',
     disableHostCheck: true,
-    // contentBase: buildFolderPath,
-    // publicPath: '/build/',
     watchOptions: {
       ignored: /node_modules/,
     },
+    contentBase: publicFolderPath,
     proxy: {
       '/api': {
         target: PROXY_HOST_TARGET,

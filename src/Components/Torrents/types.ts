@@ -1,9 +1,10 @@
+import { ReactNode } from 'react';
 import { TorrentKeys } from '../../api';
 
 export type ExtendedTorrentKeys = TorrentKeys | 'index' | 'action' | 'invalid';
 
 export interface TableColumn {
-  label: string;
+  label: ReactNode;
   dataKey: ExtendedTorrentKeys;
   width: number;
   align?: 'right' | 'left';

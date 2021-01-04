@@ -16,6 +16,7 @@ import { MainLayout } from '../Layout';
 import { DisplayApiError } from '../DisplayApiError';
 import { useAppVersionQuery, useLoginMutation } from '../Data';
 import { storageGet, storageRemove, storageSet } from '../../utils';
+import { FormattedMessage } from 'react-intl';
 
 const LOGIN_USERNAME = 'loginUsername';
 const LOGIN_PASSWORD = 'loginPassword';
@@ -62,7 +63,7 @@ export const Login: FC = () => {
       <section className={classes.loginRoot}>
         <Box marginBottom={2} component="header">
           <Typography variant="h4" component="h1">
-            Authentication
+            <FormattedMessage defaultMessage="Authentication" />
           </Typography>
         </Box>
 
@@ -70,7 +71,7 @@ export const Login: FC = () => {
 
         <article>
           <TextField
-            label="Username"
+            label={<FormattedMessage defaultMessage="Username" />}
             value={username}
             onKeyPress={handleKeyPress}
             onChange={({ target }) =>
@@ -81,7 +82,7 @@ export const Login: FC = () => {
             }
           />
           <TextField
-            label="Password"
+            label={<FormattedMessage defaultMessage="Password" />}
             value={password}
             type="password"
             onKeyPress={handleKeyPress}
@@ -101,12 +102,12 @@ export const Login: FC = () => {
             endIcon={isLoading ? <CircularProgress /> : <LockOpenIcon />}
             onClick={handleLogin}
           >
-            Login
+            <FormattedMessage defaultMessage="Login" />
           </Button>
 
           <Box>
             <FormControlLabel
-              label="Remember me"
+              label={<FormattedMessage defaultMessage="Remember me" />}
               control={
                 <Checkbox
                   color="primary"
