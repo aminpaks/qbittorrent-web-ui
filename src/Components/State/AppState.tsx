@@ -75,7 +75,7 @@ export const AppContextProvider: FC = ({ children }) => {
 
       tid = window.setTimeout(() => {
         fetchMaindata();
-      }, 10_000);
+      }, 1_000);
     }
 
     fetchMaindata();

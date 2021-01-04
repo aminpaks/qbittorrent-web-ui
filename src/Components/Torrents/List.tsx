@@ -2,7 +2,7 @@ import scrollbarSize from 'dom-helpers/scrollbarSize';
 import { FC, MouseEventHandler, useEffect, useState } from 'react';
 import { ScrollSync, AutoSizer, Grid } from 'react-virtualized';
 import { mStyles } from '../common';
-import { colorAlpha } from '../../utils';
+import { color, colorAlpha } from '../../utils';
 import { useTorrentsState } from '../State';
 import { getTableColumn, getColumnWidth, tableColumns } from './columns';
 import { getRowData, getTorrentHash, getTorrentOrElse } from './utils';
@@ -12,7 +12,7 @@ import { CellTargetHandler } from './types';
 const HEADER_CELL_HEIGHT = 40;
 const ROW_CELL_HEIGHT = 32;
 
-const useStyles = mStyles(({ spacing, palette, typography }) => ({
+const useStyles = mStyles(({ palette, typography }) => ({
   tableRoot: {
     overflow: 'hidden',
   },
@@ -21,9 +21,9 @@ const useStyles = mStyles(({ spacing, palette, typography }) => ({
     overflow: 'hidden !important',
     fontWeight: typography.fontWeightBold,
     '& .header--cell': {
-      padding: '10px 8px 11px',
+      padding: '11px 8px 10px',
       border: 'none',
-      borderBottom: `1px solid ${palette.divider}`,
+      borderBottom: `1px solid ${colorAlpha('#000', 0.03).string()}`,
     },
   },
   tableBody: {
