@@ -1,19 +1,21 @@
-import { createElement } from 'react';
+import { createElement, Fragment, ReactNode } from 'react';
 import { Torrent, TorrentState } from '../../api';
 import { TorrentCollection } from '../../types';
 import { SvgIconTypeMap } from '../materialUiCore';
 import { ArrowDownwardIcon, ArrowUpwardIcon, DoneIcon, PauseIcon } from '../materialUiIcons';
-import { tableColumns } from './columns';
 
-const torrentStateValues: Record<TorrentState, string> = {
+const torrentStateValues: Record<TorrentState, ReactNode> = {
   allocating: 'Allocating',
   checkingDL: 'Checking',
   checkingResumeData: 'Checking resume data',
   checkingUP: 'Checking',
   downloading: 'Downloading',
   error: 'Error',
-  forceDL: '[F] Downloading',
-  forcedUP: '[F] Seeding',
+  forcedDL: createElement(Fragment, null, [
+    'Downloading ',
+    createElement('small', { key: 'child-1' }, '[F]'),
+  ]),
+  forcedUP: createElement(Fragment, null, ['Seeding ', createElement('small', { key: 'child-1' }, '[F]')]),
   metaDL: 'Meta Download',
   missingFiles: 'Missing files',
   moving: 'Moving',
@@ -49,7 +51,7 @@ export const getTorrentStateIcon = (state: TorrentState) => {
         null
       );
     case 'downloading':
-    case 'forceDL':
+    case 'forcedDL':
       return createElement<object>(ArrowDownwardIcon, getIconProps({ htmlColor: '#38806f' }), null);
     case 'pausedDL':
       return createElement<object>(PauseIcon, getIconProps({ color: 'action' }), null);
@@ -82,9 +84,12 @@ export const getTorrentOrElse = (
   return {};
 };
 
-export const getColumnWidth: (p: { index: number }) => number = ({ index }) => {
-  switch (index) {
-    default:
-      return tableColumns[index]?.width ?? 40;
-  }
+export const getRowData = (e?: Element): { index: number | undefined; hash: string | undefined } => {
+  const index = Number.parseInt(e?.getAttribute('data-row-index') ?? '-1', 10);
+  const hash = e?.getAttribute('data-torrent-hash');
+
+  return {
+    index: Number.isNaN(index) ? undefined : index,
+    hash: typeof hash !== 'string' || hash === '' ? undefined : hash,
+  };
 };

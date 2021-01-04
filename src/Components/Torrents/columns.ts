@@ -24,3 +24,13 @@ export const tableColumns: TableColumn[] = [
 
 export const getTableColumn = (index: number): TableColumn | null =>
   index >= 0 && index < tableColumns.length ? tableColumns[index] : null;
+
+export const getColumnWidth: (p: { index: number }) => number = ({ index }) => {
+  switch (index) {
+    default:
+      return tableColumns[index]?.width ?? 40;
+  }
+};
+
+export const isFirstCell = (index: number) => index === 0;
+export const isLastCell = (index: number) => index === tableColumns.length - 1;

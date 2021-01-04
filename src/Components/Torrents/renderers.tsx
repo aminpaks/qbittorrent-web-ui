@@ -54,8 +54,7 @@ export const progressCellRenderer = (value: number) => (
 );
 export const seedPeersCellRenderer = (value: number = 0, total: number = 0) => (
   <DivBox textAlign="right">
-    {value}
-    {total > 0 && <small>({total})</small>}
+    {value} {total > 0 && <small>({total})</small>}
   </DivBox>
 );
 

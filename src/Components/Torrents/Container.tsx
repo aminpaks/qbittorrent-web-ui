@@ -1,8 +1,9 @@
 import { FC, ReactElement, SyntheticEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useTorrentsState } from '../State';
 import { Menu, MenuItem } from '../materialUiCore';
-import { canTorrentResume } from './utils';
+import { canTorrentResume, getRowData } from './utils';
 import { TorrentList } from './List';
+import { CellTargetHandler } from './types';
 
 export const TorrentsContainer: FC = () => {
   const torrents = useTorrentsState();
@@ -21,7 +22,11 @@ export const TorrentsContainer: FC = () => {
       menus: s.menus,
     }));
   }, []);
-  const handleActionItemClick = useCallback(({ currentTarget }: SyntheticEvent) => {
+  const handleActionItemClick = useCallback((event: SyntheticEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const { currentTarget } = event;
+
     const hash = currentTarget?.getAttribute('data-hash');
     const action = currentTarget?.getAttribute('data-action') as
       | 'resume'
@@ -36,8 +41,8 @@ export const TorrentsContainer: FC = () => {
     }
     handleActionMenuStateReset();
   }, []);
-  const handleActionMenuOpen = useCallback(({ currentTarget }: SyntheticEvent) => {
-    const hash = currentTarget?.getAttribute('data-hash');
+  const handleActionMenuOpen: CellTargetHandler = useCallback(element => {
+    const { hash = '' } = getRowData(element);
     if (hash && torrentsRef.current[hash]) {
       const { state } = torrentsRef.current[hash];
       const menus = [
@@ -62,7 +67,7 @@ export const TorrentsContainer: FC = () => {
           Rename
         </MenuItem>,
       ];
-      setActionMenuState({ anchor: currentTarget, isOpen: true, hash, menus });
+      setActionMenuState({ anchor: element, isOpen: true, hash, menus });
     }
   }, []);
 
@@ -72,7 +77,7 @@ export const TorrentsContainer: FC = () => {
 
   return (
     <>
-      <TorrentList onAction={handleActionItemClick} />
+      <TorrentList onAction={handleActionItemClick} onMenuOpen={handleActionMenuOpen} />
 
       <Menu
         keepMounted

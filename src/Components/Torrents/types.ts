@@ -8,3 +8,5 @@ export interface TableColumn {
   width: number;
   align?: 'right' | 'left';
 }
+
+export type CellTargetHandler = (element: Element, eventType: 'select' | 'context') => void;

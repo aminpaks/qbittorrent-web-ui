@@ -1,12 +1,13 @@
 import scrollbarSize from 'dom-helpers/scrollbarSize';
-import { FC, MouseEventHandler } from 'react';
+import { FC, MouseEventHandler, useEffect, useState } from 'react';
 import { ScrollSync, AutoSizer, Grid } from 'react-virtualized';
 import { mStyles } from '../common';
 import { colorAlpha } from '../../utils';
 import { useTorrentsState } from '../State';
-import { getTableColumn, tableColumns } from './columns';
-import { getColumnWidth, getTorrentHash, getTorrentOrElse } from './utils';
+import { getTableColumn, getColumnWidth, tableColumns } from './columns';
+import { getRowData, getTorrentHash, getTorrentOrElse } from './utils';
 import { BodyCell, HeaderCell } from './Cell';
+import { CellTargetHandler } from './types';
 
 const HEADER_CELL_HEIGHT = 40;
 const ROW_CELL_HEIGHT = 32;
@@ -16,24 +17,31 @@ const useStyles = mStyles(({ spacing, palette, typography }) => ({
     overflow: 'hidden',
   },
   tableHeader: {
+    outline: 'none',
     overflow: 'hidden !important',
     fontWeight: typography.fontWeightBold,
     '& .header--cell': {
-      padding: '11px 11px 10px',
+      padding: '10px 8px 11px',
+      border: 'none',
       borderBottom: `1px solid ${palette.divider}`,
     },
   },
   tableBody: {
     outline: 'none',
     '& .body--cell': {
-      padding: '7px 8px 8px',
+      padding: '7px 6px 8px',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
+      border: 'none',
       borderTop: `1px solid ${palette.divider}`,
+      transition: `130ms ease background-color`,
 
       '&.even': {
         backgroundColor: colorAlpha(palette.common.black, 0.03).string(),
+      },
+      '&.selected': {
+        backgroundColor: colorAlpha(palette.primary.light, 0.2).string(),
       },
     },
     '& .MuiSvgIcon-root': {
@@ -42,10 +50,24 @@ const useStyles = mStyles(({ spacing, palette, typography }) => ({
   },
 }));
 
-export const TorrentList: FC<{ onAction: MouseEventHandler }> = ({ onAction }) => {
+export const TorrentList: FC<{ onAction: MouseEventHandler; onMenuOpen: CellTargetHandler }> = ({
+  onAction,
+  onMenuOpen,
+}) => {
   const classes = useStyles();
+  const [selectedRow, setSelectedRow] = useState(-1);
   const { hashList, collection } = useTorrentsState();
   const sbSize = scrollbarSize();
+
+  useEffect(() => {
+    function handler() {
+      setSelectedRow(-1);
+    }
+    document.addEventListener('click', handler);
+    return () => {
+      document.removeEventListener('click', handler);
+    };
+  });
 
   return (
     <ScrollSync>
@@ -79,13 +101,26 @@ export const TorrentList: FC<{ onAction: MouseEventHandler }> = ({ onAction }) =
                     key={key}
                     index={rowIndex + 1}
                     rowIndex={rowIndex}
+                    columnIndex={columnIndex}
+                    isSelected={selectedRow === rowIndex}
                     style={style}
                     dataKey={getTableColumn(columnIndex)?.dataKey || 'invalid'}
                     hash={getTorrentHash(rowIndex, hashList)}
                     onAction={onAction}
+                    onMenuOpen={onMenuOpen}
+                    onSelect={(element, eventType) => {
+                      const { index = -1 } = getRowData(element);
+                      setSelectedRow(current => {
+                        if (eventType === 'context') {
+                          return index;
+                        } else {
+                          return current === index ? -1 : index;
+                        }
+                      });
+                    }}
                   />
                 )}
-                overscanRowCount={10}
+                overscanRowCount={14}
                 className={classes.tableBody}
                 onScroll={onScroll}
               />
