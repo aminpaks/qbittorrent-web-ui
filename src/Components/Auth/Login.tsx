@@ -41,9 +41,7 @@ export const Login: FC = () => {
 
   const { username, password } = state;
   const { data: appVersion } = useAppVersionQuery();
-  const { mutate: tryLogin, error, isLoading, isError, isSuccess } = useLoginMutation(() => {
-    history.push('/');
-  });
+  const { mutate: tryLogin, error, isLoading, isSuccess } = useLoginMutation();
 
   const handleLogin = () => tryLogin(state);
   const handleKeyPress = ({ code }: { code: string }) => {
@@ -53,10 +51,11 @@ export const Login: FC = () => {
   };
 
   useEffect(() => {
-    if (appVersion) {
-      console.log('application version', appVersion);
+    if (isSuccess || appVersion) {
+      // Authorization is valid
+      history.push('/');
     }
-  }, [isSuccess]);
+  }, [isSuccess, appVersion]);
 
   return (
     <MainLayout header={<AppHeader qbtVersion="" />} qbtVersion="">

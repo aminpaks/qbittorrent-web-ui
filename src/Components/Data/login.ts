@@ -1,14 +1,17 @@
 import { useMutation } from 'react-query';
 import { apiV2AuthLogin } from '../../api';
+import { LazyReason, NoOp } from '../../types';
 
-export const useLoginMutation = (successCallback: () => void) => {
+export const useLoginMutation = (
+  { onSuccess, onError } = {} as { onSuccess?: NoOp; onError?: LazyReason<void> }
+) => {
   const mutation = useMutation(
-    ({ username, password }: { username: string; password: string }) =>
-      apiV2AuthLogin(username, password),
+    ({ username, password }: { username: string; password: string }) => apiV2AuthLogin(username, password),
     {
       retry: 2,
       mutationKey: 'auth-login',
-      onSuccess: successCallback,
+      onSuccess,
+      onError,
     }
   );
 
