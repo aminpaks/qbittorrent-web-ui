@@ -1,6 +1,6 @@
 import { getFormData } from '../utils';
 import { apiRequest, request } from './request';
-import { buildError } from './utils';
+import { buildEndpointUrl, buildError } from './utils';
 
 export type TorrentState =
   | 'error' //	Some error occurred, applies to paused torrents
@@ -98,7 +98,7 @@ export interface Torrent {
   upspeed: number; //	Torrent upload speed (bytes/s)
 }
 
-export const apiV2TorrentsInfo = () => apiRequest<Torrent[]>(`/api/v2/torrents/info`);
+export const apiV2TorrentsInfo = () => apiRequest<Torrent[]>(buildEndpointUrl(`/api/v2/torrents/info`));
 
 const torrentsPrimitiveOperations: TorrentPrimitiveOperations[] = [
   'pause',
@@ -155,7 +155,7 @@ export const apiV2TorrentsBasicAction = (hashList: string[], params: TorrentPrim
     return Promise.resolve(false);
   }
 
-  return request(`/api/v2/torrents/${params[0]}`, {
+  return request(buildEndpointUrl(`/api/v2/torrents/${params[0]}`), {
     method: 'POST',
     body: getFormData({
       hashes: hashList.join('|'),

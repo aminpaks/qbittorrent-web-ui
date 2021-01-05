@@ -1,7 +1,8 @@
 import { API_BASE_URL } from '../constant';
 
 export const buildUrl = (url: string, base?: string) => new URL(url, base);
-export const buildEndpointUrl = (endpoint: string) => buildUrl(endpoint, API_BASE_URL).toString();
+export const buildEndpointUrl = (endpoint: string) =>
+  API_BASE_URL ? buildUrl(endpoint, API_BASE_URL).toString() : endpoint;
 
 export const buildError = (
   errorMessage = 'Unknown error!',

@@ -1,4 +1,5 @@
 import { apiRequest } from './request';
+import { buildEndpointUrl } from './utils';
 
 export interface AppPreferences {
   locale: string; // 	Currently selected language (e.g. en_GB for English)
@@ -149,4 +150,5 @@ export interface AppPreferences {
   utp_tcp_mixed_mode: number; // 	μTP-TCP mixed mode algorithm (see list of possible values below)
 }
 
-export const apiV2AppPreferences = () => apiRequest<AppPreferences>(`/api/v2/app/preferences`);
+export const apiV2AppPreferences = () =>
+  apiRequest<AppPreferences>(buildEndpointUrl(`/api/v2/app/preferences`));

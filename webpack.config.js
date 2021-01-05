@@ -15,16 +15,18 @@ const publicUrl = '';
 const htmlTemplatePath = Path.resolve(publicFolderPath, '', 'index.html');
 const htmlTemplateContent = String(Fs.readFileSync(htmlTemplatePath)).replace(/%PUBLIC_URL%/g, publicUrl);
 
-const PROXY_HOST_TARGET = process.env.QBT_API_HOST;
-const url = new URL(PROXY_HOST_TARGET);
-const PROXY_HOST = url.host;
-
 const localV4IpAddress = Object.values(Os.networkInterfaces())
   .flat()
   .filter(({ family }) => String(family).toLowerCase() === 'ipv4');
 const server =
   localV4IpAddress.find(({ internal }) => !internal) || localV4IpAddress.find(({ internal }) => internal);
-const serverHost = server ? server.address : 'localhost';
+
+const serverHostname = server ? server.address : 'localhost';
+const serverUrl = `http://${serverHostname}:9000`;
+
+const proxyUrl = new URL(process.env.QBT_API_BASE_URL);
+const proxyTargetOrigin = proxyUrl.origin.replace('localhost', serverHostname);
+const proxyHost = proxyUrl.host.replace('localhost', serverHostname);
 
 // Prepare env variables
 const envVariables = Object.entries(process.env).reduce((acc, entry) => {
@@ -35,10 +37,11 @@ const envVariables = Object.entries(process.env).reduce((acc, entry) => {
   return acc;
 }, {});
 envVariables['process.env.NODE_ENV'] = JSON.stringify(process.env.NODE_ENV);
-envVariables['process.env.QBT_DEV_SERVER_URL'] = JSON.stringify(`http://${serverHost}:9000`);
+envVariables['process.env.QBT_DEV_SERVER_BASE_URL'] = JSON.stringify('');
 envVariables['process.env.PUBLIC_URL'] = JSON.stringify(publicUrl);
-console.log(`Open the host in browser: ${serverHost}:9000`);
-console.log(`Webpack proxy: ${serverHost}:9000 -> ${PROXY_HOST}\n\n`);
+
+console.log(`Open the host in browser: http://localhost:9000`);
+console.log(`Proxy Server: ${serverHostname}:9000 -> ${proxyHost}\n\n`);
 
 const excludePaths = /(node_modules|bower_components)/;
 
@@ -80,11 +83,14 @@ module.exports = {
     contentBase: publicFolderPath,
     proxy: {
       '/api': {
-        target: PROXY_HOST_TARGET,
+        target: proxyTargetOrigin,
         bypass: function (req) {
-          req.headers['host'] = PROXY_HOST;
-          req.headers['origin'] = PROXY_HOST_TARGET;
-          req.headers['referer'] = PROXY_HOST_TARGET;
+          const originUrl = new URL('http://' + (req.headers.host || 'localhost'));
+          const localProxyUrl = new URL(proxyTargetOrigin.replace(serverHostname, originUrl.hostname));
+
+          req.headers['host'] = localProxyUrl.host;
+          req.headers['origin'] = localProxyUrl.origin;
+          req.headers['referer'] = localProxyUrl.origin;
         },
       },
     },

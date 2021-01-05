@@ -1,5 +1,6 @@
 import { requestJson } from './request';
 import { Torrent } from './torrents';
+import { buildEndpointUrl } from './utils';
 
 export type ConnectionStatus = 'connected' | 'firewalled' | 'disconnected';
 
@@ -27,4 +28,5 @@ export interface SyncMaindata {
   server_state?: ServerState; //	Global transfer info
 }
 
-export const apiV2SyncMaindata = (rid = 0) => requestJson<SyncMaindata>(`/api/v2/sync/maindata?rid=${rid}`);
+export const apiV2SyncMaindata = (rid = 0) =>
+  requestJson<SyncMaindata>(buildEndpointUrl(`/api/v2/sync/maindata?rid=${rid}`));
