@@ -1,9 +1,7 @@
-import { Lazy } from '../types';
+import { Lazy, FallbackReason } from '../types';
+import { runFallbackReason } from './functions';
 
-export const tryCatchSync = <T>(
-  lazy: Lazy<T>,
-  fallback: ((reason: unknown) => T) | T
-): NonNullable<T> => {
+export const tryCatchSync = <T>(lazy: Lazy<T>, fallback: FallbackReason<NonNullable<T>>): NonNullable<T> => {
   let reason: unknown;
   try {
     const result = lazy();
@@ -13,19 +11,21 @@ export const tryCatchSync = <T>(
   } catch (e) {
     reason = e;
   }
-  return typeof fallback === 'function' ? (fallback as Function)(reason) : fallback;
+  return runFallbackReason(fallback, reason);
 };
 
 export const tryCatch = async <T>(
   lazy: Lazy<Promise<T>>,
-  fallback: ((reason: unknown) => T) | T
-): Promise<T> => {
+  fallback: FallbackReason<NonNullable<T>>
+): Promise<NonNullable<T>> => {
   let reason: unknown;
   try {
     const result = await lazy();
-    return Promise.resolve(result);
+    if (result != null) {
+      return Promise.resolve(result) as Promise<NonNullable<T>>;
+    }
   } catch (e) {
     reason = e;
   }
-  return typeof fallback === 'function' ? (fallback as Function)(reason) : fallback;
+  return runFallbackReason(fallback, reason);
 };

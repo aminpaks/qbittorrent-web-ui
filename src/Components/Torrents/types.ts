@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { TorrentKeys } from '../../api';
+import { TorrentKeys, TorrentPrimitiveOperations } from '../../api';
 
 export type ExtendedTorrentKeys = TorrentKeys | 'index' | 'action' | 'invalid';
 
@@ -11,3 +11,5 @@ export interface TableColumn {
 }
 
 export type CellTargetHandler = (element: Element, eventType: 'select' | 'context') => void;
+
+export type ContextAction = TorrentPrimitiveOperations | 'invalid';

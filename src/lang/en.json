@@ -1,9 +1,24 @@
 {
+  "3y9DGg": {
+    "defaultMessage": "Resume"
+  },
+  "5jeq8P": {
+    "defaultMessage": "Unknown"
+  },
   "5sg7KC": {
     "defaultMessage": "Password"
   },
+  "8AXy/H": {
+    "defaultMessage": "Downloading <small>[F]</small>"
+  },
+  "95stPq": {
+    "defaultMessage": "Completed"
+  },
   "A6sL8J": {
     "defaultMessage": "Remember me"
+  },
+  "AYXyuk": {
+    "defaultMessage": "Downloading"
   },
   "AyGauy": {
     "defaultMessage": "Login"
@@ -11,8 +26,17 @@
   "Bw/0Hs": {
     "defaultMessage": "Up Limit"
   },
+  "C2iTEH": {
+    "defaultMessage": "Paused"
+  },
   "CQg6pe": {
     "defaultMessage": "DHT nodes"
+  },
+  "Cnm0QA": {
+    "defaultMessage": "Queued"
+  },
+  "Cv9S7d": {
+    "defaultMessage": "Close Context Menu [x]"
   },
   "HAlOn1": {
     "defaultMessage": "Name"
@@ -29,17 +53,32 @@
   "KFacRB": {
     "defaultMessage": "Ratio"
   },
+  "KN7zKn": {
+    "defaultMessage": "Error"
+  },
+  "L3+RNP": {
+    "defaultMessage": "Seeding <small>[F]</small>"
+  },
   "LwdDVa": {
     "defaultMessage": "Uploaded"
   },
   "OlwlCi": {
     "defaultMessage": "Downloaded"
   },
+  "Quy7PF": {
+    "defaultMessage": "Allocating"
+  },
+  "VNNgop": {
+    "defaultMessage": "Seeding"
+  },
   "Wlgvpl": {
     "defaultMessage": "S Download"
   },
   "XSvdcz": {
     "defaultMessage": "Seeds"
+  },
+  "YXbtum": {
+    "defaultMessage": "Moving"
   },
   "YeKWbP": {
     "defaultMessage": "Authentication"
@@ -52,6 +91,15 @@
   },
   "gKhP3B": {
     "defaultMessage": "Up Speed"
+  },
+  "hceE/7": {
+    "defaultMessage": "Force Resume"
+  },
+  "k8l06l": {
+    "defaultMessage": "Stalled"
+  },
+  "lTleCS": {
+    "defaultMessage": "Checking"
   },
   "lnCIis": {
     "defaultMessage": "free"
@@ -68,6 +116,9 @@
   "sIMS7i": {
     "defaultMessage": "Progress"
   },
+  "tFFMkF": {
+    "defaultMessage": "Pause"
+  },
   "tS6Alu": {
     "defaultMessage": "Down Speed"
   },
@@ -77,7 +128,19 @@
   "v3MWTZ": {
     "defaultMessage": "online"
   },
+  "v97Te1": {
+    "defaultMessage": "Checking resume data"
+  },
+  "vzu1AA": {
+    "defaultMessage": "Meta Download"
+  },
   "wNCvfg": {
     "defaultMessage": "Added On"
+  },
+  "yiy6QW": {
+    "defaultMessage": "Queued upload"
+  },
+  "zmJ4SQ": {
+    "defaultMessage": "Missing files"
   }
 }

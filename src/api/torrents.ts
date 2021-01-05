@@ -1,4 +1,6 @@
-import { apiRequest } from './request';
+import { getFormData } from '../utils';
+import { apiRequest, request } from './request';
+import { buildError } from './utils';
 
 export type TorrentState =
   | 'error' //	Some error occurred, applies to paused torrents
@@ -20,6 +22,34 @@ export type TorrentState =
   | 'checkingResumeData' //	Checking resume data on qBt startup
   | 'moving' //	Torrent is moving to another location
   | 'unknown'; //	Unknown status
+
+type TorrentPrimitiveOperationRecord = {
+  pause: never;
+  resume: never;
+  recheck: never;
+  reannounce: never;
+  increasePrio: never;
+  decreasePrio: never;
+  topPrio: never;
+  bottomPrio: never;
+  toggleSequentialDownload: never;
+  toggleFirstLastPiecePrio: never;
+
+  delete: { hardDelete: boolean };
+  setForceStart: { value: boolean };
+  setSuperSeeding: { value: boolean };
+  setAutoManagement: { enable: boolean };
+};
+export type TorrentPrimitiveOperations = keyof TorrentPrimitiveOperationRecord;
+type TorrentBasicActionOption<K extends TorrentPrimitiveOperations> = TorrentPrimitiveOperationRecord[K];
+
+export type TorrentPrimitiveOperationOptions = {
+  [K in TorrentPrimitiveOperations]: TorrentPrimitiveOperationRecord[K] extends never
+    ? [action: K]
+    : [action: K, options: TorrentPrimitiveOperationRecord[K]];
+}[TorrentPrimitiveOperations];
+
+export type TorrentKeys = keyof Torrent;
 
 export interface Torrent {
   added_on: number; //	Time (Unix Epoch) when the torrent was added to the client
@@ -68,6 +98,68 @@ export interface Torrent {
   upspeed: number; //	Torrent upload speed (bytes/s)
 }
 
-export type TorrentKeys = keyof Torrent;
-
 export const apiV2TorrentsInfo = () => apiRequest<Torrent[]>(`/api/v2/torrents/info`);
+
+const torrentsPrimitiveOperations: TorrentPrimitiveOperations[] = [
+  'pause',
+  'resume',
+  'recheck',
+  'delete',
+  'reannounce',
+  'setForceStart',
+  'setSuperSeeding',
+  'increasePrio',
+  'decreasePrio',
+  'topPrio',
+  'bottomPrio',
+  'setAutoManagement',
+  'toggleSequentialDownload',
+  'toggleFirstLastPiecePrio',
+];
+
+const getOperationFormParams = (
+  ...args: TorrentPrimitiveOperationOptions
+): TorrentBasicActionOption<typeof args[0]> | {} => {
+  switch (args[0]) {
+    case 'setForceStart':
+    case 'setSuperSeeding':
+      const { value = false } = args[1] || {};
+      return { value };
+    case 'setAutoManagement':
+      const { enable = true } = args[1] || {};
+      return { enable };
+    case 'delete':
+      return { hardDelete: false };
+    case 'resume':
+    case 'pause':
+    case 'recheck':
+    case 'reannounce':
+    case 'increasePrio':
+    case 'decreasePrio':
+    case 'topPrio':
+    case 'bottomPrio':
+    case 'toggleSequentialDownload':
+    case 'toggleFirstLastPiecePrio':
+    default:
+      return {};
+  }
+};
+
+export const apiV2TorrentsBasicAction = (hashList: string[], params: TorrentPrimitiveOperationOptions) => {
+  if (!torrentsPrimitiveOperations.includes(params[0])) {
+    throw buildError(`Not implemented (${params[0]})`);
+  }
+
+  if (params[0] === 'delete') {
+    console.log('delete? really?');
+    return Promise.resolve(false);
+  }
+
+  return request(`/api/v2/torrents/${params[0]}`, {
+    method: 'POST',
+    body: getFormData({
+      hashes: hashList.join('|'),
+      ...getOperationFormParams(...params),
+    }),
+  }).then(() => true);
+};

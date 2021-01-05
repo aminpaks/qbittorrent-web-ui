@@ -1,4 +1,5 @@
 require('dotenv-flow').config();
+const Os = require('os');
 const Path = require('path');
 const Fs = require('fs');
 const Webpack = require('webpack');
@@ -18,6 +19,13 @@ const PROXY_HOST_TARGET = process.env.QBT_API_HOST;
 const url = new URL(PROXY_HOST_TARGET);
 const PROXY_HOST = url.host;
 
+const localV4IpAddress = Object.values(Os.networkInterfaces())
+  .flat()
+  .filter(({ family }) => String(family).toLowerCase() === 'ipv4');
+const server =
+  localV4IpAddress.find(({ internal }) => !internal) || localV4IpAddress.find(({ internal }) => internal);
+const serverHost = server ? server.address : 'localhost';
+
 // Prepare env variables
 const envVariables = Object.entries(process.env).reduce((acc, entry) => {
   const [key, value] = entry;
@@ -27,9 +35,10 @@ const envVariables = Object.entries(process.env).reduce((acc, entry) => {
   return acc;
 }, {});
 envVariables['process.env.NODE_ENV'] = JSON.stringify(process.env.NODE_ENV);
-envVariables['process.env.QBT_DEV_SERVER_URL'] = JSON.stringify('http://localhost:9000');
+envVariables['process.env.QBT_DEV_SERVER_URL'] = JSON.stringify(`http://${serverHost}:9000`);
 envVariables['process.env.PUBLIC_URL'] = JSON.stringify(publicUrl);
-console.log('Webpack proxy: localhost:9000 -> ' + PROXY_HOST + '\n\n');
+console.log(`Open the host in browser: ${serverHost}:9000`);
+console.log(`Webpack proxy: ${serverHost}:9000 -> ${PROXY_HOST}\n\n`);
 
 const excludePaths = /(node_modules|bower_components)/;
 

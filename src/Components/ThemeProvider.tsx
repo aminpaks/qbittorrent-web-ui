@@ -28,6 +28,7 @@ const theme = createMuiTheme({
           cursor: 'default',
           userSelect: 'none',
           '-webkit-font-smoothing': 'antialiased',
+          '-webkit-touch-callout': 'none !important',
         },
         'body .MuiFormControl-root': {
           margin: 8,

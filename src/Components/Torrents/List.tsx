@@ -21,7 +21,7 @@ const useStyles = mStyles(({ palette, typography }) => ({
     overflow: 'hidden !important',
     fontWeight: typography.fontWeightBold,
     '& .header--cell': {
-      padding: '11px 8px 10px',
+      padding: '11px 6px 10px',
       border: 'none',
       borderBottom: `1px solid ${colorAlpha('#000', 0.03).string()}`,
     },
@@ -43,6 +43,10 @@ const useStyles = mStyles(({ palette, typography }) => ({
       '&.selected': {
         backgroundColor: colorAlpha(palette.primary.light, 0.2).string(),
       },
+
+      '& *': {
+        pointerEvents: 'none',
+      },
     },
     '& .MuiSvgIcon-root': {
       verticalAlign: 'text-bottom',
@@ -50,10 +54,7 @@ const useStyles = mStyles(({ palette, typography }) => ({
   },
 }));
 
-export const TorrentList: FC<{ onAction: MouseEventHandler; onMenuOpen: CellTargetHandler }> = ({
-  onAction,
-  onMenuOpen,
-}) => {
+export const TorrentList: FC<{ onMenuOpen: CellTargetHandler }> = ({ onMenuOpen }) => {
   const classes = useStyles();
   const [selectedRow, setSelectedRow] = useState(-1);
   const { hashList, collection } = useTorrentsState();
@@ -106,7 +107,6 @@ export const TorrentList: FC<{ onAction: MouseEventHandler; onMenuOpen: CellTarg
                     style={style}
                     dataKey={getTableColumn(columnIndex)?.dataKey || 'invalid'}
                     hash={getTorrentHash(rowIndex, hashList)}
-                    onAction={onAction}
                     onMenuOpen={onMenuOpen}
                     onSelect={(element, eventType) => {
                       const { index = -1 } = getRowData(element);

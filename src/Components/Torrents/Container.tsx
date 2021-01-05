@@ -1,92 +1,86 @@
-import { FC, ReactElement, SyntheticEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useTorrentsState } from '../State';
-import { Menu, MenuItem } from '../materialUiCore';
-import { canTorrentResume, getRowData } from './utils';
+import { getContextMenuMainOperations, getRowData } from './utils';
 import { TorrentList } from './List';
-import { CellTargetHandler } from './types';
+import { CellTargetHandler, ContextAction } from './types';
+import { TorrentContextMenu } from './contextMenu';
+import { useTorrentsBasicActionMutation } from '../Data';
 
 export const TorrentsContainer: FC = () => {
   const torrents = useTorrentsState();
   const torrentsRef = useRef(torrents.collection);
-  const [actionMenuState, setActionMenuState] = useState({
+  const [contextMenuState, setContextMenuState] = useState({
     hash: null as string | null,
-    anchor: null as Element | null,
     isOpen: false,
-    menus: [] as ReactElement[],
+    mainActions: ['invalid', 'invalid'] as [ContextAction, ContextAction],
   });
+  const { isOpen, mainActions } = contextMenuState;
+  const stateRef = useRef(contextMenuState);
+
+  const { mutate: basicAction } = useTorrentsBasicActionMutation();
+
   const handleActionMenuStateReset = useCallback(() => {
-    setActionMenuState(s => ({
+    setContextMenuState(s => ({
       hash: null,
-      anchor: null,
       isOpen: false,
-      menus: s.menus,
+      mainActions: s.mainActions,
     }));
   }, []);
-  const handleActionItemClick = useCallback((event: SyntheticEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
-    const { currentTarget } = event;
 
-    const hash = currentTarget?.getAttribute('data-hash');
-    const action = currentTarget?.getAttribute('data-action') as
-      | 'resume'
-      | 'pause'
-      | 'delete'
-      | 'setLocation'
-      | 'rename'
-      | null;
-    const torrent = hash ? torrentsRef.current[hash] : null;
-    if (action && hash && torrent) {
-      console.log('action', action, 'on', torrent);
-    }
-    handleActionMenuStateReset();
-  }, []);
+  const handleActionItemClick = useCallback(
+    (action: ContextAction) => {
+      if (action !== 'invalid') {
+        const { hash } = stateRef.current;
+        if (hash && torrentsRef.current[hash]) {
+          if (action === 'setForceStart') {
+            basicAction({ list: [hash], params: [action, { value: true }] });
+          } else if (action === 'setSuperSeeding') {
+            basicAction({ list: [hash], params: [action, { value: false }] });
+          } else if (action === 'setAutoManagement') {
+          } else if (action === 'delete') {
+          } else {
+            basicAction({ list: [hash], params: [action] });
+          }
+        }
+      }
+
+      handleActionMenuStateReset();
+    },
+    [basicAction]
+  );
   const handleActionMenuOpen: CellTargetHandler = useCallback(element => {
     const { hash = '' } = getRowData(element);
     if (hash && torrentsRef.current[hash]) {
       const { state } = torrentsRef.current[hash];
-      const menus = [
-        <MenuItem
-          key="action-1"
-          onClick={handleActionItemClick}
-          data-action={canTorrentResume(state) ? 'resume' : 'pause'}
-          data-hash={hash}
-        >
-          {canTorrentResume(state) ? 'Resume' : 'Pause'}
-        </MenuItem>,
-        <MenuItem key="action-2" onClick={handleActionItemClick} data-action="force-resume" data-hash={hash}>
-          Force Resume
-        </MenuItem>,
-        <MenuItem key="action-3" onClick={handleActionItemClick} data-action="delete" data-hash={hash}>
-          Delete
-        </MenuItem>,
-        <MenuItem key="action-4" onClick={handleActionItemClick} data-action="setLocation" data-hash={hash}>
-          Set location
-        </MenuItem>,
-        <MenuItem key="action-5" onClick={handleActionItemClick} data-action="rename" data-hash={hash}>
-          Rename
-        </MenuItem>,
-      ];
-      setActionMenuState({ anchor: element, isOpen: true, hash, menus });
+      const mainActions = getContextMenuMainOperations(state);
+
+      setContextMenuState({ hash, mainActions, isOpen: true });
     }
   }, []);
 
   useEffect(() => {
+    stateRef.current = contextMenuState;
     torrentsRef.current = torrents.collection;
   });
 
+  useEffect(() => {
+    function handler({ isTrusted }: Event) {
+      if (isTrusted) {
+        handleActionMenuStateReset();
+      }
+    }
+
+    document.addEventListener('click', handler);
+    return () => {
+      document.removeEventListener('click', handler);
+    };
+  }, [handleActionMenuStateReset]);
+
   return (
     <>
-      <TorrentList onAction={handleActionItemClick} onMenuOpen={handleActionMenuOpen} />
+      <TorrentList onMenuOpen={handleActionMenuOpen} />
 
-      <Menu
-        keepMounted
-        open={actionMenuState.isOpen}
-        anchorEl={actionMenuState.anchor}
-        onClose={handleActionMenuStateReset}
-      >
-        {actionMenuState.menus}
-      </Menu>
+      <TorrentContextMenu isOpen={isOpen} mainActions={mainActions} onAction={handleActionItemClick} />
     </>
   );
 };
