@@ -40,5 +40,14 @@ module.exports = {
         ast: true,
       },
     ],
+    [
+      'transform-imports',
+      {
+        lodash: {
+          transform: 'lodash/${member}',
+          preventFullImport: true,
+        },
+      },
+    ],
   ],
 };

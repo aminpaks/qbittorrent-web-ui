@@ -2,7 +2,7 @@ import { CSSProperties, FC, MouseEventHandler, ReactNode } from 'react';
 import { TableHeaderProps } from 'react-virtualized';
 import { DayJs } from '../common';
 import { IconButton, LinearProgress } from '../materialUiCore';
-import { MoreVertIcon } from '../materialUiIcons';
+import { AllInclusiveIcon, MoreVertIcon } from '../materialUiIcons';
 import { getTorrentStateIcon, getTorrentStateString } from './utils';
 import { formatPercentage, humanFileSize } from '../../utils';
 import { TorrentState } from '../../api';
@@ -33,7 +33,7 @@ export const sizeCellRenderer = (value: number = 0) => (
 export const speedCellRenderer = (value: number = 0) => (
   <DivBox textAlign="right">
     {value <= 0 ? (
-      'Unlimited'
+      <AllInclusiveIcon fontSize="small" color="inherit" />
     ) : (
       <>
         {humanFileSize(value)}

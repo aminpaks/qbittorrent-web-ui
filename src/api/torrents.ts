@@ -24,22 +24,47 @@ export type TorrentState =
   | 'unknown'; //	Unknown status
 
 type TorrentPrimitiveOperationRecord = {
-  pause: never;
   resume: never;
-  recheck: never;
-  reannounce: never;
-  increasePrio: never;
-  decreasePrio: never;
-  topPrio: never;
-  bottomPrio: never;
+  pause: never;
+  setForceStart: { value: boolean };
+  delete: { hardDelete: boolean };
+  setLocation: { location: string };
+  rename: { name: string };
+  setAutoManagement: { enable: boolean };
+  setSuperSeeding: { value: boolean };
+  setDownloadLimit: { limit: number };
+  setUploadLimit: { limit: number };
+  setShareLimits: { ratioLimit: number; seedingTimeLimit: number };
   toggleSequentialDownload: never;
   toggleFirstLastPiecePrio: never;
-
-  delete: { hardDelete: boolean };
-  setForceStart: { value: boolean };
-  setSuperSeeding: { value: boolean };
-  setAutoManagement: { enable: boolean };
+  topPrio: never;
+  increasePrio: never;
+  decreasePrio: never;
+  bottomPrio: never;
+  recheck: never;
+  reannounce: never;
 };
+type TorrentPrimitiveOperationOrder = [
+  'resume',
+  'pause',
+  'setForceStart',
+  'delete',
+  'setLocation',
+  'rename',
+  'setAutoManagement',
+  'setSuperSeeding',
+  'setDownloadLimit',
+  'setUploadLimit',
+  'setShareLimits',
+  'toggleSequentialDownload',
+  'toggleFirstLastPiecePrio',
+  'topPrio',
+  'increasePrio',
+  'decreasePrio',
+  'bottomPrio',
+  'recheck',
+  'reannounce'
+];
 export type TorrentPrimitiveOperations = keyof TorrentPrimitiveOperationRecord;
 type TorrentBasicActionOption<K extends TorrentPrimitiveOperations> = TorrentPrimitiveOperationRecord[K];
 
@@ -100,21 +125,26 @@ export interface Torrent {
 
 export const apiV2TorrentsInfo = () => apiRequest<Torrent[]>(buildEndpointUrl(`/api/v2/torrents/info`));
 
-const torrentsPrimitiveOperations: TorrentPrimitiveOperations[] = [
-  'pause',
+const torrentsPrimitiveOperations: TorrentPrimitiveOperationOrder = [
   'resume',
-  'recheck',
-  'delete',
-  'reannounce',
+  'pause',
   'setForceStart',
-  'setSuperSeeding',
-  'increasePrio',
-  'decreasePrio',
-  'topPrio',
-  'bottomPrio',
+  'delete',
+  'setLocation',
+  'rename',
   'setAutoManagement',
+  'setSuperSeeding',
+  'setDownloadLimit',
+  'setUploadLimit',
+  'setShareLimits',
   'toggleSequentialDownload',
   'toggleFirstLastPiecePrio',
+  'topPrio',
+  'increasePrio',
+  'decreasePrio',
+  'bottomPrio',
+  'recheck',
+  'reannounce',
 ];
 
 const getOperationFormParams = (
@@ -125,21 +155,42 @@ const getOperationFormParams = (
     case 'setSuperSeeding':
       const { value = false } = args[1] || {};
       return { value };
+
     case 'setAutoManagement':
       const { enable = true } = args[1] || {};
       return { enable };
+
     case 'delete':
-      return { hardDelete: false };
-    case 'resume':
-    case 'pause':
-    case 'recheck':
-    case 'reannounce':
-    case 'increasePrio':
-    case 'decreasePrio':
-    case 'topPrio':
-    case 'bottomPrio':
-    case 'toggleSequentialDownload':
-    case 'toggleFirstLastPiecePrio':
+      const { hardDelete = false } = args[1] || {};
+      return { hardDelete };
+
+    case 'rename':
+      const { name = '' } = args[1] || {};
+      if (!name) {
+        throw buildError(`Missing parameter "name"`);
+      }
+      return { name };
+
+    case 'setLocation':
+      const { location = '' } = args[1] || {};
+      if (!location) {
+        throw buildError(`Missing parameter "Location"`);
+      }
+      return { location };
+
+    case 'setDownloadLimit':
+    case 'setUploadLimit':
+      const { limit = 0 } = args[1] || {};
+      return { limit };
+
+    case 'setShareLimits':
+      // The value -2 is global settings
+      const { ratioLimit = -2, seedingTimeLimit = -2 } = args[1] || {};
+      if (ratioLimit < -2 || seedingTimeLimit < -2) {
+        throw buildError(`Invalid parameter limit "${JSON.stringify({ ratioLimit, seedingTimeLimit })}"`);
+      }
+      return { ratioLimit, seedingTimeLimit };
+
     default:
       return {};
   }
@@ -148,11 +199,6 @@ const getOperationFormParams = (
 export const apiV2TorrentsBasicAction = (hashList: string[], params: TorrentPrimitiveOperationOptions) => {
   if (!torrentsPrimitiveOperations.includes(params[0])) {
     throw buildError(`Not implemented (${params[0]})`);
-  }
-
-  if (params[0] === 'delete') {
-    console.log('delete? really?');
-    return Promise.resolve(false);
   }
 
   return request(buildEndpointUrl(`/api/v2/torrents/${params[0]}`), {

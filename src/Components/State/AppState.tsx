@@ -34,6 +34,10 @@ export const AppContextProvider: FC = ({ children }) => {
 
       const torrentHashes = Object.keys(torrents);
       if (full_update) {
+        // Mutate items and update hash property
+        for (const hash in torrents) {
+          torrents[hash].hash = hash;
+        }
         setTorrentsState({
           collection: torrents as TorrentCollection,
           hashList: torrentHashes,

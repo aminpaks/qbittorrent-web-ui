@@ -1,4 +1,10 @@
 {
+  "11WYT7": {
+    "defaultMessage": "Copy Name"
+  },
+  "3BG+4W": {
+    "defaultMessage": "Limit Share Ratio"
+  },
   "3y9DGg": {
     "defaultMessage": "Resume"
   },
@@ -35,9 +41,6 @@
   "Cnm0QA": {
     "defaultMessage": "Queued"
   },
-  "Cv9S7d": {
-    "defaultMessage": "Close Context Menu [x]"
-  },
   "HAlOn1": {
     "defaultMessage": "Name"
   },
@@ -46,6 +49,9 @@
   },
   "JjgJTA": {
     "defaultMessage": "Peers"
+  },
+  "K3r6DQ": {
+    "defaultMessage": "Delete"
   },
   "K3uH1C": {
     "defaultMessage": "offline"
@@ -56,14 +62,26 @@
   "KN7zKn": {
     "defaultMessage": "Error"
   },
+  "KhgiAD": {
+    "defaultMessage": "Limit Upload Rate"
+  },
   "L3+RNP": {
     "defaultMessage": "Seeding <small>[F]</small>"
   },
   "LwdDVa": {
     "defaultMessage": "Uploaded"
   },
+  "M5Uo3T": {
+    "defaultMessage": "Move Down One in Queue"
+  },
   "OlwlCi": {
     "defaultMessage": "Downloaded"
+  },
+  "QPwd+2": {
+    "defaultMessage": "Sequel Order Download"
+  },
+  "QQd4r5": {
+    "defaultMessage": "Copy Magnet Link"
   },
   "Quy7PF": {
     "defaultMessage": "Allocating"
@@ -83,11 +101,20 @@
   "YeKWbP": {
     "defaultMessage": "Authentication"
   },
+  "ZjWGgI": {
+    "defaultMessage": "Move to Bottom of Queue"
+  },
   "agOXPD": {
     "defaultMessage": "Size"
   },
   "cWcKDP": {
     "defaultMessage": "limited"
+  },
+  "eypWNM": {
+    "defaultMessage": "Automatic Management"
+  },
+  "fgz0lo": {
+    "defaultMessage": "Download First/Last Piece"
   },
   "gKhP3B": {
     "defaultMessage": "Up Speed"
@@ -95,20 +122,44 @@
   "hceE/7": {
     "defaultMessage": "Force Resume"
   },
+  "iXNbPf": {
+    "defaultMessage": "Rename"
+  },
+  "j10KuP": {
+    "defaultMessage": "Recheck [F]"
+  },
+  "jAGnb0": {
+    "defaultMessage": "Super Seed"
+  },
   "k8l06l": {
     "defaultMessage": "Stalled"
   },
   "lTleCS": {
     "defaultMessage": "Checking"
   },
+  "lfHu5/": {
+    "defaultMessage": "Move Up One in Queue"
+  },
   "lnCIis": {
     "defaultMessage": "free"
+  },
+  "mZwdRJ": {
+    "defaultMessage": "Set Location"
+  },
+  "mefwlE": {
+    "defaultMessage": "Move to Top of Queue"
   },
   "oZAjck": {
     "defaultMessage": "S Upload"
   },
+  "pOWHaJ": {
+    "defaultMessage": "Reannounce [F]"
+  },
   "pbYuwH": {
     "defaultMessage": "Total Size"
+  },
+  "rMDyRQ": {
+    "defaultMessage": "Limit Download Rate"
   },
   "rzuqCK": {
     "defaultMessage": "Down Limit"
@@ -136,6 +187,9 @@
   },
   "wNCvfg": {
     "defaultMessage": "Added On"
+  },
+  "xMpvRG": {
+    "defaultMessage": "Copy Hash"
   },
   "yiy6QW": {
     "defaultMessage": "Queued upload"

@@ -1,10 +1,16 @@
 import produce from 'immer';
 import { FC, memo, MouseEventHandler, useCallback, useEffect, useState } from 'react';
-import { MenuItem, Popover } from '../materialUiCore';
+import { Popover, List, ListItem, ListItemText, ListItemIcon } from '../materialUiCore';
 import { mStyles } from '../common';
 import { ContextAction } from './types';
-import { getElementAttr } from '../../utils';
-import { FormattedMessage } from 'react-intl';
+import { getElementAttr, getVisibilityCompatibleKeys } from '../../utils';
+import { Torrent } from '../../api';
+import {
+  getContextMenuActionIcon,
+  getContextMenuActionProps,
+  getContextMenuActionString,
+  getContextMenuMainOperations,
+} from './utils';
 
 const useStyles = mStyles(({ spacing }) => ({
   popoverWrapper: {
@@ -13,27 +19,43 @@ const useStyles = mStyles(({ spacing }) => ({
     paddingTop: spacing(1),
     paddingBottom: spacing(1),
   },
+  listRoot: {
+    minWidth: 180,
+    '& .listitem-icon': {
+      minWidth: 30,
+    },
+  },
+  listItem: {
+    '& *': {
+      pointerEvents: 'none',
+    },
+  },
 }));
 
-export const TorrentContextMenu: FC<{
-  isOpen: boolean;
-  mainActions: [ContextAction, ContextAction];
-  onAction: (action: ContextAction) => void;
-}> = memo(({ isOpen, mainActions, onAction }) => {
+export const TorrentContextMenu: FC<
+  {
+    isOpen: boolean;
+    onAction: (action: ContextAction) => void;
+  } & Partial<Torrent>
+> = memo(({ isOpen, onAction, ...rest }) => {
   const classes = useStyles();
   const [state, setState] = useState({ top: 0, left: 0 });
+  const torrent = rest as Partial<Torrent>;
+  const actions = getContextMenuMainOperations(torrent);
 
   const handleClick: MouseEventHandler = useCallback(
     event => {
       event.preventDefault();
       event.stopPropagation();
 
-      onAction(getElementAttr('data-action', 'invalid' as ContextAction, event.currentTarget));
+      onAction(getElementAttr('data-action', 'noop' as ContextAction, event.currentTarget));
     },
     [onAction]
   );
 
   useEffect(() => {
+    const [hidden, visibilityChange] = getVisibilityCompatibleKeys();
+
     function handleEvent(e: Event) {
       if (e.isTrusted) {
         if (e.type === 'mousedown') {
@@ -46,49 +68,48 @@ export const TorrentContextMenu: FC<{
               })
             );
           }
+        } else if (e.type === 'keyup') {
+          onAction('noop');
+        } else if (e.type === visibilityChange) {
+          if ((document as any)[hidden]) {
+            onAction('noop');
+          }
         }
       }
     }
 
     document.addEventListener('mousedown', handleEvent);
+    document.addEventListener('keyup', handleEvent);
+    document.addEventListener(visibilityChange, handleEvent);
     return () => {
       document.removeEventListener('mousedown', handleEvent);
+      document.removeEventListener('keyup', handleEvent);
+      document.removeEventListener(visibilityChange, handleEvent);
     };
   }, [isOpen, onAction]);
 
   return (
     <Popover keepMounted open={isOpen} anchorPosition={state} anchorReference="anchorPosition">
-      <ul className={classes.popoverWrapper}>
-        <MenuItem onClick={handleClick} data-action={mainActions[0]}>
-          {mainActions[0] === 'resume' ? (
-            <FormattedMessage defaultMessage="Resume" />
-          ) : (
-            <FormattedMessage defaultMessage="Pause" />
-          )}
-        </MenuItem>
-        <MenuItem divider onClick={handleClick} data-action={mainActions[1]}>
-          {mainActions[1] === 'setForceStart' ? (
-            <FormattedMessage defaultMessage="Force Resume" />
-          ) : (
-            <FormattedMessage defaultMessage="Pause" />
-          )}
-        </MenuItem>
-
-        {/* <MenuItem divider onClick={handleClick} data-action="delete">
-          <FormattedMessage defaultMessage="Delete" />
-        </MenuItem>
-
-        <MenuItem onClick={handleClick} data-action="setLocation">
-          <FormattedMessage defaultMessage="Set location" />
-        </MenuItem>
-        <MenuItem divider onClick={handleClick} data-action="rename">
-          <FormattedMessage defaultMessage="Rename" />
-        </MenuItem> */}
-
-        <MenuItem onClick={handleClick}>
-          <FormattedMessage defaultMessage="Close Context Menu [x]" />
-        </MenuItem>
-      </ul>
+      <List dense className={classes.listRoot}>
+        {actions.map(
+          action =>
+            action !== 'noop' && (
+              <ListItem
+                button
+                key={action}
+                className={classes.listItem}
+                {...getContextMenuActionProps(action, torrent)}
+                data-action={action}
+                onClick={handleClick}
+              >
+                <ListItemIcon className="listitem-icon">
+                  {getContextMenuActionIcon(action, torrent)}
+                </ListItemIcon>
+                <ListItemText primary={getContextMenuActionString(action)} />
+              </ListItem>
+            )
+        )}
+      </List>
     </Popover>
   );
 });

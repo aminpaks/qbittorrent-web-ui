@@ -1,45 +1,64 @@
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useTorrentsState } from '../State';
-import { getContextMenuMainOperations, getRowData } from './utils';
+import { copyTorrentPropToClipboard, getRowData } from './utils';
 import { TorrentList } from './List';
 import { CellTargetHandler, ContextAction } from './types';
 import { TorrentContextMenu } from './contextMenu';
 import { useTorrentsBasicActionMutation } from '../Data';
+import { Torrent } from '../../api';
 
 export const TorrentsContainer: FC = () => {
   const torrents = useTorrentsState();
   const torrentsRef = useRef(torrents.collection);
   const [contextMenuState, setContextMenuState] = useState({
-    hash: null as string | null,
     isOpen: false,
-    mainActions: ['invalid', 'invalid'] as [ContextAction, ContextAction],
+    torrent: undefined as Torrent | undefined,
   });
-  const { isOpen, mainActions } = contextMenuState;
   const stateRef = useRef(contextMenuState);
+  const { isOpen, torrent = {} as Torrent } = contextMenuState;
 
   const { mutate: basicAction } = useTorrentsBasicActionMutation();
 
   const handleActionMenuStateReset = useCallback(() => {
     setContextMenuState(s => ({
-      hash: null,
       isOpen: false,
-      mainActions: s.mainActions,
+      torrent: s.torrent,
     }));
   }, []);
 
   const handleActionItemClick = useCallback(
     (action: ContextAction) => {
-      if (action !== 'invalid') {
-        const { hash } = stateRef.current;
+      if (action !== 'noop') {
+        const { hash } = stateRef.current.torrent ?? {};
         if (hash && torrentsRef.current[hash]) {
-          if (action === 'setForceStart') {
-            basicAction({ list: [hash], params: [action, { value: true }] });
-          } else if (action === 'setSuperSeeding') {
-            basicAction({ list: [hash], params: [action, { value: false }] });
-          } else if (action === 'setAutoManagement') {
-          } else if (action === 'delete') {
-          } else {
-            basicAction({ list: [hash], params: [action] });
+          const torrent = torrentsRef.current[hash];
+
+          switch (action) {
+            case 'setForceStart':
+              basicAction({ list: [hash], params: [action, { value: true }] });
+              break;
+            case 'setSuperSeeding':
+              basicAction({ list: [hash], params: [action, { value: !torrent.super_seeding }] });
+              break;
+            case 'setAutoManagement':
+              basicAction({ list: [hash], params: [action, { enable: !torrent.auto_tmm }] });
+              break;
+            case 'resume':
+            case 'pause':
+            case 'recheck':
+            case 'reannounce':
+            case 'toggleSequentialDownload':
+            case 'toggleFirstLastPiecePrio':
+              basicAction({ list: [hash], params: [action] });
+              break;
+            case 'copyName':
+            case 'copyHash':
+            case 'copyMagnetLink':
+              copyTorrentPropToClipboard(action, torrent);
+              break;
+            default:
+              console.log('action', action);
+              break;
           }
         }
       }
@@ -51,10 +70,11 @@ export const TorrentsContainer: FC = () => {
   const handleActionMenuOpen: CellTargetHandler = useCallback(element => {
     const { hash = '' } = getRowData(element);
     if (hash && torrentsRef.current[hash]) {
-      const { state } = torrentsRef.current[hash];
-      const mainActions = getContextMenuMainOperations(state);
+      const torrent = torrentsRef.current[hash];
 
-      setContextMenuState({ hash, mainActions, isOpen: true });
+      if (torrent) {
+        setContextMenuState({ isOpen: true, torrent });
+      }
     }
   }, []);
 
@@ -80,7 +100,7 @@ export const TorrentsContainer: FC = () => {
     <>
       <TorrentList onMenuOpen={handleActionMenuOpen} />
 
-      <TorrentContextMenu isOpen={isOpen} mainActions={mainActions} onAction={handleActionItemClick} />
+      <TorrentContextMenu isOpen={isOpen} {...torrent} onAction={handleActionItemClick} />
     </>
   );
 };

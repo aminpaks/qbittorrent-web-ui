@@ -1,8 +1,8 @@
 import scrollbarSize from 'dom-helpers/scrollbarSize';
-import { FC, MouseEventHandler, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { ScrollSync, AutoSizer, Grid } from 'react-virtualized';
 import { mStyles } from '../common';
-import { color, colorAlpha } from '../../utils';
+import { colorAlpha } from '../../utils';
 import { useTorrentsState } from '../State';
 import { getTableColumn, getColumnWidth, tableColumns } from './columns';
 import { getRowData, getTorrentHash, getTorrentOrElse } from './utils';
@@ -120,7 +120,8 @@ export const TorrentList: FC<{ onMenuOpen: CellTargetHandler }> = ({ onMenuOpen 
                     }}
                   />
                 )}
-                overscanRowCount={14}
+                overscanRowCount={6}
+                overscanColumnCount={2}
                 className={classes.tableBody}
                 onScroll={onScroll}
               />
