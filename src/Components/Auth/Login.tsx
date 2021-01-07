@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 import {
   Box,
   Button,
@@ -13,10 +14,10 @@ import { LockOpenIcon } from '../materialUiIcons';
 import { mStyles } from '../common';
 import { AppHeader } from '../AppHeader';
 import { MainLayout } from '../Layout';
-import { DisplayApiError } from '../DisplayApiError';
 import { useAppVersionQuery, useLoginMutation } from '../Data';
 import { storageGet, storageRemove, storageSet } from '../../utils';
-import { FormattedMessage } from 'react-intl';
+import { useNotifications } from '../notifications';
+import { getErrorMessage } from '../../api';
 
 const LOGIN_USERNAME = 'loginUsername';
 const LOGIN_PASSWORD = 'loginPassword';
@@ -32,6 +33,7 @@ const useStyles = mStyles(({ spacing }) => ({
 
 export const Login: FC = () => {
   const history = useHistory();
+  const { create } = useNotifications();
   const [isRememberMe, setRememberMe] = useState(storageGet(LOGIN_REMEMBER_ME, false));
   const [state, setState] = useState({
     username: isRememberMe ? storageGet(LOGIN_USERNAME, '') : '',
@@ -41,7 +43,11 @@ export const Login: FC = () => {
 
   const { username, password } = state;
   const { data: appVersion } = useAppVersionQuery();
-  const { mutate: tryLogin, error, isLoading, isSuccess } = useLoginMutation();
+  const { mutate: tryLogin, isLoading, isSuccess } = useLoginMutation({
+    onError: error => {
+      create({ message: `Login failed, ${getErrorMessage(error)}`, severity: 'error' });
+    },
+  });
 
   const handleLogin = () => tryLogin(state);
   const handleKeyPress = ({ code }: { code: string }) => {
@@ -65,8 +71,6 @@ export const Login: FC = () => {
             <FormattedMessage defaultMessage="Authentication" />
           </Typography>
         </Box>
-
-        <DisplayApiError error={error} />
 
         <article>
           <TextField
@@ -98,7 +102,7 @@ export const Login: FC = () => {
             color="primary"
             variant="contained"
             disabled={!(username && password) || isLoading}
-            endIcon={isLoading ? <CircularProgress /> : <LockOpenIcon />}
+            endIcon={isLoading ? <CircularProgress size={16} /> : <LockOpenIcon />}
             onClick={handleLogin}
           >
             <FormattedMessage defaultMessage="Login" />

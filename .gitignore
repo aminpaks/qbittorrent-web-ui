@@ -10,4 +10,6 @@ package-lock.json
 .env.*
 
 # built languages
+/build
+/build-reports
 /public/lang
