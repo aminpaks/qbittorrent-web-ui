@@ -53,15 +53,15 @@ export const tableColumns: TableColumn[] = [
     align: 'right',
   },
   {
-    label: <FormattedMessage defaultMessage="S Download" />,
+    label: <FormattedMessage defaultMessage="Session Download" />,
     dataKey: 'downloaded_session',
-    width: 100,
+    width: 80,
     align: 'right',
   },
   {
-    label: <FormattedMessage defaultMessage="S Upload" />,
+    label: <FormattedMessage defaultMessage="Session Upload" />,
     dataKey: 'uploaded_session',
-    width: 100,
+    width: 80,
     align: 'right',
   },
   {

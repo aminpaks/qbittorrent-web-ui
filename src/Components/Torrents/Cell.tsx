@@ -15,8 +15,11 @@ export const HeaderCell: FC<{ index: number; style: CSSProperties }> = ({ index,
   const { label, align } = column;
 
   return (
-    <div className="header--cell" style={{ ...style, textAlign: align }}>
-      <span>{label}</span>
+    <div
+      className="header--cell"
+      style={{ ...style, justifyContent: align === 'right' ? 'flex-end' : undefined }}
+    >
+      <span style={{ textAlign: align === 'right' ? align : undefined }}>{label}</span>
     </div>
   );
 };

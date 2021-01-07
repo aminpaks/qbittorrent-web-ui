@@ -9,7 +9,7 @@ import { getRowData, getTorrentHash, getTorrentOrElse } from './utils';
 import { BodyCell, HeaderCell } from './Cell';
 import { CellTargetHandler } from './types';
 
-const HEADER_CELL_HEIGHT = 40;
+const HEADER_CELL_HEIGHT = 44;
 const ROW_CELL_HEIGHT = 32;
 
 const useStyles = mStyles(({ palette, typography }) => ({
@@ -21,7 +21,9 @@ const useStyles = mStyles(({ palette, typography }) => ({
     overflow: 'hidden !important',
     fontWeight: typography.fontWeightBold,
     '& .header--cell': {
-      padding: '11px 6px 10px',
+      display: 'flex',
+      alignItems: 'center',
+      padding: '1px 6px 0px',
       border: 'none',
       borderBottom: `1px solid ${colorAlpha('#000', 0.03).string()}`,
     },
@@ -120,8 +122,8 @@ export const TorrentList: FC<{ onMenuOpen: CellTargetHandler }> = ({ onMenuOpen 
                     }}
                   />
                 )}
-                overscanRowCount={6}
-                overscanColumnCount={2}
+                overscanRowCount={8}
+                overscanColumnCount={3}
                 className={classes.tableBody}
                 onScroll={onScroll}
               />
