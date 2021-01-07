@@ -154,9 +154,9 @@ export const getContextMenuActionIcon = (
     case 'rename':
       return <SubtitlesIcon fontSize="small" />;
     case 'setAutoManagement':
-      return <AssistantIcon fontSize="small" color={auto_tmm ? 'primary' : 'inherit'} />;
+      return <AssistantIcon fontSize="small" color={auto_tmm ? 'primary' : 'disabled'} />;
     case 'setSuperSeeding':
-      return <SpeedIcon fontSize="small" color={super_seeding ? 'primary' : 'inherit'} />;
+      return <SpeedIcon fontSize="small" color={super_seeding ? 'primary' : 'disabled'} />;
     case 'setDownloadLimit':
       return <VerticalAlignBottomIcon fontSize="small" />;
     case 'setUploadLimit':
@@ -281,10 +281,7 @@ export const getContextMenuMainOperations = (
   }
 };
 
-export const getContextMenuActionProps = (
-  action: ContextAction,
-  { state = 'unknown', progress = 0 }: Partial<Torrent>
-) => {
+export const getContextMenuActionProps = (action: ContextAction, { state = 'unknown' }: Partial<Torrent>) => {
   switch (action) {
     case 'pause':
       return { divider: state === 'forcedDL' || state === 'forcedUP' };
@@ -318,3 +315,21 @@ export const copyTorrentPropToClipboard = (
       return Promise.resolve(undefined as void);
   }
 };
+
+export function getNotificationForClipboardAction(action: ContextAction, torrent: Torrent) {
+  switch (action) {
+    case 'copyName':
+      return (
+        <FormattedMessage
+          defaultMessage="{value} copied to clipboard"
+          values={{ value: torrent.name.substr(0, 8) + '...' }}
+        />
+      );
+    case 'copyHash':
+      return <FormattedMessage defaultMessage="Hash copied to clipboard" />;
+    case 'copyMagnetLink':
+      return <FormattedMessage defaultMessage="Magnet URI copied to clipboard" />;
+    default:
+      return null;
+  }
+}

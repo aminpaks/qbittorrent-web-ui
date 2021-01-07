@@ -1,4 +1,7 @@
 {
+  "/38ut+": {
+    "defaultMessage": "Auto management {state} for {name}"
+  },
   "11WYT7": {
     "defaultMessage": "Copy Name"
   },
@@ -41,11 +44,23 @@
   "Cnm0QA": {
     "defaultMessage": "Queued"
   },
+  "F+mMwM": {
+    "defaultMessage": "Welcome to qBittorrent"
+  },
+  "Go06C4": {
+    "defaultMessage": "Login failed, {reason}"
+  },
   "HAlOn1": {
     "defaultMessage": "Name"
   },
+  "Ix4/6C": {
+    "defaultMessage": "Hash copied to clipboard"
+  },
   "JCIgkj": {
     "defaultMessage": "Username"
+  },
+  "JicsBV": {
+    "defaultMessage": "disactivated"
   },
   "JjgJTA": {
     "defaultMessage": "Peers"
@@ -86,11 +101,17 @@
   "Quy7PF": {
     "defaultMessage": "Allocating"
   },
+  "T62vPM": {
+    "defaultMessage": "Magnet URI copied to clipboard"
+  },
   "VNNgop": {
     "defaultMessage": "Seeding"
   },
   "Wlgvpl": {
     "defaultMessage": "S Download"
+  },
+  "XEjrZZ": {
+    "defaultMessage": "{value} copied to clipboard"
   },
   "XSvdcz": {
     "defaultMessage": "Seeds"
@@ -122,6 +143,9 @@
   "hceE/7": {
     "defaultMessage": "Force Resume"
   },
+  "hv1fDG": {
+    "defaultMessage": "Super seed {state} for {name}"
+  },
   "iXNbPf": {
     "defaultMessage": "Rename"
   },
@@ -130,6 +154,9 @@
   },
   "jAGnb0": {
     "defaultMessage": "Super Seed"
+  },
+  "jaYJRn": {
+    "defaultMessage": "activated"
   },
   "k8l06l": {
     "defaultMessage": "Stalled"
@@ -172,6 +199,9 @@
   },
   "tS6Alu": {
     "defaultMessage": "Down Speed"
+  },
+  "tX3urB": {
+    "defaultMessage": "Force resume activated for {name}"
   },
   "tzMNF3": {
     "defaultMessage": "Status"

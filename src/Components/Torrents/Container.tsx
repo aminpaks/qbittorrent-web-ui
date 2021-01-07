@@ -1,14 +1,18 @@
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useTorrentsState } from '../State';
-import { copyTorrentPropToClipboard, getRowData } from './utils';
+import { copyTorrentPropToClipboard, getNotificationForClipboardAction, getRowData } from './utils';
 import { TorrentList } from './List';
 import { CellTargetHandler, ContextAction } from './types';
 import { TorrentContextMenu } from './contextMenu';
 import { useTorrentsBasicActionMutation } from '../Data';
 import { Torrent } from '../../api';
+import { useIntl } from 'react-intl';
+import { useNotifications } from '../notifications';
 
 export const TorrentsContainer: FC = () => {
+  const { formatMessage } = useIntl();
   const torrents = useTorrentsState();
+  const { create } = useNotifications();
   const torrentsRef = useRef(torrents.collection);
   const [contextMenuState, setContextMenuState] = useState({
     isOpen: false,
@@ -36,12 +40,44 @@ export const TorrentsContainer: FC = () => {
           switch (action) {
             case 'setForceStart':
               basicAction({ list: [hash], params: [action, { value: true }] });
+              create({
+                message: formatMessage(
+                  { defaultMessage: `Force resume activated for {name}` },
+                  { name: torrent.name }
+                ),
+              });
               break;
             case 'setSuperSeeding':
-              basicAction({ list: [hash], params: [action, { value: !torrent.super_seeding }] });
+              const value = !torrent.super_seeding;
+              basicAction({ list: [hash], params: [action, { value }] });
+              create({
+                message: formatMessage(
+                  { defaultMessage: `Super seed {state} for {name}` },
+                  {
+                    name: torrent.name,
+                    state: value ? (
+                      <strong>{formatMessage({ defaultMessage: 'activated' })}</strong>
+                    ) : (
+                      formatMessage({ defaultMessage: 'disactivated' })
+                    ),
+                  }
+                ),
+              });
               break;
             case 'setAutoManagement':
-              basicAction({ list: [hash], params: [action, { enable: !torrent.auto_tmm }] });
+              const enable = !torrent.auto_tmm;
+              basicAction({ list: [hash], params: [action, { enable }] });
+              create({
+                message: formatMessage(
+                  { defaultMessage: `Auto management {state} for {name}` },
+                  {
+                    name: torrent.name,
+                    state: enable
+                      ? formatMessage({ defaultMessage: 'activated' })
+                      : formatMessage({ defaultMessage: 'disactivated' }),
+                  }
+                ),
+              });
               break;
             case 'resume':
             case 'pause':
@@ -55,6 +91,7 @@ export const TorrentsContainer: FC = () => {
             case 'copyHash':
             case 'copyMagnetLink':
               copyTorrentPropToClipboard(action, torrent);
+              create({ message: getNotificationForClipboardAction(action, torrent) });
               break;
             default:
               console.log('action', action);
