@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import {
   Box,
   Button,
@@ -18,6 +18,7 @@ import { useAppVersionQuery, useLoginMutation } from '../Data';
 import { storageGet, storageRemove, storageSet } from '../../utils';
 import { useNotifications } from '../notifications';
 import { getErrorMessage } from '../../api';
+import { WEB_UI_VERSION } from '../../constant';
 
 const LOGIN_USERNAME = 'loginUsername';
 const LOGIN_PASSWORD = 'loginPassword';
@@ -33,6 +34,7 @@ const useStyles = mStyles(({ spacing }) => ({
 
 export const Login: FC = () => {
   const history = useHistory();
+  const { formatMessage } = useIntl();
   const { create } = useNotifications();
   const [isRememberMe, setRememberMe] = useState(storageGet(LOGIN_REMEMBER_ME, false));
   const [state, setState] = useState({
@@ -45,7 +47,13 @@ export const Login: FC = () => {
   const { data: appVersion } = useAppVersionQuery();
   const { mutate: tryLogin, isLoading, isSuccess } = useLoginMutation({
     onError: error => {
-      create({ message: `Login failed, ${getErrorMessage(error)}`, severity: 'error' });
+      create({
+        message: formatMessage(
+          { defaultMessage: `Login failed, {reason}` },
+          { reason: getErrorMessage(error) }
+        ),
+        severity: 'error',
+      });
     },
   });
 
