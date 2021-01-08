@@ -1,4 +1,4 @@
-import { Lazy } from '../types';
+import { Fallback } from '../types';
 import { tryCatchSync } from './tryCatch';
 
 const version = '0.0.1';
@@ -6,7 +6,7 @@ type KeyValue<V> = {
   [key: string]: V;
 } & { v: string };
 
-export const storageGet = <T>(key: string, fallback: Lazy<T> | T): T => {
+export const storageGet = <T>(key: string, fallback: Fallback<NonNullable<T>>): T => {
   return tryCatchSync(() => {
     const r = JSON.parse(localStorage.getItem(key) ?? '{:INVALID:}') as KeyValue<T>;
     if (r.v === version && r[key] != null) {

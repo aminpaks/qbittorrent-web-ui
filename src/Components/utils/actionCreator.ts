@@ -1,4 +1,4 @@
-import { BasicAction } from '../utils';
+export type BasicAction<T, P> = { type: T; payload: P };
 
 export const actionCreator = <T extends string>(type: T) => <P extends object>() => (
   payload: P

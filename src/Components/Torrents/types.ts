@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { TorrentKeys, TorrentPrimitiveOperations } from '../../api';
 
-export type ExtendedTorrentKeys = TorrentKeys | 'index' | 'action' | 'invalid';
+export type ExtendedTorrentKeys = TorrentKeys | 'action' | 'invalid';
 
 export interface TableColumn {
   label: ReactNode;

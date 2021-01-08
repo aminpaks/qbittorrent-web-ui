@@ -2,7 +2,7 @@ import { CSSProperties, FC, MouseEventHandler, ReactNode } from 'react';
 import { TableHeaderProps } from 'react-virtualized';
 import { DayJs } from '../common';
 import { IconButton, LinearProgress } from '../materialUiCore';
-import { AllInclusiveIcon, MoreVertIcon } from '../materialUiIcons';
+import { AllInclusiveIcon, DoneIcon, MoreVertIcon } from '../materialUiIcons';
 import { getTorrentStateIcon, getTorrentStateString } from './utils';
 import { formatPercentage, humanFileSize } from '../../utils';
 import { TorrentState } from '../../api';
@@ -74,6 +74,10 @@ export const rightAlignHeaderRenderer = ({ label }: TableHeaderProps) => (
   <DivBox textAlign="right">{label}</DivBox>
 );
 
+const priorityRenderer = (value: number = 0) => (
+  <DivBox textAlign="right">{value === 0 ? <DoneIcon fontSize="small" color="disabled" /> : value}</DivBox>
+);
+
 const defaultRenderer = (value: unknown, style: CSSProperties = {}): ReactNode => (
   <DivBox {...style}>{value != null ? String(value) : null}</DivBox>
 );
@@ -86,8 +90,8 @@ export const cellRenderer = (
   switch (key) {
     case 'invalid':
       return 'INVALID!';
-    case 'index':
-      return defaultRenderer(value, { textAlign: 'right' });
+    case 'priority':
+      return priorityRenderer(value as number);
     case 'ratio':
       return ratioCellRenderer(value as number);
     case 'state':

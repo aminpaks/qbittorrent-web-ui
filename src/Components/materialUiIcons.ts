@@ -4,8 +4,11 @@ import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import AssistantIcon from '@material-ui/icons/Assistant';
+import BlockIcon from '@material-ui/icons/Block';
 import CategoryIcon from '@material-ui/icons/Category';
 import CheckIcon from '@material-ui/icons/Check';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ClassIcon from '@material-ui/icons/Class';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from '@material-ui/icons/Done';
@@ -13,10 +16,12 @@ import FastForwardIcon from '@material-ui/icons/FastForward';
 import FeaturedPlayListIcon from '@material-ui/icons/FeaturedPlayList';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import FindInPageIcon from '@material-ui/icons/FindInPage';
+import FirstPageIcon from '@material-ui/icons/FirstPage';
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import GrainIcon from '@material-ui/icons/Grain';
 import LabelImportantIcon from '@material-ui/icons/LabelImportant';
+import LastPageIcon from '@material-ui/icons/LastPage';
 import LinkIcon from '@material-ui/icons/Link';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
@@ -37,18 +42,19 @@ import VerticalAlignBottomIcon from '@material-ui/icons/VerticalAlignBottom';
 import VerticalAlignTopIcon from '@material-ui/icons/VerticalAlignTop';
 import WifiIcon from '@material-ui/icons/Wifi';
 import WifiOffIcon from '@material-ui/icons/WifiOff';
-import BlockIcon from '@material-ui/icons/Block';
 
 export {
-  BlockIcon,
   AlarmIcon,
   AllInclusiveIcon,
   ArrowDownwardIcon,
   ArrowUpwardIcon,
   AssignmentTurnedInIcon,
   AssistantIcon,
+  BlockIcon,
   CategoryIcon,
   CheckIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
   ClassIcon,
   DeleteIcon,
   DoneIcon,
@@ -56,10 +62,12 @@ export {
   FeaturedPlayListIcon,
   FileCopyIcon,
   FindInPageIcon,
+  FirstPageIcon,
   FolderOpenIcon,
   GetAppIcon,
   GrainIcon,
   LabelImportantIcon,
+  LastPageIcon,
   LinkIcon,
   LockOpenIcon,
   MoreHorizIcon,

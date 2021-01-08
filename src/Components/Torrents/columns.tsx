@@ -2,7 +2,7 @@ import { FormattedMessage } from 'react-intl';
 import { TableColumn } from './types';
 
 export const tableColumns: TableColumn[] = [
-  { label: '#', dataKey: 'index', width: 40, align: 'right' },
+  { label: '#', dataKey: 'priority', width: 40, align: 'right' },
   {
     label: <FormattedMessage defaultMessage="Name" />,
     dataKey: 'name',
