@@ -8,6 +8,7 @@
   "scripts": {
     "start": "webpack serve --progress",
     "prestart": "npm run intl:compile",
+    "typecheck": "tsc --noEmit",
     "intl:extract": "formatjs extract 'src/**/*.ts*' --out-file src/lang/en.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'",
     "intl:compile": "formatjs compile-folder --ast src/lang public/lang"
   },

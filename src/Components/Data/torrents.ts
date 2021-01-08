@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from 'react-query';
 import { apiV2TorrentsBasicAction, apiV2TorrentsInfo, TorrentPrimitiveOperationOptions } from '../../api';
+import { LazyReason } from '../../types';
 
 export const useTorrentsQuery = () => {
   const queryResult = useQuery('torrents', () => apiV2TorrentsInfo(), {
@@ -9,12 +10,18 @@ export const useTorrentsQuery = () => {
   return queryResult;
 };
 
-export const useTorrentsBasicActionMutation = (onError?: () => void) => {
+export const useTorrentsBasicActionMutation = (
+  { onSuccess, onError } = {} as {
+    onSuccess?: LazyReason<Promise<void>>;
+    onError?: LazyReason<Promise<void>>;
+  }
+) => {
   const mutationObject = useMutation(
     ({ list, params }: { list: string[]; params: TorrentPrimitiveOperationOptions }): Promise<boolean> =>
       apiV2TorrentsBasicAction(list, params),
     {
       retry: false,
+      onSuccess,
       onError,
     }
   );

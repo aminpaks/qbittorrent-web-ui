@@ -6,7 +6,7 @@ import { QueryClientProvider, QueryClient } from 'react-query';
 import { App } from './App';
 import { Auth, Login } from './Auth';
 import { ThemeProvider } from './ThemeProvider';
-import { AppContextProvider } from './State';
+import { AppContextProvider, UiStateProvider } from './State';
 import { AppIntlProvider } from './Intl';
 import Notifications, { NotificationsProvider, useNotifications } from './notifications';
 
@@ -31,7 +31,9 @@ const Root = () => {
         <Route path="*">
           <Auth>
             <AppContextProvider>
-              <App />
+              <UiStateProvider>
+                <App />
+              </UiStateProvider>
             </AppContextProvider>
           </Auth>
         </Route>

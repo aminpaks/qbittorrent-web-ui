@@ -1,9 +1,9 @@
 import scrollbarSize from 'dom-helpers/scrollbarSize';
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import { ScrollSync, AutoSizer, Grid } from 'react-virtualized';
 import { mStyles } from '../common';
 import { colorAlpha } from '../../utils';
-import { useTorrentsState } from '../State';
+import { useTorrentsState, useUiState } from '../State';
 import { getTableColumn, getColumnWidth, tableColumns } from './columns';
 import { getRowData, getTorrentHash, getTorrentOrElse } from './utils';
 import { BodyCell, HeaderCell } from './Cell';
@@ -58,19 +58,9 @@ const useStyles = mStyles(({ palette, typography }) => ({
 
 export const TorrentList: FC<{ onMenuOpen: CellTargetHandler }> = ({ onMenuOpen }) => {
   const classes = useStyles();
-  const [selectedRow, setSelectedRow] = useState(-1);
   const { hashList, collection } = useTorrentsState();
+  const [{ torrentListSelection }, { updateSelectionTorrentList }] = useUiState();
   const sbSize = scrollbarSize();
-
-  useEffect(() => {
-    function handler() {
-      setSelectedRow(-1);
-    }
-    document.addEventListener('click', handler);
-    return () => {
-      document.removeEventListener('click', handler);
-    };
-  });
 
   return (
     <ScrollSync>
@@ -98,30 +88,34 @@ export const TorrentList: FC<{ onMenuOpen: CellTargetHandler }> = ({ onMenuOpen 
                 rowHeight={ROW_CELL_HEIGHT}
                 columnCount={tableColumns.length}
                 columnWidth={getColumnWidth}
-                cellRenderer={({ key, rowIndex, style, columnIndex }) => (
-                  <BodyCell
-                    {...getTorrentOrElse(rowIndex, hashList, collection)}
-                    key={key}
-                    index={rowIndex + 1}
-                    rowIndex={rowIndex}
-                    columnIndex={columnIndex}
-                    isSelected={selectedRow === rowIndex}
-                    style={style}
-                    dataKey={getTableColumn(columnIndex)?.dataKey || 'invalid'}
-                    hash={getTorrentHash(rowIndex, hashList)}
-                    onMenuOpen={onMenuOpen}
-                    onSelect={(element, eventType) => {
-                      const { index = -1 } = getRowData(element);
-                      setSelectedRow(current => {
-                        if (eventType === 'context') {
-                          return index;
-                        } else {
-                          return current === index ? -1 : index;
+                cellRenderer={({ key, rowIndex, style, columnIndex }) => {
+                  const torrent = getTorrentOrElse(rowIndex, hashList, collection);
+                  const currentItemHash = torrent.hash || '';
+                  const dataKey = getTableColumn(columnIndex)?.dataKey || 'invalid';
+                  const isSelected = currentItemHash
+                    ? torrentListSelection.indexOf(currentItemHash) >= 0
+                    : false;
+                  return (
+                    <BodyCell
+                      {...torrent}
+                      key={key}
+                      index={torrent.priority ?? 0}
+                      rowIndex={rowIndex}
+                      columnIndex={columnIndex}
+                      isSelected={isSelected}
+                      style={style}
+                      dataKey={dataKey}
+                      hash={currentItemHash}
+                      onMenuOpen={onMenuOpen}
+                      onSelect={element => {
+                        const { hash } = getRowData(element);
+                        if (hash) {
+                          updateSelectionTorrentList({ hashList: [hash] });
                         }
-                      });
-                    }}
-                  />
-                )}
+                      }}
+                    />
+                  );
+                }}
                 overscanRowCount={8}
                 overscanColumnCount={3}
                 className={classes.tableBody}

@@ -6,7 +6,7 @@ import * as actions from './actions';
 const reducer = produce((draft: NotificationsState, action: NotificationsActions) => {
   switch (action.type) {
     case 'create':
-      const { message, severity = 'info' } = action.payload;
+      const { message = null, severity = 'info' } = action.payload;
       draft.queue.push({
         id: (Math.random() * 9e9).toString(16),
         message,

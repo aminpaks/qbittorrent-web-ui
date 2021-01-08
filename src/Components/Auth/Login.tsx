@@ -12,7 +12,7 @@ import {
 } from '../materialUiCore';
 import { LockOpenIcon } from '../materialUiIcons';
 import { mStyles } from '../common';
-import { AppHeader } from '../AppHeader';
+import { AppHeader } from '../header/AppHeader';
 import { MainLayout } from '../Layout';
 import { useAppVersionQuery, useLoginMutation } from '../Data';
 import { storageGet, storageRemove, storageSet } from '../../utils';
