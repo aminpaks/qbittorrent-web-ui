@@ -13,6 +13,24 @@ const initialTorrentsState = { collection: {}, hashList: [] } as {
 const ServerContext = createContext(initialServerState);
 const TorrentsContext = createContext(initialTorrentsState);
 
+const sortTorrent = (l: Torrent[]) =>
+  l
+    .sort(({ priority: xPriority = 0, name: xName }, { priority: yPriority = 0, name: yName }) => {
+      if (xPriority === 0 && yPriority === 0) {
+        return xName.localeCompare(yName);
+      } else if (xPriority === 0 && yPriority !== 0) {
+        return 1;
+      } else if (xPriority !== 0 && yPriority === 0) {
+        return -1;
+      }
+
+      const xStrPriority = String(xPriority).padStart(20, '0');
+      const yStrPriority = String(yPriority).padStart(20, '0');
+
+      return xStrPriority.localeCompare(yStrPriority);
+    })
+    .map(({ hash }) => hash);
+
 export const AppContextProvider: FC = ({ children }) => {
   const referenceId = useRef(0);
   const [serverState, setServerState] = useState(initialServerState);
@@ -27,9 +45,15 @@ export const AppContextProvider: FC = ({ children }) => {
 
       referenceId.current = rid;
 
-      if (torrents_removed) {
-        console.log(torrents_removed);
-        debugger;
+      if (torrents_removed && torrents_removed.length > 0) {
+        setTorrentsState(s =>
+          produce(s, draft => {
+            draft.hashList = draft.hashList.filter(hash => torrents_removed.indexOf(hash) < 0);
+            torrents_removed.forEach(hash => {
+              delete draft.collection[hash];
+            });
+          })
+        );
       }
 
       const torrentHashes = Object.keys(torrents);
@@ -40,17 +64,21 @@ export const AppContextProvider: FC = ({ children }) => {
         }
         setTorrentsState({
           collection: torrents as TorrentCollection,
-          hashList: torrentHashes,
+          hashList: sortTorrent(Object.values(torrents) as Torrent[]),
         });
       } else if (torrentHashes.length > 0) {
         setTorrentsState(s => {
           return produce(s, draft => {
+            let shouldUpdateHashOrder = false;
             torrentHashes.forEach(hash => {
               const currentItem = draft.collection[hash] as Torrent | null;
               const torrent = torrents[hash];
               if (currentItem) {
                 Object.entries(torrent).forEach(item => {
                   const [key, value] = item as [keyof Torrent, never];
+                  if (key === 'priority') {
+                    shouldUpdateHashOrder = true;
+                  }
                   currentItem[key] = value;
                 });
               } else {
@@ -58,6 +86,11 @@ export const AppContextProvider: FC = ({ children }) => {
                 draft.hashList.push(hash);
               }
             });
+            console.log('should update hash order?', shouldUpdateHashOrder);
+            if (shouldUpdateHashOrder) {
+              let updatedHashList = sortTorrent(Object.values(draft.collection) as Torrent[]);
+              draft.hashList = updatedHashList;
+            }
           });
         });
       }

@@ -11,6 +11,9 @@
   "3y9DGg": {
     "defaultMessage": "Resume"
   },
+  "4AWEqx": {
+    "defaultMessage": "Session Download"
+  },
   "5jeq8P": {
     "defaultMessage": "Unknown"
   },
@@ -107,9 +110,6 @@
   "VNNgop": {
     "defaultMessage": "Seeding"
   },
-  "Wlgvpl": {
-    "defaultMessage": "S Download"
-  },
   "XEjrZZ": {
     "defaultMessage": "{value} copied to clipboard"
   },
@@ -176,9 +176,6 @@
   "mefwlE": {
     "defaultMessage": "Move to Top of Queue"
   },
-  "oZAjck": {
-    "defaultMessage": "S Upload"
-  },
   "pOWHaJ": {
     "defaultMessage": "Reannounce [F]"
   },
@@ -223,6 +220,9 @@
   },
   "yiy6QW": {
     "defaultMessage": "Queued upload"
+  },
+  "za0KfF": {
+    "defaultMessage": "Session Upload"
   },
   "zmJ4SQ": {
     "defaultMessage": "Missing files"
