@@ -1,11 +1,11 @@
-import scrollbarSize from 'dom-helpers/scrollbarSize';
 import { FC } from 'react';
+import { scrollbarSize } from 'dom-helpers';
 import { ScrollSync, AutoSizer, Grid } from 'react-virtualized';
 import { mStyles } from '../common';
 import { colorAlpha } from '../../utils';
 import { useTorrentsState, useUiState } from '../State';
 import { getTableColumn, getColumnWidth, tableColumns } from './columns';
-import { getRowData, getTorrentHash, getTorrentOrElse } from './utils';
+import { getRowData, getTorrentOrElse } from './utils';
 import { BodyCell, HeaderCell } from './Cell';
 import { CellTargetHandler } from './types';
 

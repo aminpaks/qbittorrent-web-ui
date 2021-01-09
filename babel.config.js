@@ -47,6 +47,14 @@ module.exports = {
           transform: 'lodash/${member}',
           preventFullImport: true,
         },
+        'react-virtualized': {
+          transform: 'react-virtualized/dist/es/${member}',
+          preventFullImport: true,
+        },
+        'dom-helpers': {
+          transform: 'dom-helpers/esm/${member}',
+          preventFullImport: true,
+        },
       },
     ],
   ],

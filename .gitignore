@@ -9,7 +9,7 @@ package-lock.json
 # env variable files
 .env.*
 
-# built languages
+# build artifacts
 /build
 /build-reports
 /public/lang

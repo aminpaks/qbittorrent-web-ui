@@ -1,4 +1,5 @@
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { useIntl } from 'react-intl';
 import { useTorrentsState } from '../State';
 import { copyTorrentPropToClipboard, getNotificationForClipboardAction, getRowData } from './utils';
 import { TorrentList } from './List';
@@ -6,7 +7,6 @@ import { CellTargetHandler, ContextAction } from './types';
 import { TorrentContextMenu } from './contextMenu';
 import { useTorrentsBasicActionMutation } from '../Data';
 import { Torrent } from '../../api';
-import { useIntl } from 'react-intl';
 import { useNotifications } from '../notifications';
 
 export const TorrentsContainer: FC = () => {
@@ -95,6 +95,7 @@ export const TorrentsContainer: FC = () => {
               break;
             default:
               console.log('action', action);
+              create({ message: 'Not implemented!' });
               break;
           }
         }

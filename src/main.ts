@@ -1,3 +1,5 @@
-import { renderApp } from './Components/Root';
+import './Components/common';
+import './Components/materialUiCore';
+import './Components/materialUiIcons';
 
-renderApp();
+import(/* webpackChunkName: "app" */ './Components/Root').then(({ renderApp }) => renderApp());
