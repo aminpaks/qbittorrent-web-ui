@@ -316,14 +316,44 @@ export const copyTorrentPropToClipboard = (
   }
 };
 
-export function getNotificationForClipboardAction(action: ContextAction, torrent: Torrent) {
+export function getNotificationForContextAction(action: ContextAction, torrent: Torrent) {
+  const truncatedName = torrent.name.substr(0, 16) + '...';
   switch (action) {
-    case 'copyName':
+    case 'resume':
+      return <FormattedMessage defaultMessage="Resumed {name}" values={{ name: truncatedName }} />;
+    case 'pause':
+      return <FormattedMessage defaultMessage="Pause {name}" values={{ name: truncatedName }} />;
+    case 'recheck':
       return (
         <FormattedMessage
-          defaultMessage="{value} copied to clipboard"
-          values={{ value: torrent.name.substr(0, 8) + '...' }}
+          defaultMessage="Started force recheck for {name}"
+          values={{ name: truncatedName }}
         />
+      );
+    case 'reannounce':
+      return (
+        <FormattedMessage
+          defaultMessage="Executed force reannounce for {name}"
+          values={{ name: truncatedName }}
+        />
+      );
+    case 'toggleSequentialDownload':
+      return (
+        <FormattedMessage
+          defaultMessage="Toggled sequential download for {name}"
+          values={{ name: truncatedName }}
+        />
+      );
+    case 'toggleFirstLastPiecePrio':
+      return (
+        <FormattedMessage
+          defaultMessage="Toggled first/last piece priority for {name}"
+          values={{ name: truncatedName }}
+        />
+      );
+    case 'copyName':
+      return (
+        <FormattedMessage defaultMessage="{value} copied to clipboard" values={{ value: truncatedName }} />
       );
     case 'copyHash':
       return <FormattedMessage defaultMessage="Hash copied to clipboard" />;

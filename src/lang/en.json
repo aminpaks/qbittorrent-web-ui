@@ -2,6 +2,12 @@
   "/38ut+": {
     "defaultMessage": "Auto management {state} for {name}"
   },
+  "/L1Fhk": {
+    "defaultMessage": "Toggled sequential download for {name}"
+  },
+  "/VzXQ2": {
+    "defaultMessage": "Started force recheck for {name}"
+  },
   "11WYT7": {
     "defaultMessage": "Copy Name"
   },
@@ -34,6 +40,9 @@
   },
   "AyGauy": {
     "defaultMessage": "Login"
+  },
+  "BtT78s": {
+    "defaultMessage": "Resumed {name}"
   },
   "Bw/0Hs": {
     "defaultMessage": "Up Limit"
@@ -82,6 +91,9 @@
   },
   "KhgiAD": {
     "defaultMessage": "Limit Upload Rate"
+  },
+  "KhnhUo": {
+    "defaultMessage": "Pause {name}"
   },
   "L3+RNP": {
     "defaultMessage": "Seeding <small>[F]</small>"
@@ -176,6 +188,9 @@
   "mefwlE": {
     "defaultMessage": "Move to Top of Queue"
   },
+  "p5ebzw": {
+    "defaultMessage": "Toggled first/last piece priority for {name}"
+  },
   "pOWHaJ": {
     "defaultMessage": "Reannounce [F]"
   },
@@ -217,6 +232,9 @@
   },
   "xMpvRG": {
     "defaultMessage": "Copy Hash"
+  },
+  "yFRzTc": {
+    "defaultMessage": "Executed force reannounce for {name}"
   },
   "yiy6QW": {
     "defaultMessage": "Queued upload"

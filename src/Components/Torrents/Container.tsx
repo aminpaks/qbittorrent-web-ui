@@ -1,7 +1,7 @@
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useTorrentsState } from '../State';
-import { copyTorrentPropToClipboard, getNotificationForClipboardAction, getRowData } from './utils';
+import { copyTorrentPropToClipboard, getNotificationForContextAction, getRowData } from './utils';
 import { TorrentList } from './List';
 import { CellTargetHandler, ContextAction } from './types';
 import { TorrentContextMenu } from './contextMenu';
@@ -86,16 +86,17 @@ export const TorrentsContainer: FC = () => {
             case 'toggleSequentialDownload':
             case 'toggleFirstLastPiecePrio':
               basicAction({ list: [hash], params: [action] });
+              create({ message: getNotificationForContextAction(action, torrent) });
               break;
             case 'copyName':
             case 'copyHash':
             case 'copyMagnetLink':
               copyTorrentPropToClipboard(action, torrent);
-              create({ message: getNotificationForClipboardAction(action, torrent) });
+              create({ message: getNotificationForContextAction(action, torrent) });
               break;
             default:
-              console.log('action', action);
-              create({ message: 'Not implemented!' });
+              console.log('Action not implemented', action);
+              create({ message: `"${action}" action not implemented yet!`, severity: 'warning' });
               break;
           }
         }
