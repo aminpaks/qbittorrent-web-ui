@@ -31,9 +31,7 @@ const Root = () => {
         <Route path="*">
           <Auth>
             <AppContextProvider>
-              <UiStateProvider>
-                <App />
-              </UiStateProvider>
+              <App />
             </AppContextProvider>
           </Auth>
         </Route>
@@ -50,7 +48,9 @@ export const renderApp = async (rootElementQuerySelector = '#root') => {
           <HashRouter>
             <AppIntlProvider>
               <NotificationsProvider>
-                <Root />
+                <UiStateProvider>
+                  <Root />
+                </UiStateProvider>
               </NotificationsProvider>
             </AppIntlProvider>
           </HashRouter>

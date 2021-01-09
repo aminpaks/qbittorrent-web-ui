@@ -1,6 +1,5 @@
-import { FC, MouseEventHandler, useCallback } from 'react';
+import { FC } from 'react';
 import { useIntl } from 'react-intl';
-import { getElementAttr } from '../../utils';
 import { mStyles } from '../common';
 import { useTorrentsBasicActionMutation } from '../Data';
 import { Typography, Box, IconButton } from '../materialUiCore';
@@ -15,7 +14,7 @@ import {
 import { useUiState } from '../State';
 import { HeaderActions } from './types';
 
-const useHeaderStyles = mStyles(({ spacing, palette }) => ({
+const useStyles = mStyles(({ spacing, palette }) => ({
   headerRoot: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -53,7 +52,7 @@ const useHeaderStyles = mStyles(({ spacing, palette }) => ({
 }));
 
 export const AppHeader: FC<{ qbtVersion: string }> = ({ qbtVersion }) => {
-  const classes = useHeaderStyles();
+  const classes = useStyles();
   const intl = useIntl();
   const [{ torrentListSelection }] = useUiState();
   const { mutate: executeOperation } = useTorrentsBasicActionMutation({
@@ -63,21 +62,21 @@ export const AppHeader: FC<{ qbtVersion: string }> = ({ qbtVersion }) => {
     },
   });
 
-  const handleButtonClick: MouseEventHandler = ({ target }) => {
-    const action = getElementAttr('data-action', 'noop' as HeaderActions, target as Element);
-
-    console.log(action, torrentListSelection);
-    switch (action) {
-      case 'resume':
-      case 'pause':
-      case 'topPrio':
-      case 'bottomPrio':
-      case 'increasePrio':
-      case 'decreasePrio':
-        return executeOperation({ list: torrentListSelection, params: [action] });
-      default:
-        return;
-    }
+  const getHandleButtonClick = (action: HeaderActions) => {
+    return () => {
+      console.log(action, torrentListSelection);
+      switch (action) {
+        case 'resume':
+        case 'pause':
+        case 'topPrio':
+        case 'bottomPrio':
+        case 'increasePrio':
+        case 'decreasePrio':
+          return executeOperation({ list: torrentListSelection, params: [action] });
+        default:
+          return;
+      }
+    };
   };
 
   return (
@@ -92,48 +91,42 @@ export const AppHeader: FC<{ qbtVersion: string }> = ({ qbtVersion }) => {
           <IconButton
             color="inherit"
             disabled={torrentListSelection.length <= 0}
-            data-action="resume"
-            onClick={handleButtonClick}
+            onClick={getHandleButtonClick('resume')}
           >
             <PlayArrowIcon />
           </IconButton>
           <IconButton
             color="inherit"
             disabled={torrentListSelection.length <= 0}
-            data-action="pause"
-            onClick={handleButtonClick}
+            onClick={getHandleButtonClick('pause')}
           >
             <PauseIcon />
           </IconButton>
           <IconButton
             color="inherit"
             disabled={torrentListSelection.length <= 0}
-            data-action="topPrio"
-            onClick={handleButtonClick}
+            onClick={getHandleButtonClick('topPrio')}
           >
             <FirstPageIcon className="qbt--icon" />
           </IconButton>
           <IconButton
             color="inherit"
             disabled={torrentListSelection.length <= 0}
-            data-action="increasePrio"
-            onClick={handleButtonClick}
+            onClick={getHandleButtonClick('increasePrio')}
           >
             <ChevronLeftIcon className="qbt--icon" />
           </IconButton>
           <IconButton
             color="inherit"
             disabled={torrentListSelection.length <= 0}
-            data-action="decreasePrio"
-            onClick={handleButtonClick}
+            onClick={getHandleButtonClick('decreasePrio')}
           >
             <ChevronRightIcon className="qbt--icon" />
           </IconButton>
           <IconButton
             color="inherit"
             disabled={torrentListSelection.length <= 0}
-            data-action="bottomPrio"
-            onClick={handleButtonClick}
+            onClick={getHandleButtonClick('bottomPrio')}
           >
             <LastPageIcon className="qbt--icon" />
           </IconButton>

@@ -86,7 +86,6 @@ export const AppContextProvider: FC = ({ children }) => {
                 draft.hashList.push(hash);
               }
             });
-            console.log('should update hash order?', shouldUpdateHashOrder);
             if (shouldUpdateHashOrder) {
               let updatedHashList = sortTorrent(Object.values(draft.collection) as Torrent[]);
               draft.hashList = updatedHashList;

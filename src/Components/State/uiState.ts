@@ -31,5 +31,5 @@ const reducer = produce((draft: UiState, action: UiActions) => {
 
 const UiContext = buildCustomContext(initialUiState, reducer, uiActions);
 
-const { useCustomContext: useUiState, Provider: UiStateProvider } = UiContext;
-export { useUiState, UiStateProvider };
+const { Provider: UiStateProvider, useCustomContext: useUiState } = UiContext;
+export { UiStateProvider, useUiState };
