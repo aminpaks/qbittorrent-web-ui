@@ -1,8 +1,8 @@
 import { FC, ReactElement } from 'react';
 import AppHeader from '../header';
-import { AppStatusBar } from '../AppStatusBar';
+import { AppStatusBar } from '../app-statusbar';
 import { mStyles } from '../common';
-import { AppBar } from '../materialUiCore';
+import { AppBar } from '../material-ui-core';
 
 const useStyles = mStyles(({ spacing }) => ({
   mainLayoutRoot: {

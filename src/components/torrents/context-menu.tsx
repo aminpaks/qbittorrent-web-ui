@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { FC, memo, MouseEventHandler, useCallback, useEffect, useState } from 'react';
-import { Popover, List, ListItem, ListItemText, ListItemIcon } from '../materialUiCore';
+import { Popover, List, ListItem, ListItemText, ListItemIcon } from '../material-ui-core';
 import { mStyles } from '../common';
 import { ContextAction } from './types';
 import { getElementAttr, getVisibilityCompatibleKeys } from '../../utils';

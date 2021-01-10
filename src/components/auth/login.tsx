@@ -9,12 +9,12 @@ import {
   FormControlLabel,
   TextField,
   Typography,
-} from '../materialUiCore';
-import { LockOpenIcon } from '../materialUiIcons';
+} from '../material-ui-core';
+import { LockOpenIcon } from '../material-ui-icons';
 import { mStyles } from '../common';
-import { AppHeader } from '../header/AppHeader';
-import { MainLayout } from '../Layout';
-import { useAppVersionQuery, useLoginMutation } from '../Data';
+import { AppHeader } from '../header/app-header';
+import { MainLayout } from '../layout';
+import { useAppVersionQuery, useLoginMutation } from '../data';
 import { storageGet, storageRemove, storageSet } from '../../utils';
 import { useNotifications } from '../notifications';
 import { getErrorMessage } from '../../api';

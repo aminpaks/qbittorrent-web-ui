@@ -3,11 +3,11 @@ import { render } from 'react-dom';
 import { useIntl } from 'react-intl';
 import { HashRouter, Switch, Route } from 'react-router-dom';
 import { QueryClientProvider, QueryClient } from 'react-query';
-import { App } from './App';
-import { Auth, Login } from './Auth';
-import { ThemeProvider } from './ThemeProvider';
-import { AppContextProvider, UiStateProvider } from './State';
-import { AppIntlProvider } from './Intl';
+import { App } from './app';
+import { Auth, Login } from './auth';
+import { ThemeProvider } from './theme-provider';
+import { AppContextProvider, UiStateProvider } from './state';
+import { AppIntlProvider } from './intl';
 import Notifications, { NotificationsProvider, useNotifications } from './notifications';
 
 const queryClient = new QueryClient();

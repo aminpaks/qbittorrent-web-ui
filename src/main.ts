@@ -1,5 +1,5 @@
-import './Components/common';
-import './Components/materialUiCore';
-import './Components/materialUiIcons';
+import './components/common';
+import './components/material-ui-core';
+import './components/material-ui-icons';
 
-import(/* webpackChunkName: "app" */ './Components/Root').then(({ renderApp }) => renderApp());
+import(/* webpackChunkName: "app" */ './components/root').then(({ renderApp }) => renderApp());

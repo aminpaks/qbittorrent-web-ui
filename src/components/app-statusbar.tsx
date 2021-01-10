@@ -1,5 +1,5 @@
 import { mStyles } from './common';
-import { getConnectionStatusString, useServerState } from './State';
+import { getConnectionStatusString, useServerState } from './state';
 import { colorAlpha, humanFileSize } from '../utils';
 import {
   ArrowUpwardIcon,
@@ -8,7 +8,7 @@ import {
   StorageIcon,
   WifiIcon,
   WifiOffIcon,
-} from './materialUiIcons';
+} from './material-ui-icons';
 import { FormattedMessage } from 'react-intl';
 
 const useStyles = mStyles(({ spacing }) => ({
