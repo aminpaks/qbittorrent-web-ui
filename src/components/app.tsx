@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { mStyles } from './common';
-import { useAppVersionQuery } from './Data';
-import { MainLayout } from './Layout';
-import TorrentsContainer from './Torrents';
+import { useAppVersionQuery } from './data';
+import { MainLayout } from './layout';
+import TorrentsContainer from './torrents';
 
 const useStyles = mStyles(() => ({
   torrentContainer: {

@@ -1,5 +1,5 @@
 import { mStyles } from '../common';
-import { Typography } from '../materialUiCore';
+import { Typography } from '../material-ui-core';
 
 const useStyles = mStyles(({ spacing }) => ({
   loginHeaderRoot: {

@@ -3,10 +3,10 @@ import { scrollbarSize } from 'dom-helpers';
 import { ScrollSync, AutoSizer, Grid } from 'react-virtualized';
 import { mStyles } from '../common';
 import { colorAlpha } from '../../utils';
-import { useTorrentsState, useUiState } from '../State';
+import { useTorrentsState, useUiState } from '../state';
 import { getTableColumn, getColumnWidth, tableColumns } from './columns';
 import { getRowData, getTorrentOrElse } from './utils';
-import { BodyCell, HeaderCell } from './Cell';
+import { BodyCell, HeaderCell } from './cell-tmp';
 import { CellTargetHandler } from './types';
 
 const HEADER_CELL_HEIGHT = 44;

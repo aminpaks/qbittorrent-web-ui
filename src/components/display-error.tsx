@@ -1,5 +1,5 @@
 import { FC, ReactNode } from 'react';
-import { Box, Typography } from './materialUiCore';
+import { Box, Typography } from './material-ui-core';
 import { mStyles } from './common';
 
 const useStyles = mStyles(({ spacing, palette }) => ({

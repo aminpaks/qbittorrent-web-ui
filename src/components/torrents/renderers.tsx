@@ -1,8 +1,8 @@
 import { CSSProperties, FC, MouseEventHandler, ReactNode } from 'react';
 import { TableHeaderProps } from 'react-virtualized';
 import { DayJs } from '../common';
-import { IconButton, LinearProgress } from '../materialUiCore';
-import { AllInclusiveIcon, DoneIcon, MoreVertIcon } from '../materialUiIcons';
+import { IconButton, LinearProgress } from '../material-ui-core';
+import { AllInclusiveIcon, DoneIcon, MoreVertIcon } from '../material-ui-icons';
 import { getTorrentStateIcon, getTorrentStateString } from './utils';
 import { formatPercentage, humanFileSize } from '../../utils';
 import { TorrentState } from '../../api';

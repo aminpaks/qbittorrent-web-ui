@@ -1,6 +1,6 @@
 import { FC, ReactElement, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useAppVersionQuery } from '../Data';
+import { useAppVersionQuery } from '../data';
 
 export const Auth: FC<{ children: ReactElement }> = ({ children }) => {
   const history = useHistory();

@@ -1,5 +1,5 @@
 import { useNotificationsState, useDispatchNotification } from './context';
-import { Snackbar, Alert } from '../materialUiCore';
+import { Snackbar, Alert } from '../material-ui-core';
 import { mStyles } from '../common';
 import { useEffect } from 'react';
 

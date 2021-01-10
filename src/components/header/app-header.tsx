@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { useIntl } from 'react-intl';
 import { mStyles } from '../common';
-import { useTorrentsBasicActionMutation } from '../Data';
-import { Typography, Box, IconButton } from '../materialUiCore';
+import { useTorrentsBasicActionMutation } from '../data';
+import { Typography, Box, IconButton } from '../material-ui-core';
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -10,8 +10,8 @@ import {
   LastPageIcon,
   PauseIcon,
   PlayArrowIcon,
-} from '../materialUiIcons';
-import { useUiState } from '../State';
+} from '../material-ui-icons';
+import { useUiState } from '../state';
 import { HeaderActions } from './types';
 
 const useStyles = mStyles(({ spacing, palette }) => ({

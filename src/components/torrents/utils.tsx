@@ -21,7 +21,7 @@ import {
   SubtitlesIcon,
   VerticalAlignBottomIcon,
   VerticalAlignTopIcon,
-} from '../materialUiIcons';
+} from '../material-ui-icons';
 import { ContextAction, ContextActionOrder } from './types';
 
 const torrentStateValues: Record<TorrentState, ReactNode> = {

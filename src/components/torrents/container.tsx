@@ -1,11 +1,11 @@
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useTorrentsState } from '../State';
+import { useTorrentsState } from '../state';
 import { copyTorrentPropToClipboard, getNotificationForContextAction, getRowData } from './utils';
-import { TorrentList } from './List';
+import { TorrentList } from './list';
 import { CellTargetHandler, ContextAction } from './types';
-import { TorrentContextMenu } from './contextMenu';
-import { useTorrentsBasicActionMutation } from '../Data';
+import { TorrentContextMenu } from './context-menu';
+import { useTorrentsBasicActionMutation } from '../data';
 import { Torrent } from '../../api';
 import { useNotifications } from '../notifications';
 
