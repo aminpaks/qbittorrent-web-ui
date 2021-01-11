@@ -12,6 +12,7 @@ const initialTorrentsState = { collection: {}, hashList: [] } as {
 
 const ServerContext = createContext(initialServerState);
 const TorrentsContext = createContext(initialTorrentsState);
+const TorrentHashListContext = createContext(initialTorrentsState.hashList);
 
 const sortTorrent = (l: Torrent[]) =>
   l
@@ -125,7 +126,11 @@ export const AppContextProvider: FC = ({ children }) => {
 
   return (
     <ServerContext.Provider value={serverState}>
-      <TorrentsContext.Provider value={torrentsState}>{children}</TorrentsContext.Provider>
+      <TorrentsContext.Provider value={torrentsState}>
+        <TorrentHashListContext.Provider value={torrentsState.hashList}>
+          {children}
+        </TorrentHashListContext.Provider>
+      </TorrentsContext.Provider>
     </ServerContext.Provider>
   );
 };
@@ -136,4 +141,8 @@ export const useServerState = () => {
 
 export const useTorrentsState = () => {
   return useContext(TorrentsContext);
+};
+
+export const useTorrentList = () => {
+  return useContext(TorrentHashListContext);
 };

@@ -22,7 +22,7 @@ import {
   VerticalAlignBottomIcon,
   VerticalAlignTopIcon,
 } from '../material-ui-icons';
-import { ContextAction, ContextActionOrder } from './types';
+import { ContextOps } from '../types';
 
 const torrentStateValues: Record<TorrentState, ReactNode> = {
   allocating: <FormattedMessage defaultMessage="Allocating" />,
@@ -58,33 +58,7 @@ const torrentStateValues: Record<TorrentState, ReactNode> = {
   unknown: <FormattedMessage defaultMessage="Unknown" />,
 };
 
-const contextMenuActionOrders: ContextActionOrder = [
-  'noop',
-  'resume',
-  'pause',
-  'setForceStart',
-  'delete',
-  'setLocation',
-  'rename',
-  'setAutoManagement',
-  'setDownloadLimit',
-  'setUploadLimit',
-  'setShareLimits',
-  'setSuperSeeding',
-  'toggleSequentialDownload',
-  'toggleFirstLastPiecePrio',
-  'topPrio',
-  'increasePrio',
-  'decreasePrio',
-  'bottomPrio',
-  'recheck',
-  'reannounce',
-  'copyName',
-  'copyHash',
-  'copyMagnetLink',
-];
-
-export const getContextMenuActionString = (action: ContextAction) => {
+export const getContextMenuActionString = (action: ContextOps) => {
   switch (action) {
     case 'resume':
       return <FormattedMessage defaultMessage="Resume" />;
@@ -137,7 +111,7 @@ export const getContextMenuActionString = (action: ContextAction) => {
 };
 
 export const getContextMenuActionIcon = (
-  action: ContextAction,
+  action: ContextOps,
   { super_seeding = false, auto_tmm = 0 } = {} as Partial<Torrent>
 ) => {
   switch (action) {
@@ -224,64 +198,7 @@ export const getRowData = (e?: Element): { index: number | undefined; hash: stri
   };
 };
 
-const getSortedContextMenuOperations = (v: ContextAction[]): ContextAction[] =>
-  v.sort((x, y) => contextMenuActionOrders.indexOf(x) - contextMenuActionOrders.indexOf(y));
-
-const defaultActions: ContextAction[] = [
-  'delete',
-  'setLocation',
-  'rename',
-  'setAutoManagement',
-  'setUploadLimit',
-  'setShareLimits',
-  'recheck',
-  'reannounce',
-  'copyName',
-  'copyHash',
-  'copyMagnetLink',
-];
-
-export const getContextMenuMainOperations = (
-  { state = 'unknown', progress = 0 } = {} as Partial<Torrent>
-): ContextAction[] => {
-  switch (state) {
-    case 'forcedUP':
-    case 'forcedDL':
-      return getSortedContextMenuOperations([
-        ...defaultActions,
-        'resume',
-        'pause',
-        progress === 1 ? 'setSuperSeeding' : 'setDownloadLimit',
-      ]);
-    case 'pausedDL':
-    case 'pausedUP':
-      return getSortedContextMenuOperations([
-        ...defaultActions,
-        'resume',
-        'setForceStart',
-        progress === 1 ? 'setSuperSeeding' : 'setDownloadLimit',
-      ]);
-    case 'stalledUP':
-    case 'downloading':
-      return getSortedContextMenuOperations([
-        ...defaultActions,
-        'pause',
-        'setForceStart',
-        progress === 1 ? 'setSuperSeeding' : 'setDownloadLimit',
-      ]);
-    case 'checkingDL':
-    case 'checkingResumeData':
-    case 'checkingUP':
-      return getSortedContextMenuOperations(['copyName', 'copyHash', 'copyMagnetLink']);
-    default:
-      return getSortedContextMenuOperations([
-        ...defaultActions,
-        progress === 1 ? 'setSuperSeeding' : 'setDownloadLimit',
-      ]);
-  }
-};
-
-export const getContextMenuActionProps = (action: ContextAction, { state = 'unknown' }: Partial<Torrent>) => {
+export const getContextMenuActionProps = (action: ContextOps, { state = 'unknown' }: Partial<Torrent>) => {
   switch (action) {
     case 'pause':
       return { divider: state === 'forcedDL' || state === 'forcedUP' };
@@ -301,7 +218,7 @@ export const getContextMenuActionProps = (action: ContextAction, { state = 'unkn
 };
 
 export const copyTorrentPropToClipboard = (
-  action: ContextAction,
+  action: ContextOps,
   { hash = '', magnet_uri = '', name = '' }: Partial<Torrent>
 ) => {
   switch (action) {
@@ -316,7 +233,7 @@ export const copyTorrentPropToClipboard = (
   }
 };
 
-export function getNotificationForContextAction(action: ContextAction, torrent: Torrent) {
+export function getNotificationForContextAction(action: ContextOps, torrent: Torrent) {
   const truncatedName = torrent.name.substr(0, 16) + '...';
   switch (action) {
     case 'resume':
