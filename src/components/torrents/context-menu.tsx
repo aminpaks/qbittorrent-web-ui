@@ -32,7 +32,7 @@ const useStyles = mStyles(({ spacing }) => ({
   },
 }));
 
-export const TorrentContextMenu: FC<Partial<Torrent>> = memo(props => {
+export const TorrentContextMenu: FC = memo(props => {
   const classes = useStyles();
   const [state, setState] = useState({ top: 0, left: 0 });
   const { formatMessage } = useIntl();
@@ -42,7 +42,9 @@ export const TorrentContextMenu: FC<Partial<Torrent>> = memo(props => {
   const [{ torrentListSelection, contextMenu }, { updateContextMenuIsOpen }] = useUiState();
   const { isOpen } = contextMenu;
 
-  const torrent = pick(props, ['hash']) as Partial<Torrent>;
+  const [firstSelectedTorrentHash] = torrentListSelection;
+  const selectedTorrent =
+    torrentListSelection.length === 1 ? torrentsState.collection[firstSelectedTorrentHash] : ({} as Torrent);
 
   const { mutate: basicAction } = useTorrentsBasicActionMutation();
 
@@ -178,12 +180,12 @@ export const TorrentContextMenu: FC<Partial<Torrent>> = memo(props => {
                 button
                 key={operation}
                 className={classes.listItem}
-                {...getContextMenuActionProps(operation, torrent)}
+                {...getContextMenuActionProps(operation, selectedTorrent)}
                 data-action={operation}
                 onClick={handleClick}
               >
                 <ListItemIcon className="listitem-icon">
-                  {getContextMenuActionIcon(operation, torrent)}
+                  {getContextMenuActionIcon(operation, selectedTorrent)}
                 </ListItemIcon>
                 <ListItemText primary={getContextMenuActionString(operation)} />
               </ListItem>

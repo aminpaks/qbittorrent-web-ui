@@ -28,7 +28,9 @@ const updateTorrentSelectionList = actionCreator('torrentList.updateSelection')<
   )[];
 }>();
 
-const updateContextMenuIsOpen = actionCreator('contextMenu.isOpen')<{ value: boolean }>();
+const updateContextMenuIsOpen = actionCreator('contextMenu.isOpen')<
+  { value: false } | { value: true; list: Torrent[] }
+>();
 
 export type UiActions =
   | ReturnType<typeof updateTorrentSelectionList>
@@ -70,6 +72,9 @@ const reducer = produce((draft: UiState, action: UiActions) => {
     }
     case 'contextMenu.isOpen':
       draft.contextMenu.isOpen = action.payload.value;
+      if (action.payload.value === true) {
+        draft.contextMenu.ops = getContextOperations(action.payload.list);
+      }
       break;
     default:
       break;

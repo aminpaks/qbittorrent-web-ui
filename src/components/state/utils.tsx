@@ -7,7 +7,7 @@ export const DEFAULT_CONTEXT_OPS: ContextOps[] = [
   'setLocation',
   'rename',
   'setAutoManagement',
-  'setUploadLimit',
+  // 'setUploadLimit',
   'setShareLimits',
   'recheck',
   'reannounce',
@@ -55,44 +55,58 @@ export const getConnectionStatusString = (status: ConnectionStatus) => {
 };
 
 const getSortedContextMenuOperations = (v: ContextOps[]): ContextOps[] =>
-  v.sort((x, y) => CONTEXT_OPS_ORDER.indexOf(x) - CONTEXT_OPS_ORDER.indexOf(y));
+  v
+    .filter(item => item !== 'noop')
+    .sort((x, y) => CONTEXT_OPS_ORDER.indexOf(x) - CONTEXT_OPS_ORDER.indexOf(y));
 
-export const getContextOperations = (
-  { state = 'unknown', progress = 0 } = {} as Partial<Torrent>
-): ContextOps[] => {
-  switch (state) {
-    case 'forcedUP':
-    case 'forcedDL':
-      return getSortedContextMenuOperations([
-        ...DEFAULT_CONTEXT_OPS,
-        'resume',
-        'pause',
-        progress === 1 ? 'setSuperSeeding' : 'setDownloadLimit',
-      ]);
-    case 'pausedDL':
-    case 'pausedUP':
-      return getSortedContextMenuOperations([
-        ...DEFAULT_CONTEXT_OPS,
-        'resume',
-        'setForceStart',
-        progress === 1 ? 'setSuperSeeding' : 'setDownloadLimit',
-      ]);
-    case 'stalledUP':
-    case 'downloading':
-      return getSortedContextMenuOperations([
-        ...DEFAULT_CONTEXT_OPS,
-        'pause',
-        'setForceStart',
-        progress === 1 ? 'setSuperSeeding' : 'setDownloadLimit',
-      ]);
-    case 'checkingDL':
-    case 'checkingResumeData':
-    case 'checkingUP':
-      return getSortedContextMenuOperations(['copyName', 'copyHash', 'copyMagnetLink']);
-    default:
-      return getSortedContextMenuOperations([
-        ...DEFAULT_CONTEXT_OPS,
-        progress === 1 ? 'setSuperSeeding' : 'setDownloadLimit',
-      ]);
+export const getContextOperations = (items = [] as Torrent[]): ContextOps[] => {
+  const allStates = items.map(({ state }) => state);
+  const hasCompletedItems = items.some(({ progress }) => progress === 1);
+
+  let extraOperations: ContextOps[] = [];
+
+  if (hasCompletedItems) {
+    extraOperations.push('setSuperSeeding');
+  }
+
+  const [firstState = 'unknown'] = allStates;
+  const [firstItem] = items;
+  const isOneSelected = items.length === 1;
+  if (items.length === 1 || allStates.every(state => state === firstState)) {
+    switch (firstState) {
+      case 'forcedUP':
+      case 'forcedDL':
+        return getSortedContextMenuOperations([
+          ...DEFAULT_CONTEXT_OPS,
+          'resume',
+          'pause',
+          ...extraOperations,
+        ]);
+      case 'pausedDL':
+      case 'pausedUP':
+        return getSortedContextMenuOperations([
+          ...DEFAULT_CONTEXT_OPS,
+          'resume',
+          'setForceStart',
+          ...extraOperations,
+        ]);
+      case 'stalledUP':
+      case 'downloading':
+        return getSortedContextMenuOperations([
+          ...DEFAULT_CONTEXT_OPS,
+          'pause',
+          'setForceStart',
+          ...extraOperations,
+        ]);
+      case 'checkingDL':
+      case 'checkingResumeData':
+      case 'checkingUP':
+        return getSortedContextMenuOperations(['copyName', 'copyHash', 'copyMagnetLink']);
+      default:
+        return DEFAULT_CONTEXT_OPS.slice();
+    }
+  } else {
+    console.log('mix');
+    return getSortedContextMenuOperations(DEFAULT_CONTEXT_OPS.slice());
   }
 };
