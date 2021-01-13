@@ -1,16 +1,14 @@
 import { FC } from 'react';
-import { scrollbarSize } from 'dom-helpers';
 import { ScrollSync, AutoSizer, Grid } from 'react-virtualized';
 import { mStyles } from '../common';
 import { colorAlpha } from '../../utils';
-import { useTorrentsState, useUiState } from '../state';
+import { useTorrentsState } from '../state';
 import { getTableColumn, getColumnWidth, tableColumns } from './columns';
-import { getRowData, getTorrentOrElse } from './utils';
-import { BodyCell, HeaderCell } from './cell-tmp';
-import { CellTargetHandler } from './types';
+import { getTorrentOrElse } from './utils';
+import { BodyCell, HeaderCell } from './cell';
 
-const HEADER_CELL_HEIGHT = 44;
-const ROW_CELL_HEIGHT = 32;
+export const HEADER_CELL_HEIGHT = 44;
+export const ROW_CELL_HEIGHT = 32;
 
 const useStyles = mStyles(({ palette, typography }) => ({
   tableRoot: {
@@ -56,11 +54,9 @@ const useStyles = mStyles(({ palette, typography }) => ({
   },
 }));
 
-export const TorrentList: FC<{ onMenuOpen: CellTargetHandler }> = ({ onMenuOpen }) => {
+export const TorrentList: FC = () => {
   const classes = useStyles();
   const { hashList, collection } = useTorrentsState();
-  const [{ torrentListSelection }, { updateSelectionTorrentList }] = useUiState();
-  const sbSize = scrollbarSize();
 
   return (
     <ScrollSync>
@@ -69,7 +65,7 @@ export const TorrentList: FC<{ onMenuOpen: CellTargetHandler }> = ({ onMenuOpen 
           {({ width, height }) => (
             <div className={classes.tableRoot} style={{ width, height }}>
               <Grid
-                width={width - sbSize}
+                width={width}
                 height={HEADER_CELL_HEIGHT}
                 rowCount={1}
                 rowHeight={HEADER_CELL_HEIGHT}
@@ -82,8 +78,8 @@ export const TorrentList: FC<{ onMenuOpen: CellTargetHandler }> = ({ onMenuOpen 
                 className={classes.tableHeader}
               />
               <Grid
-                width={width - sbSize}
-                height={height - HEADER_CELL_HEIGHT - sbSize}
+                width={width}
+                height={height - HEADER_CELL_HEIGHT}
                 rowCount={hashList.length}
                 rowHeight={ROW_CELL_HEIGHT}
                 columnCount={tableColumns.length}
@@ -92,9 +88,6 @@ export const TorrentList: FC<{ onMenuOpen: CellTargetHandler }> = ({ onMenuOpen 
                   const torrent = getTorrentOrElse(rowIndex, hashList, collection);
                   const currentItemHash = torrent.hash || '';
                   const dataKey = getTableColumn(columnIndex)?.dataKey || 'invalid';
-                  const isSelected = currentItemHash
-                    ? torrentListSelection.indexOf(currentItemHash) >= 0
-                    : false;
                   return (
                     <BodyCell
                       {...torrent}
@@ -102,17 +95,9 @@ export const TorrentList: FC<{ onMenuOpen: CellTargetHandler }> = ({ onMenuOpen 
                       index={torrent.priority ?? 0}
                       rowIndex={rowIndex}
                       columnIndex={columnIndex}
-                      isSelected={isSelected}
                       style={style}
                       dataKey={dataKey}
                       hash={currentItemHash}
-                      onMenuOpen={onMenuOpen}
-                      onSelect={element => {
-                        const { hash } = getRowData(element);
-                        if (hash) {
-                          updateSelectionTorrentList({ hashList: [hash] });
-                        }
-                      }}
                     />
                   );
                 }}

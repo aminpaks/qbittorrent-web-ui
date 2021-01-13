@@ -3,7 +3,8 @@ import { createContext, createElement, ReactElement, useContext, useMemo, useRed
 export const buildCustomContext = <S, RA extends object>(
   initialState: S,
   reducer: (state: S, action: any) => S,
-  actions: RA
+  actions: RA,
+  displayName?: string
 ): {
   Provider: (props: { children: ReactElement }) => ReactElement;
   useCustomContext: () => [S, RA];
@@ -21,6 +22,7 @@ export const buildCustomContext = <S, RA extends object>(
 
     return createElement(Context.Provider, { value: [state, boundDispatch] } as any, children);
   };
+  Provider.displayName = displayName;
 
   const useCustomContext = () => {
     return useContext(Context);

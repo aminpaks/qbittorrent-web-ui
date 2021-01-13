@@ -22,7 +22,7 @@ import {
   VerticalAlignBottomIcon,
   VerticalAlignTopIcon,
 } from '../material-ui-icons';
-import { ContextAction, ContextActionOrder } from './types';
+import { ContextOps, ContextOpsSetting, ContextOpsOrder } from '../types';
 
 const torrentStateValues: Record<TorrentState, ReactNode> = {
   allocating: <FormattedMessage defaultMessage="Allocating" />,
@@ -58,33 +58,7 @@ const torrentStateValues: Record<TorrentState, ReactNode> = {
   unknown: <FormattedMessage defaultMessage="Unknown" />,
 };
 
-const contextMenuActionOrders: ContextActionOrder = [
-  'noop',
-  'resume',
-  'pause',
-  'setForceStart',
-  'delete',
-  'setLocation',
-  'rename',
-  'setAutoManagement',
-  'setDownloadLimit',
-  'setUploadLimit',
-  'setShareLimits',
-  'setSuperSeeding',
-  'toggleSequentialDownload',
-  'toggleFirstLastPiecePrio',
-  'topPrio',
-  'increasePrio',
-  'decreasePrio',
-  'bottomPrio',
-  'recheck',
-  'reannounce',
-  'copyName',
-  'copyHash',
-  'copyMagnetLink',
-];
-
-export const getContextMenuActionString = (action: ContextAction) => {
+export const getContextMenuActionString = (action: ContextOps) => {
   switch (action) {
     case 'resume':
       return <FormattedMessage defaultMessage="Resume" />;
@@ -136,11 +110,9 @@ export const getContextMenuActionString = (action: ContextAction) => {
   }
 };
 
-export const getContextMenuActionIcon = (
-  action: ContextAction,
-  { super_seeding = false, auto_tmm = 0 } = {} as Partial<Torrent>
-) => {
-  switch (action) {
+export const getContextMenuOperationIcon = (operationDetail: ContextOpsSetting) => {
+  const [operation, isEnabled = false] = operationDetail;
+  switch (operation) {
     case 'resume':
       return <PlayArrowIcon fontSize="small" />;
     case 'pause':
@@ -154,9 +126,9 @@ export const getContextMenuActionIcon = (
     case 'rename':
       return <SubtitlesIcon fontSize="small" />;
     case 'setAutoManagement':
-      return <AssistantIcon fontSize="small" color={auto_tmm ? 'primary' : 'disabled'} />;
+      return <AssistantIcon fontSize="small" color={isEnabled === true ? 'primary' : 'disabled'} />;
     case 'setSuperSeeding':
-      return <SpeedIcon fontSize="small" color={super_seeding ? 'primary' : 'disabled'} />;
+      return <SpeedIcon fontSize="small" color={isEnabled === true ? 'primary' : 'disabled'} />;
     case 'setDownloadLimit':
       return <VerticalAlignBottomIcon fontSize="small" />;
     case 'setUploadLimit':
@@ -224,14 +196,147 @@ export const getRowData = (e?: Element): { index: number | undefined; hash: stri
   };
 };
 
-const getSortedContextMenuOperations = (v: ContextAction[]): ContextAction[] =>
-  v.sort((x, y) => contextMenuActionOrders.indexOf(x) - contextMenuActionOrders.indexOf(y));
+export const copyTorrentPropToClipboard = (action: ContextOps, items: Torrent[]) => {
+  switch (action) {
+    case 'copyName':
+      return copyToClipboard(items.map(({ name }) => name).join('\n'));
+    case 'copyHash':
+      return copyToClipboard(items.map(({ hash }) => hash).join('\n'));
+    case 'copyMagnetLink':
+      return copyToClipboard(items.map(({ magnet_uri }) => magnet_uri).join('\n'));
+    default:
+      return Promise.resolve(undefined as void);
+  }
+};
 
-const defaultActions: ContextAction[] = [
+export function getNotificationForContextOps(action: ContextOps, items: Torrent[]) {
+  const values = { itemCount: items.length };
+  switch (action) {
+    case 'resume':
+      return (
+        <FormattedMessage
+          defaultMessage="Resumed {itemCount, plural,
+        one {# item}
+        other {# items}
+      }"
+          values={values}
+        />
+      );
+    case 'pause':
+      return (
+        <FormattedMessage
+          defaultMessage="Paused {itemCount, plural,
+        one {# item}
+        other {# items}
+      }"
+          values={values}
+        />
+      );
+    case 'recheck':
+      return (
+        <FormattedMessage
+          defaultMessage="Started force recheck on {itemCount, plural,
+            one {# item}
+            other {# items}
+          }"
+          values={values}
+        />
+      );
+    case 'reannounce':
+      return (
+        <FormattedMessage
+          defaultMessage="Executed force reannounce on {itemCount, plural,
+            one {# item}
+            other {# items}
+          }"
+          values={values}
+        />
+      );
+    case 'toggleSequentialDownload':
+      return (
+        <FormattedMessage
+          defaultMessage="Toggled sequential download {itemCount, plural,
+            one {# item}
+            other {# items}
+          }"
+          values={values}
+        />
+      );
+    case 'toggleFirstLastPiecePrio':
+      return (
+        <FormattedMessage
+          defaultMessage="Toggled first/last piece priority on {itemCount, plural,
+            one {# item}
+            other {# items}
+          }"
+          values={values}
+        />
+      );
+    case 'copyName':
+      return (
+        <FormattedMessage
+          defaultMessage="Copied {itemCount, plural,
+          one {# name}
+          other {# names}
+        } to clipboard"
+          values={values}
+        />
+      );
+    case 'copyHash':
+      return (
+        <FormattedMessage
+          defaultMessage="Copied {itemCount, plural,
+        one {# hash}
+        other {# hashes}
+      } to clipboard"
+          values={values}
+        />
+      );
+    case 'copyMagnetLink':
+      return (
+        <FormattedMessage
+          defaultMessage="Copied {itemCount, plural,
+        one {# magnet URI}
+        other {# magnet URIs}
+      } to clipboard"
+          values={values}
+        />
+      );
+    default:
+      return null;
+  }
+}
+
+export const CONTEXT_OPS_ORDER: ContextOpsOrder = [
+  'noop',
+  'resume',
+  'pause',
+  'setForceStart',
   'delete',
   'setLocation',
   'rename',
   'setAutoManagement',
+  'setDownloadLimit',
+  'setUploadLimit',
+  'setShareLimits',
+  'setSuperSeeding',
+  'toggleSequentialDownload',
+  'toggleFirstLastPiecePrio',
+  'topPrio',
+  'increasePrio',
+  'decreasePrio',
+  'bottomPrio',
+  'recheck',
+  'reannounce',
+  'copyName',
+  'copyHash',
+  'copyMagnetLink',
+];
+
+export const DEFAULT_CONTEXT_OPS: ContextOps[] = [
+  'delete',
+  'setLocation',
+  'rename',
   'setUploadLimit',
   'setShareLimits',
   'recheck',
@@ -241,125 +346,96 @@ const defaultActions: ContextAction[] = [
   'copyMagnetLink',
 ];
 
-export const getContextMenuMainOperations = (
-  { state = 'unknown', progress = 0 } = {} as Partial<Torrent>
-): ContextAction[] => {
-  switch (state) {
-    case 'forcedUP':
-    case 'forcedDL':
-      return getSortedContextMenuOperations([
-        ...defaultActions,
-        'resume',
-        'pause',
-        progress === 1 ? 'setSuperSeeding' : 'setDownloadLimit',
-      ]);
-    case 'pausedDL':
-    case 'pausedUP':
-      return getSortedContextMenuOperations([
-        ...defaultActions,
-        'resume',
-        'setForceStart',
-        progress === 1 ? 'setSuperSeeding' : 'setDownloadLimit',
-      ]);
-    case 'stalledUP':
-    case 'downloading':
-      return getSortedContextMenuOperations([
-        ...defaultActions,
-        'pause',
-        'setForceStart',
-        progress === 1 ? 'setSuperSeeding' : 'setDownloadLimit',
-      ]);
-    case 'checkingDL':
-    case 'checkingResumeData':
-    case 'checkingUP':
-      return getSortedContextMenuOperations(['copyName', 'copyHash', 'copyMagnetLink']);
-    default:
-      return getSortedContextMenuOperations([
-        ...defaultActions,
-        progress === 1 ? 'setSuperSeeding' : 'setDownloadLimit',
-      ]);
-  }
-};
-
-export const getContextMenuActionProps = (action: ContextAction, { state = 'unknown' }: Partial<Torrent>) => {
-  switch (action) {
-    case 'pause':
-      return { divider: state === 'forcedDL' || state === 'forcedUP' };
-    case 'setSuperSeeding':
-      return { divider: true };
-    case 'setForceStart':
+export const getOperationDivider = (
+  operation: ContextOps = 'noop',
+  previousOperation: ContextOps = 'noop',
+  nextOperation: ContextOps = 'noop'
+): boolean => {
+  switch (operation) {
+    case 'setUploadLimit':
+      return previousOperation !== 'setDownloadLimit';
+    case 'setDownloadLimit':
     case 'delete':
-    case 'setAutoManagement':
-    case 'setShareLimits':
-    case 'toggleFirstLastPiecePrio':
-    case 'bottomPrio':
-    case 'reannounce':
-      return { divider: true };
-    default:
-      return { divider: false };
-  }
-};
-
-export const copyTorrentPropToClipboard = (
-  action: ContextAction,
-  { hash = '', magnet_uri = '', name = '' }: Partial<Torrent>
-) => {
-  switch (action) {
-    case 'copyName':
-      return copyToClipboard(name);
-    case 'copyHash':
-      return copyToClipboard(hash);
-    case 'copyMagnetLink':
-      return copyToClipboard(magnet_uri);
-    default:
-      return Promise.resolve(undefined as void);
-  }
-};
-
-export function getNotificationForContextAction(action: ContextAction, torrent: Torrent) {
-  const truncatedName = torrent.name.substr(0, 16) + '...';
-  switch (action) {
-    case 'resume':
-      return <FormattedMessage defaultMessage="Resumed {name}" values={{ name: truncatedName }} />;
-    case 'pause':
-      return <FormattedMessage defaultMessage="Pause {name}" values={{ name: truncatedName }} />;
-    case 'recheck':
-      return (
-        <FormattedMessage
-          defaultMessage="Started force recheck for {name}"
-          values={{ name: truncatedName }}
-        />
-      );
-    case 'reannounce':
-      return (
-        <FormattedMessage
-          defaultMessage="Executed force reannounce for {name}"
-          values={{ name: truncatedName }}
-        />
-      );
     case 'toggleSequentialDownload':
-      return (
-        <FormattedMessage
-          defaultMessage="Toggled sequential download for {name}"
-          values={{ name: truncatedName }}
-        />
-      );
-    case 'toggleFirstLastPiecePrio':
-      return (
-        <FormattedMessage
-          defaultMessage="Toggled first/last piece priority for {name}"
-          values={{ name: truncatedName }}
-        />
-      );
+    case 'recheck':
     case 'copyName':
-      return (
-        <FormattedMessage defaultMessage="{value} copied to clipboard" values={{ value: truncatedName }} />
-      );
-    case 'copyHash':
-      return <FormattedMessage defaultMessage="Hash copied to clipboard" />;
-    case 'copyMagnetLink':
-      return <FormattedMessage defaultMessage="Magnet URI copied to clipboard" />;
+      return true;
     default:
-      return null;
+      return false;
   }
-}
+};
+
+const getSortedContextMenuOperations = (v: ContextOpsSetting[]): ContextOpsSetting[] =>
+  v
+    .filter(item => item[0] !== 'noop')
+    .sort(([x], [y]) => CONTEXT_OPS_ORDER.indexOf(x) - CONTEXT_OPS_ORDER.indexOf(y));
+
+const isCheckingState = (state: TorrentState) =>
+  state === 'checkingDL' || state === 'checkingUP' || state === 'checkingResumeData';
+const isForcedState = (state: TorrentState) => state === 'forcedDL' || state === 'forcedUP';
+const isDownloadingState = (state: TorrentState) =>
+  state === 'downloading' || state === 'forcedDL' || state === 'stalledDL';
+const isUploadingState = (state: TorrentState) =>
+  state === 'uploading' || state === 'forcedUP' || state === 'stalledUP';
+const isPausedState = (state: TorrentState) =>
+  state === 'pausedUP' || state === 'pausedDL' || state === 'forcedUP' || state === 'forcedDL';
+
+export const getContextOperations = (items = [] as Torrent[]): ContextOpsSetting[] => {
+  if (items.length < 1) {
+    return [];
+  }
+
+  const [{ state: firstState = 'unknown' } = {}] = items;
+  const areAllStateSame = !items.some(({ state }) => state !== firstState);
+  const isForced = areAllStateSame
+    ? isForcedState(firstState)
+    : items.some(({ state }) => isForcedState(state));
+  const isPaused = areAllStateSame
+    ? isPausedState(firstState)
+    : items.some(({ state }) => isPausedState(state));
+  const isDownloading = areAllStateSame
+    ? isDownloadingState(firstState)
+    : items.some(({ state }) => isDownloadingState(state));
+  const isUploading = areAllStateSame
+    ? isUploadingState(firstState)
+    : items.some(({ state }) => isUploadingState(state));
+  const hasSomeIncomplete =
+    items.length === 1 ? items[0].progress < 1 : items.some(({ progress }) => progress < 1);
+
+  if (items.length === 1 && isCheckingState(firstState)) {
+    return [
+      ['copyName', false],
+      ['copyHash', false],
+      ['copyMagnetLink', false],
+    ];
+  }
+
+  const ops: Map<ContextOps, boolean> = new Map(DEFAULT_CONTEXT_OPS.map(op => [op, false]));
+
+  ops.set('setAutoManagement', !items.some(({ auto_tmm }) => auto_tmm === false));
+  if (items.some(({ progress }) => progress === 1)) {
+    ops.set('setSuperSeeding', !items.some(({ super_seeding }) => super_seeding === false));
+  }
+  if (isDownloading || (isPaused && hasSomeIncomplete)) {
+    ops.set('setDownloadLimit', false);
+    ops.set('toggleSequentialDownload', false);
+    ops.set('toggleFirstLastPiecePrio', false);
+  }
+  if (isDownloading || isUploading) {
+    ops.set('pause', false);
+  }
+  if (isPaused) {
+    ops.set('resume', false);
+  }
+  if (isForced) {
+    ops.set('resume', false);
+  } else {
+    ops.set('setForceStart', false);
+  }
+  if ((isPaused || isDownloading) && hasSomeIncomplete) {
+    ops.set('toggleSequentialDownload', false);
+    ops.set('toggleFirstLastPiecePrio', false);
+  }
+
+  return getSortedContextMenuOperations(Array.from(ops.entries()));
+};

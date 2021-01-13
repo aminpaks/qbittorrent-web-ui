@@ -1,13 +1,4 @@
 {
-  "/38ut+": {
-    "defaultMessage": "Auto management {state} for {name}"
-  },
-  "/L1Fhk": {
-    "defaultMessage": "Toggled sequential download for {name}"
-  },
-  "/VzXQ2": {
-    "defaultMessage": "Started force recheck for {name}"
-  },
   "11WYT7": {
     "defaultMessage": "Copy Name"
   },
@@ -19,6 +10,9 @@
   },
   "4AWEqx": {
     "defaultMessage": "Session Download"
+  },
+  "4rBTD/": {
+    "defaultMessage": "Toggled first/last piece priority on {itemCount, plural, one {# item} other {# items} }"
   },
   "5jeq8P": {
     "defaultMessage": "Unknown"
@@ -32,6 +26,9 @@
   "95stPq": {
     "defaultMessage": "Completed"
   },
+  "9naK/J": {
+    "defaultMessage": "Toggled sequential download {itemCount, plural, one {# item} other {# items} }"
+  },
   "A6sL8J": {
     "defaultMessage": "Remember me"
   },
@@ -41,14 +38,17 @@
   "AyGauy": {
     "defaultMessage": "Login"
   },
-  "BtT78s": {
-    "defaultMessage": "Resumed {name}"
-  },
   "Bw/0Hs": {
     "defaultMessage": "Up Limit"
   },
   "C2iTEH": {
     "defaultMessage": "Paused"
+  },
+  "CBxIPI": {
+    "defaultMessage": "Started force recheck on {itemCount, plural, one {# item} other {# items} }"
+  },
+  "CEKX3Y": {
+    "defaultMessage": "Resumed {itemCount, plural, one {# item} other {# items} }"
   },
   "CQg6pe": {
     "defaultMessage": "DHT nodes"
@@ -64,9 +64,6 @@
   },
   "HAlOn1": {
     "defaultMessage": "Name"
-  },
-  "Ix4/6C": {
-    "defaultMessage": "Hash copied to clipboard"
   },
   "JCIgkj": {
     "defaultMessage": "Username"
@@ -92,9 +89,6 @@
   "KhgiAD": {
     "defaultMessage": "Limit Upload Rate"
   },
-  "KhnhUo": {
-    "defaultMessage": "Pause {name}"
-  },
   "L3+RNP": {
     "defaultMessage": "Seeding <small>[F]</small>"
   },
@@ -116,14 +110,14 @@
   "Quy7PF": {
     "defaultMessage": "Allocating"
   },
-  "T62vPM": {
-    "defaultMessage": "Magnet URI copied to clipboard"
+  "R0VtDp": {
+    "defaultMessage": "Auto management <b>{state}</b> on {itemCount, plural, one {# item} other {# items} }"
+  },
+  "UWFphS": {
+    "defaultMessage": "Copied {itemCount, plural, one {# hash} other {# hashes} } to clipboard"
   },
   "VNNgop": {
     "defaultMessage": "Seeding"
-  },
-  "XEjrZZ": {
-    "defaultMessage": "{value} copied to clipboard"
   },
   "XSvdcz": {
     "defaultMessage": "Seeds"
@@ -143,20 +137,26 @@
   "cWcKDP": {
     "defaultMessage": "limited"
   },
+  "coM7+7": {
+    "defaultMessage": "Copied {itemCount, plural, one {# name} other {# names} } to clipboard"
+  },
   "eypWNM": {
     "defaultMessage": "Automatic Management"
   },
+  "fCBjOc": {
+    "defaultMessage": "Copied {itemCount, plural, one {# magnet URI} other {# magnet URIs} } to clipboard"
+  },
   "fgz0lo": {
     "defaultMessage": "Download First/Last Piece"
+  },
+  "g+bno4": {
+    "defaultMessage": "Force resume <b>activated</b> on {itemCount, plural, one {# item} other {# items} }"
   },
   "gKhP3B": {
     "defaultMessage": "Up Speed"
   },
   "hceE/7": {
     "defaultMessage": "Force Resume"
-  },
-  "hv1fDG": {
-    "defaultMessage": "Super seed {state} for {name}"
   },
   "iXNbPf": {
     "defaultMessage": "Rename"
@@ -188,14 +188,17 @@
   "mefwlE": {
     "defaultMessage": "Move to Top of Queue"
   },
-  "p5ebzw": {
-    "defaultMessage": "Toggled first/last piece priority for {name}"
-  },
   "pOWHaJ": {
     "defaultMessage": "Reannounce [F]"
   },
   "pbYuwH": {
     "defaultMessage": "Total Size"
+  },
+  "qjvc+L": {
+    "defaultMessage": "Paused {itemCount, plural, one {# item} other {# items} }"
+  },
+  "r4lEtC": {
+    "defaultMessage": "Super seed <b>{state}</b> on {itemCount, plural, one {# item} other {# items} }"
   },
   "rMDyRQ": {
     "defaultMessage": "Limit Download Rate"
@@ -206,14 +209,14 @@
   "sIMS7i": {
     "defaultMessage": "Progress"
   },
+  "tBpyZ7": {
+    "defaultMessage": "Executed force reannounce on {itemCount, plural, one {# item} other {# items} }"
+  },
   "tFFMkF": {
     "defaultMessage": "Pause"
   },
   "tS6Alu": {
     "defaultMessage": "Down Speed"
-  },
-  "tX3urB": {
-    "defaultMessage": "Force resume activated for {name}"
   },
   "tzMNF3": {
     "defaultMessage": "Status"
@@ -232,9 +235,6 @@
   },
   "xMpvRG": {
     "defaultMessage": "Copy Hash"
-  },
-  "yFRzTc": {
-    "defaultMessage": "Executed force reannounce for {name}"
   },
   "yiy6QW": {
     "defaultMessage": "Queued upload"

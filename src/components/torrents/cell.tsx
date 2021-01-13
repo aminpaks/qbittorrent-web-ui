@@ -1,9 +1,10 @@
 import clsx from 'clsx';
-import { CSSProperties, FC, RefObject, useRef } from 'react';
+import { FC, CSSProperties, useMemo } from 'react';
 import { Torrent } from '../../api';
 import { cellRenderer } from './renderers';
 import { getTableColumn } from './columns';
-import { CellTargetHandler, ExtendedTorrentKeys } from './types';
+import { ExtendedTorrentKeys } from './types';
+import { useUiState } from '../state';
 
 export const HeaderCell: FC<{ index: number; style: CSSProperties }> = ({ index, style }) => {
   const column = getTableColumn(index);
@@ -32,43 +33,37 @@ export const BodyCell: FC<
     index: number;
     dataKey: ExtendedTorrentKeys;
     style: object;
-    isSelected: boolean;
-    onMenuOpen: CellTargetHandler;
-    onSelect: CellTargetHandler;
   }
-> = ({ style, rowIndex, columnIndex, dataKey, children, isSelected, onMenuOpen, onSelect, ...props }) => {
-  const elRef = (useRef(undefined) as unknown) as RefObject<HTMLDivElement>;
+> = ({ style, rowIndex, columnIndex, dataKey, children, ...props }) => {
+  const [{ torrentListSelection }, { updateContextMenuIsOpen, updateTorrentSelectionList }] = useUiState();
   const data = (props as unknown) as Record<ExtendedTorrentKeys, unknown>;
   const dataValue = dataKey != null ? data[dataKey] : undefined;
+  const hash = data.hash as string;
+  const isSelected = useMemo(() => torrentListSelection.indexOf(hash) >= 0, [torrentListSelection]);
 
-  return (
+  return data.hash ? (
     <div
-      ref={elRef}
       className={clsx('body--cell', rowIndex % 2 === 0 ? 'even' : 'odd', {
         selected: isSelected,
       })}
       style={style}
-      onClick={event => {
-        event.preventDefault();
-        event.stopPropagation();
-
-        const { currentTarget } = event;
-
-        onSelect(currentTarget, 'select');
-      }}
       onContextMenu={event => {
         event.preventDefault();
         event.stopPropagation();
 
-        const { currentTarget } = event;
-
-        onSelect(currentTarget, 'context');
-        onMenuOpen(currentTarget, 'context');
+        // Update if the current item is not in the selection
+        if (torrentListSelection.indexOf(hash) < 0) {
+          updateTorrentSelectionList({
+            type: 'only',
+            list: [data.hash as string],
+          });
+        }
+        updateContextMenuIsOpen({ value: true });
       }}
       data-row-index={rowIndex}
       data-torrent-hash={data.hash}
     >
       {cellRenderer(dataKey, dataValue, data)}
     </div>
-  );
+  ) : null;
 };

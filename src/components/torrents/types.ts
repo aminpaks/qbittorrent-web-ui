@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { TorrentKeys, TorrentPrimitiveOperations } from '../../api';
+import { TorrentKeys, TorrentState } from '../../api';
 
 export type ExtendedTorrentKeys = TorrentKeys | 'action' | 'invalid';
 
@@ -12,29 +12,10 @@ export interface TableColumn {
 
 export type CellTargetHandler = (element: Element, eventType: 'select' | 'context') => void;
 
-export type ContextAction = 'noop' | 'copyName' | 'copyHash' | 'copyMagnetLink' | TorrentPrimitiveOperations;
-export type ContextActionOrder = [
-  'noop',
-  'resume',
-  'pause',
-  'setForceStart',
-  'delete',
-  'setLocation',
-  'rename',
-  'setAutoManagement',
-  'setDownloadLimit',
-  'setUploadLimit',
-  'setShareLimits',
-  'setSuperSeeding',
-  'toggleSequentialDownload',
-  'toggleFirstLastPiecePrio',
-  'topPrio',
-  'increasePrio',
-  'decreasePrio',
-  'bottomPrio',
-  'recheck',
-  'reannounce',
-  'copyName',
-  'copyHash',
-  'copyMagnetLink'
-];
+export interface ContextOpsState {
+  isOnlyOne: boolean;
+  firstState: TorrentState;
+  areAllStateSame: boolean;
+  hasCompletedItems: boolean;
+  hasDownloadingItems: boolean;
+}
