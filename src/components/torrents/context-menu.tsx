@@ -50,11 +50,8 @@ export const TorrentContextMenu: FC = memo(props => {
     },
     { updateContextMenuIsOpen },
   ] = useUiState();
-  const selectedTorrents = useMemo(() => {
-    console.log(torrentListSelection);
-    return torrentListSelection.map(hash => torrentsStateRef.current[hash]);
-  }, [torrentListSelection]);
-  const ops = useMemo(() => getContextOperations(selectedTorrents), [selectedTorrents]);
+  const selectedTorrents = torrentListSelection.map(hash => torrentsStateRef.current[hash]);
+  const ops = getContextOperations(selectedTorrents);
 
   const { mutate: basicAction } = useTorrentsBasicActionMutation();
 
@@ -69,10 +66,7 @@ export const TorrentContextMenu: FC = memo(props => {
         false
       );
 
-      console.log('action', action, actionValue);
       if (action !== 'noop') {
-        const isOnlyOne = selectedTorrents.length === 1;
-        const [firstItem] = selectedTorrents;
         const list = selectedTorrents.map(({ hash }) => hash);
 
         switch (action) {
