@@ -20,6 +20,7 @@ const initialState = {
   keys: {
     ctrl: false,
     command: false,
+    shift: false,
   },
   start: {
     hash: '',
@@ -36,17 +37,33 @@ const initialState = {
 export const TorrentListSelection = () => {
   const classes = useStyles();
   const hashList = useTorrentList();
-  const [, { updateTorrentSelectionList, updateContextMenuIsOpen }] = useUiState();
+  const [{ torrentListSelection }, { updateTorrentSelectionList, updateContextMenuIsOpen }] = useUiState();
   const [state, setState] = useState(initialState);
   const isUpdatingEndRef = useRef(false);
   const currentRangeRef = useRef([0, 0] as [number, number]);
+  const currentSelectionRef = useRef([] as string[]);
+
+  useEffect(() => {
+    currentSelectionRef.current = torrentListSelection;
+  });
 
   useEffect(() => {
     function handleEvent(event: MouseEvent) {
-      const { isTrusted, type, clientX: x, clientY: y, target, button, buttons, ctrlKey, metaKey } = event;
+      const {
+        isTrusted,
+        type,
+        clientX: x,
+        clientY: y,
+        target,
+        button,
+        buttons,
+        ctrlKey,
+        metaKey,
+        shiftKey,
+      } = event;
       if (isTrusted) {
         if (target) {
-          if (type === 'mousedown' && (button !== 2 || ctrlKey || metaKey)) {
+          if (type === 'mousedown' && (button !== 2 || ctrlKey || metaKey || shiftKey)) {
             const hash = getElementAttr('data-torrent-hash', '', target as Element);
             if (hash) {
               if (!isUpdatingEndRef.current) {
@@ -55,7 +72,7 @@ export const TorrentListSelection = () => {
 
                 setState(s =>
                   produce(s, draft => {
-                    draft.keys = { ctrl: ctrlKey, command: metaKey };
+                    draft.keys = { ctrl: ctrlKey, command: metaKey, shift: shiftKey };
                     draft.start = { x, y, hash, yDiff: y - yPos };
                     draft.end = { x, y };
                   })
@@ -102,12 +119,12 @@ export const TorrentListSelection = () => {
 
   useEffect(() => {
     const {
-      keys: { ctrl, command },
+      keys: { ctrl, command, shift },
       start: { hash, yDiff },
     } = state;
 
     if (hash) {
-      if (ctrl == false && command === false) {
+      if (ctrl == false && command === false && shift === false) {
         const rectBound = getRectBound(state);
         const height = rectBound.height;
         let startIndex = hashList.indexOf(hash);
@@ -135,6 +152,18 @@ export const TorrentListSelection = () => {
 
           updateTorrentSelectionList({ type: 'absolute', list });
         }
+      } else if (shift) {
+        let [startIndex, endIndex] = currentRangeRef.current;
+        const currentIndex = hashList.indexOf(hash);
+        if (startIndex > currentIndex) {
+          startIndex = currentIndex;
+        } else {
+          endIndex = currentIndex + 1;
+        }
+        updateTorrentSelectionList({
+          type: 'only',
+          list: hashList.slice(startIndex, endIndex),
+        });
       } else {
         if (ctrl || command) {
           updateTorrentSelectionList({
