@@ -1,14 +1,18 @@
 import produce from 'immer';
 import { useIntl } from 'react-intl';
-import { FC, memo, MouseEventHandler, useCallback, useEffect, useRef, useState } from 'react';
+import { FC, memo, MouseEventHandler, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { mStyles } from '../common';
 import { Popover, List, ListItem, ListItemText, ListItemIcon } from '../material-ui-core';
-import { getElementAttr, getVisibilityCompatibleKeys, pick } from '../../utils';
-import { Torrent } from '../../api';
-import { getContextMenuActionIcon, getContextMenuActionProps, getContextMenuActionString } from './utils';
+import { getElementAttr, getVisibilityCompatibleKeys, tryCatchSync } from '../../utils';
+import {
+  getContextMenuOperationIcon,
+  getOperationDivider,
+  getContextMenuActionString,
+  getContextOperations,
+} from './utils';
 import { ContextOps } from '../types';
 import { useTorrentsState, useUiState } from '../state';
-import { copyTorrentPropToClipboard, getNotificationForContextAction } from './utils';
+import { copyTorrentPropToClipboard, getNotificationForContextOps } from './utils';
 import { useTorrentsBasicActionMutation } from '../data';
 import { useNotifications } from '../notifications';
 
@@ -39,12 +43,18 @@ export const TorrentContextMenu: FC = memo(props => {
   const { create } = useNotifications();
   const torrentsState = useTorrentsState();
   const torrentsStateRef = useRef(torrentsState.collection);
-  const [{ torrentListSelection, contextMenu }, { updateContextMenuIsOpen }] = useUiState();
-  const { isOpen } = contextMenu;
-
-  const [firstSelectedTorrentHash] = torrentListSelection;
-  const selectedTorrent =
-    torrentListSelection.length === 1 ? torrentsState.collection[firstSelectedTorrentHash] : ({} as Torrent);
+  const [
+    {
+      torrentListSelection,
+      contextMenu: { isOpen },
+    },
+    { updateContextMenuIsOpen },
+  ] = useUiState();
+  const selectedTorrents = useMemo(() => {
+    console.log(torrentListSelection);
+    return torrentListSelection.map(hash => torrentsStateRef.current[hash]);
+  }, [torrentListSelection]);
+  const ops = useMemo(() => getContextOperations(selectedTorrents), [selectedTorrents]);
 
   const { mutate: basicAction } = useTorrentsBasicActionMutation();
 
@@ -54,79 +64,103 @@ export const TorrentContextMenu: FC = memo(props => {
       event.stopPropagation();
 
       const action = getElementAttr('data-action', 'noop' as ContextOps, event.currentTarget);
+      const actionValue = tryCatchSync(
+        () => JSON.parse(getElementAttr('data-action-value', 'false', event.currentTarget)) as boolean,
+        false
+      );
 
-      console.log('action', action);
+      console.log('action', action, actionValue);
       if (action !== 'noop') {
-        if (torrentListSelection.length > 0) {
-          console.log('action', action, torrentListSelection);
-          // const torrent = torrentsStateRef.current[hash];
+        const isOnlyOne = selectedTorrents.length === 1;
+        const [firstItem] = selectedTorrents;
+        const list = selectedTorrents.map(({ hash }) => hash);
 
-          // switch (action) {
-          //   case 'setForceStart':
-          //     basicAction({ list: [hash], params: [action, { value: true }] });
-          //     create({
-          //       message: formatMessage(
-          //         { defaultMessage: `Force resume activated for {name}` },
-          //         { name: torrent.name }
-          //       ),
-          //     });
-          //     break;
-          //   case 'setSuperSeeding':
-          //     const value = !torrent.super_seeding;
-          //     basicAction({ list: [hash], params: [action, { value }] });
-          //     create({
-          //       message: formatMessage(
-          //         { defaultMessage: `Super seed {state} for {name}` },
-          //         {
-          //           name: torrent.name,
-          //           state: value ? (
-          //             <strong>{formatMessage({ defaultMessage: 'activated' })}</strong>
-          //           ) : (
-          //             formatMessage({ defaultMessage: 'disactivated' })
-          //           ),
-          //         }
-          //       ),
-          //     });
-          //     break;
-          //   case 'setAutoManagement':
-          //     const enable = !torrent.auto_tmm;
-          //     basicAction({ list: [hash], params: [action, { enable }] });
-          //     create({
-          //       message: formatMessage(
-          //         { defaultMessage: `Auto management {state} for {name}` },
-          //         {
-          //           name: torrent.name,
-          //           state: enable
-          //             ? formatMessage({ defaultMessage: 'activated' })
-          //             : formatMessage({ defaultMessage: 'disactivated' }),
-          //         }
-          //       ),
-          //     });
-          //     break;
-          //   case 'resume':
-          //   case 'pause':
-          //   case 'recheck':
-          //   case 'reannounce':
-          //   case 'toggleSequentialDownload':
-          //   case 'toggleFirstLastPiecePrio':
-          //     basicAction({ list: [hash], params: [action] });
-          //     create({ message: getNotificationForContextAction(action, torrent) });
-          //     break;
-          //   case 'copyName':
-          //   case 'copyHash':
-          //   case 'copyMagnetLink':
-          //     copyTorrentPropToClipboard(action, torrent);
-          //     create({ message: getNotificationForContextAction(action, torrent) });
-          //     break;
-          //   default:
-          //     console.log('Action not implemented', action);
-          //     create({ message: `"${action}" action not implemented yet!`, severity: 'warning' });
-          //     break;
-          // }
+        switch (action) {
+          case 'setForceStart':
+            basicAction({ list, params: [action, { value: actionValue }] });
+            create({
+              message: formatMessage(
+                {
+                  defaultMessage: `Force resume <b>activated</b> on
+                    {itemCount, plural,
+                      one {# item}
+                      other {# items}
+                    }`,
+                },
+                {
+                  itemCount: list.length,
+                  b: str => <b>{str}</b>,
+                }
+              ),
+            });
+            break;
+          case 'setSuperSeeding':
+            basicAction({ list, params: [action, { value: actionValue }] });
+            create({
+              message: formatMessage(
+                {
+                  defaultMessage: `Super seed <b>{state}</b> on
+                  {itemCount, plural,
+                    one {# item}
+                    other {# items}
+                  }`,
+                },
+                {
+                  itemCount: selectedTorrents.filter(({ progress }) => progress === 1).length,
+                  state: actionValue
+                    ? formatMessage({ defaultMessage: 'activated' })
+                    : formatMessage({ defaultMessage: 'disactivated' }),
+                  b: chunk => <b>{chunk}</b>,
+                }
+              ),
+            });
+            break;
+          case 'setAutoManagement':
+            basicAction({ list, params: [action, { enable: actionValue }] });
+            create({
+              message: formatMessage(
+                {
+                  defaultMessage: `Auto management <b>{state}</b> on
+                  {itemCount, plural,
+                    one {# item}
+                    other {# items}
+                  }`,
+                },
+                {
+                  itemCount: list.length,
+                  state: actionValue
+                    ? formatMessage({ defaultMessage: 'activated' })
+                    : formatMessage({ defaultMessage: 'disactivated' }),
+                  b: chunk => <b>{chunk}</b>,
+                }
+              ),
+            });
+            break;
+          case 'resume':
+          case 'pause':
+          case 'recheck':
+          case 'reannounce':
+          case 'toggleSequentialDownload':
+          case 'toggleFirstLastPiecePrio':
+            basicAction({ list, params: [action] });
+            create({ message: getNotificationForContextOps(action, selectedTorrents) });
+            break;
+          case 'copyName':
+          case 'copyHash':
+          case 'copyMagnetLink':
+            copyTorrentPropToClipboard(action, selectedTorrents);
+            create({ message: getNotificationForContextOps(action, selectedTorrents) });
+            break;
+          default:
+            console.log('Action not implemented', action);
+            create({ message: `"${action}" action not implemented yet!`, severity: 'warning' });
+            break;
         }
       }
+
+      updateContextMenuIsOpen({ value: false });
     },
-    [torrentListSelection]
+    [selectedTorrents]
   );
 
   useEffect(() => {
@@ -173,21 +207,22 @@ export const TorrentContextMenu: FC = memo(props => {
   return (
     <Popover keepMounted open={isOpen} anchorPosition={state} anchorReference="anchorPosition">
       <List dense className={classes.listRoot}>
-        {contextMenu.ops.map(
-          operation =>
-            operation !== 'noop' && (
+        {ops.map(
+          (operation, index, all) =>
+            operation[0] !== 'noop' && (
               <ListItem
                 button
-                key={operation}
+                key={operation[0]}
                 className={classes.listItem}
-                {...getContextMenuActionProps(operation, selectedTorrent)}
-                data-action={operation}
+                divider={getOperationDivider(all[index + 1]?.[0], operation[0], all[index + 2]?.[0])}
+                data-action={operation[0]}
+                data-action-value={String(!operation[1])}
                 onClick={handleClick}
               >
                 <ListItemIcon className="listitem-icon">
-                  {getContextMenuActionIcon(operation, selectedTorrent)}
+                  {getContextMenuOperationIcon(operation)}
                 </ListItemIcon>
-                <ListItemText primary={getContextMenuActionString(operation)} />
+                <ListItemText primary={getContextMenuActionString(operation[0])} />
               </ListItem>
             )
         )}

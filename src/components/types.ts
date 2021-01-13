@@ -26,3 +26,5 @@ export type ContextOpsOrder = [
   'copyHash',
   'copyMagnetLink'
 ];
+
+export type ContextOpsSetting = [ContextOps, boolean];

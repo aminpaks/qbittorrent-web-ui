@@ -26,15 +26,15 @@ export const HeaderCell: FC<{ index: number; style: CSSProperties }> = ({ index,
 };
 
 export const BodyCell: FC<
-  { onContextMenuOpen: (list?: string[]) => void } & Partial<Torrent> & {
-      hash?: string;
-      rowIndex: number;
-      columnIndex: number;
-      index: number;
-      dataKey: ExtendedTorrentKeys;
-      style: object;
-    }
-> = ({ style, rowIndex, columnIndex, dataKey, children, onContextMenuOpen, ...props }) => {
+  Partial<Torrent> & {
+    hash?: string;
+    rowIndex: number;
+    columnIndex: number;
+    index: number;
+    dataKey: ExtendedTorrentKeys;
+    style: object;
+  }
+> = ({ style, rowIndex, columnIndex, dataKey, children, ...props }) => {
   const [{ torrentListSelection }, { updateContextMenuIsOpen, updateTorrentSelectionList }] = useUiState();
   const data = (props as unknown) as Record<ExtendedTorrentKeys, unknown>;
   const dataValue = dataKey != null ? data[dataKey] : undefined;
@@ -54,12 +54,11 @@ export const BodyCell: FC<
         // Update if the current item is not in the selection
         if (torrentListSelection.indexOf(hash) < 0) {
           updateTorrentSelectionList({
-            list: [{ item: data as Torrent, type: 'only' }],
+            type: 'only',
+            list: [data.hash as string],
           });
-          onContextMenuOpen([data.hash as string]);
-        } else {
-          onContextMenuOpen();
         }
+        updateContextMenuIsOpen({ value: true });
       }}
       data-row-index={rowIndex}
       data-torrent-hash={data.hash}

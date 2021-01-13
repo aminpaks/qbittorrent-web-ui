@@ -1,10 +1,9 @@
 import produce from 'immer';
 import { useEffect, useRef, useState } from 'react';
-import { useTorrentsState, useUiState } from '../state';
+import { useTorrentList, useUiState } from '../state';
 import { ROW_CELL_HEIGHT } from './list';
 import { color, getElementAttr } from '../../utils';
 import { mStyles } from '../common';
-import { Torrent } from '../../api';
 
 const useStyles = mStyles(() => {
   return {
@@ -36,27 +35,15 @@ const initialState = {
 
 export const TorrentListSelection = () => {
   const classes = useStyles();
-  const { collection, hashList } = useTorrentsState();
+  const hashList = useTorrentList();
   const [, { updateTorrentSelectionList, updateContextMenuIsOpen }] = useUiState();
   const [state, setState] = useState(initialState);
   const isUpdatingEndRef = useRef(false);
   const currentRangeRef = useRef([0, 0] as [number, number]);
-  const torrentsRef = useRef(collection);
 
   useEffect(() => {
     function handleEvent(event: MouseEvent) {
-      const {
-        isTrusted,
-        type,
-        clientX: x,
-        clientY: y,
-        target,
-        button,
-        buttons,
-        ctrlKey,
-        shiftKey,
-        metaKey,
-      } = event;
+      const { isTrusted, type, clientX: x, clientY: y, target, button, buttons, ctrlKey, metaKey } = event;
       if (isTrusted) {
         if (target) {
           if (type === 'mousedown' && (button !== 2 || ctrlKey || metaKey)) {
@@ -75,7 +62,10 @@ export const TorrentListSelection = () => {
                 );
               }
             } else {
-              updateContextMenuIsOpen({ value: false });
+              const action = getElementAttr('data-action', '', target as Element);
+              if (!action) {
+                updateContextMenuIsOpen({ value: false });
+              }
             }
           } else if (type === 'mousemove') {
             if (buttons === 1 && ctrlKey === false && metaKey === false) {
@@ -137,28 +127,24 @@ export const TorrentListSelection = () => {
               updateCurrentSection.push(hash);
             }
             acc.push({
-              type: 'absolute',
-              item: torrentsRef.current[hash],
+              hash,
               isSelected,
             });
             return acc;
-          }, [] as { type: 'absolute'; item: Torrent; isSelected: boolean }[]);
+          }, [] as { hash: string; isSelected: boolean }[]);
 
-          updateTorrentSelectionList({ list });
+          updateTorrentSelectionList({ type: 'absolute', list });
         }
       } else {
         if (ctrl || command) {
           updateTorrentSelectionList({
-            list: [{ type: 'relative', item: torrentsRef.current[hash] }],
+            type: 'relative',
+            list: [hash],
           });
         }
       }
     }
   }, [state, hashList]);
-
-  useEffect(() => {
-    torrentsRef.current = collection;
-  }, [collection]);
 
   return <div className={classes.rootContainer} style={getRectBound(state)}></div>;
 };

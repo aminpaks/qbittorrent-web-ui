@@ -1,13 +1,9 @@
 import produce from 'immer';
-import { Torrent } from '../../api';
-import { ContextOps } from '../types';
 import { actionCreator, buildCustomContext } from '../utils';
-import { DEFAULT_CONTEXT_OPS, getContextOperations } from './utils';
 
 export interface UiState {
   torrentListSelection: string[];
   contextMenu: {
-    ops: ContextOps[];
     isOpen: boolean;
   };
 }
@@ -15,22 +11,19 @@ export interface UiState {
 const initialUiState: UiState = {
   torrentListSelection: [],
   contextMenu: {
-    ops: [...DEFAULT_CONTEXT_OPS],
     isOpen: false,
   },
 };
 
-const updateTorrentSelectionList = actionCreator('torrentList.updateSelection')<{
-  list: (
-    | { item: Torrent; isSelected: boolean; type: 'absolute' }
-    | { item: Torrent; type: 'relative' }
-    | { item: Torrent; type: 'only' }
-  )[];
-}>();
-
-const updateContextMenuIsOpen = actionCreator('contextMenu.isOpen')<
-  { value: false } | { value: true; list: Torrent[] }
+const updateTorrentSelectionList = actionCreator('torrentList.updateSelection')<
+  | {
+      type: 'absolute';
+      list: { hash: string; isSelected: boolean }[];
+    }
+  | { type: 'only' | 'relative'; list: string[] }
 >();
+
+const updateContextMenuIsOpen = actionCreator('contextMenu.isOpen')<{ value: boolean }>();
 
 export type UiActions =
   | ReturnType<typeof updateTorrentSelectionList>
@@ -44,37 +37,38 @@ export const uiActions = {
 const reducer = produce((draft: UiState, action: UiActions) => {
   switch (action.type) {
     case 'torrentList.updateSelection': {
-      const { list } = action.payload;
-      list.forEach(current => {
-        const { hash } = current.item;
-        let isSelected = draft.torrentListSelection.indexOf(hash) < 0;
-        switch (current.type) {
-          case 'absolute': {
-            isSelected = current.isSelected;
-          }
-          case 'relative': {
-            if (isSelected === true) {
+      const { payload } = action;
+      if (payload.type === 'absolute') {
+        const { list } = payload;
+        list.forEach(current => {
+          let { isSelected, hash } = current;
+          if (isSelected === true) {
+            if (draft.torrentListSelection.indexOf(hash) < 0) {
               draft.torrentListSelection.push(hash);
-            } else {
-              draft.torrentListSelection = draft.torrentListSelection.filter(itemHash => itemHash !== hash);
             }
-            break;
+          } else {
+            draft.torrentListSelection = draft.torrentListSelection.filter(itemHash => itemHash !== hash);
           }
-          case 'only': {
-            draft.torrentListSelection = [hash];
-            break;
+        });
+      } else if (payload.type === 'relative') {
+        const { list } = payload;
+        list.forEach(hash => {
+          const hashIndex = draft.torrentListSelection.indexOf(hash);
+          if (hashIndex < 0) {
+            draft.torrentListSelection.push(hash);
+          } else {
+            draft.torrentListSelection = draft.torrentListSelection.filter(
+              currentHash => currentHash !== hash
+            );
           }
-          default:
-            break;
-        }
-      });
+        });
+      } else {
+        draft.torrentListSelection = payload.list;
+      }
       break;
     }
     case 'contextMenu.isOpen':
       draft.contextMenu.isOpen = action.payload.value;
-      if (action.payload.value === true) {
-        draft.contextMenu.ops = getContextOperations(action.payload.list);
-      }
       break;
     default:
       break;

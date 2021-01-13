@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { ScrollSync, AutoSizer, Grid } from 'react-virtualized';
 import { mStyles } from '../common';
 import { colorAlpha } from '../../utils';
-import { useTorrentsState, useUiState } from '../state';
+import { useTorrentsState } from '../state';
 import { getTableColumn, getColumnWidth, tableColumns } from './columns';
 import { getTorrentOrElse } from './utils';
 import { BodyCell, HeaderCell } from './cell';
@@ -57,7 +57,6 @@ const useStyles = mStyles(({ palette, typography }) => ({
 export const TorrentList: FC = () => {
   const classes = useStyles();
   const { hashList, collection } = useTorrentsState();
-  const [{ torrentListSelection }, { updateContextMenuIsOpen }] = useUiState();
 
   return (
     <ScrollSync>
@@ -99,10 +98,6 @@ export const TorrentList: FC = () => {
                       style={style}
                       dataKey={dataKey}
                       hash={currentItemHash}
-                      onContextMenuOpen={(selection?: string[]) => {
-                        const list = (selection || torrentListSelection).map(hash => collection[hash]);
-                        updateContextMenuIsOpen({ value: true, list });
-                      }}
                     />
                   );
                 }}
