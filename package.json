@@ -6,8 +6,9 @@
   "author": "Dr. Sepanta <dr_sepanta@yahoo.com>",
   "license": "MIT",
   "scripts": {
-    "start": "webpack serve --progress",
+    "start": "run-p \"serve-dev\" \"typecheck -- -w\"",
     "prestart": "npm run intl:compile",
+    "serve-dev": "webpack serve",
     "typecheck": "tsc --noEmit",
     "build": "NODE_ENV=production webpack --env=production",
     "prebuild": "rimraf build/* && npm run intl:compile",
@@ -57,6 +58,7 @@
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^4.5.0",
     "nodemon": "^2.0.6",
+    "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
     "typescript": "^4.1.3",
     "webpack": "^4.0.0",

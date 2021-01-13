@@ -1,6 +1,5 @@
 const Os = require('os');
 const Webpack = require('webpack');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
   getConfig: ({ publicFolderPath }) => {
@@ -20,14 +19,10 @@ module.exports = {
     console.log(`Proxy Server: ${serverHostname}:9000 -> ${proxyHost}\n\n`);
 
     return {
-      plugins: [
-        new BundleAnalyzerPlugin({
-          analyzerMode: 'static',
-          openAnalyzer: false,
-        }),
-      ],
+      plugins: [],
 
       devServer: {
+        stats: 'minimal',
         port: 9000,
         host: '0.0.0.0',
         disableHostCheck: true,
