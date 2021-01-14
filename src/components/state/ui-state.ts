@@ -6,11 +6,17 @@ export interface UiState {
   contextMenu: {
     isOpen: boolean;
   };
+  deleteConfirmation: {
+    isOpen: boolean;
+  };
 }
 
 const initialUiState: UiState = {
   torrentListSelection: [],
   contextMenu: {
+    isOpen: false,
+  },
+  deleteConfirmation: {
     isOpen: false,
   },
 };
@@ -25,13 +31,17 @@ const updateTorrentSelectionList = actionCreator('torrentList.updateSelection')<
 
 const updateContextMenuIsOpen = actionCreator('contextMenu.isOpen')<{ value: boolean }>();
 
+const updateDeleteConfirmationDialogIsOpen = actionCreator('deleteConfirmation.isOpen')<{ value: boolean }>();
+
 export type UiActions =
   | ReturnType<typeof updateTorrentSelectionList>
-  | ReturnType<typeof updateContextMenuIsOpen>;
+  | ReturnType<typeof updateContextMenuIsOpen>
+  | ReturnType<typeof updateDeleteConfirmationDialogIsOpen>;
 
 export const uiActions = {
   updateTorrentSelectionList,
   updateContextMenuIsOpen,
+  updateDeleteConfirmationDialogIsOpen,
 };
 
 const reducer = produce((draft: UiState, action: UiActions) => {
@@ -70,6 +80,9 @@ const reducer = produce((draft: UiState, action: UiActions) => {
     case 'contextMenu.isOpen':
       draft.contextMenu.isOpen = action.payload.value;
       break;
+
+    case 'deleteConfirmation.isOpen':
+      draft.deleteConfirmation.isOpen = action.payload.value;
     default:
       break;
   }

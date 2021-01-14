@@ -59,6 +59,9 @@
   "F+mMwM": {
     "defaultMessage": "Welcome to qBittorrent"
   },
+  "FkDkSn": {
+    "defaultMessage": "Are you sure you wanna delete {itemCount}?"
+  },
   "Go06C4": {
     "defaultMessage": "Login failed, {reason}"
   },
@@ -137,6 +140,9 @@
   "cWcKDP": {
     "defaultMessage": "limited"
   },
+  "cZP25r": {
+    "defaultMessage": "Also delete from hard disk"
+  },
   "coM7+7": {
     "defaultMessage": "Copied {itemCount, plural, one {# name} other {# names} } to clipboard"
   },
@@ -194,6 +200,9 @@
   "pbYuwH": {
     "defaultMessage": "Total Size"
   },
+  "qY8vs4": {
+    "defaultMessage": "And {count} more items..."
+  },
   "qjvc+L": {
     "defaultMessage": "Paused {itemCount, plural, one {# item} other {# items} }"
   },
@@ -202,6 +211,9 @@
   },
   "rMDyRQ": {
     "defaultMessage": "Limit Download Rate"
+  },
+  "rtGl5i": {
+    "defaultMessage": "Delete confirmation"
   },
   "rzuqCK": {
     "defaultMessage": "Down Limit"

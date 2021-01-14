@@ -12,7 +12,7 @@ export const useTorrentsQuery = () => {
 
 export const useTorrentsBasicActionMutation = (
   { onSuccess, onError } = {} as {
-    onSuccess?: LazyReason<Promise<void>>;
+    onSuccess?: LazyReason<Promise<void>, boolean>;
     onError?: LazyReason<Promise<void>>;
   }
 ) => {

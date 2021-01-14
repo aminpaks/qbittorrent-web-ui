@@ -42,15 +42,14 @@ export const TorrentContextMenu: FC = memo(props => {
   const { formatMessage } = useIntl();
   const { create } = useNotifications();
   const torrentsState = useTorrentsState();
-  const torrentsStateRef = useRef(torrentsState.collection);
   const [
     {
       torrentListSelection,
       contextMenu: { isOpen },
     },
-    { updateContextMenuIsOpen },
+    { updateContextMenuIsOpen, updateDeleteConfirmationDialogIsOpen },
   ] = useUiState();
-  const selectedTorrents = torrentListSelection.map(hash => torrentsStateRef.current[hash]);
+  const selectedTorrents = torrentListSelection.map(hash => torrentsState.collection[hash]);
   const ops = getContextOperations(selectedTorrents);
 
   const { mutate: basicAction } = useTorrentsBasicActionMutation();
@@ -145,6 +144,9 @@ export const TorrentContextMenu: FC = memo(props => {
             copyTorrentPropToClipboard(action, selectedTorrents);
             create({ message: getNotificationForContextOps(action, selectedTorrents) });
             break;
+          case 'delete':
+            updateDeleteConfirmationDialogIsOpen({ value: true });
+            break;
           default:
             console.log('Action not implemented', action);
             create({ message: `"${action}" action not implemented yet!`, severity: 'warning' });
@@ -193,10 +195,6 @@ export const TorrentContextMenu: FC = memo(props => {
       document.removeEventListener(visibilityChange, handleEvent);
     };
   }, [isOpen]);
-
-  useEffect(() => {
-    torrentsStateRef.current = torrentsState.collection;
-  }, [torrentsState.collection]);
 
   return (
     <Popover keepMounted open={isOpen} anchorPosition={state} anchorReference="anchorPosition">
