@@ -22,6 +22,9 @@ const theme = createMuiTheme({
     fontWeightBold: 600,
   },
   overrides: {
+    MuiButton: {
+      outlinedPrimary: indigo,
+    },
     MuiCssBaseline: {
       '@global': {
         html: {

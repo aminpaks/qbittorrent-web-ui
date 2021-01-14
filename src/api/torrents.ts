@@ -161,8 +161,8 @@ const getOperationFormParams = (
       return { enable };
 
     case 'delete':
-      const { hardDelete = false } = args[1] || {};
-      return { hardDelete };
+      const { hardDelete: deleteFiles = false } = args[1] || {};
+      return { deleteFiles };
 
     case 'rename':
       const { name = '' } = args[1] || {};
