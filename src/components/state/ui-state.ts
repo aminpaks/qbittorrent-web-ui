@@ -15,10 +15,7 @@ export interface UiState {
 }
 
 const initialUiState: UiState = {
-  torrentListSelection: [
-    '0ad955dda9ae2747b001e72130b59d7fa9a6587e',
-    '7e68dcdec4645befe7051a6afbed31e65133bd48',
-  ],
+  torrentListSelection: [],
   contextMenu: {
     isOpen: false,
   },
@@ -26,7 +23,7 @@ const initialUiState: UiState = {
     isOpen: false,
   },
   setLocation: {
-    isOpen: true,
+    isOpen: false,
   },
 };
 
