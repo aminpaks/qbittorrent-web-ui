@@ -13,7 +13,7 @@ import {
 import { ContextOps } from '../types';
 import { useTorrentsState, useUiState } from '../state';
 import { copyTorrentPropToClipboard, getNotificationForContextOps } from './utils';
-import { useTorrentsBasicActionMutation } from '../data';
+import { useTorrentsOperationMutation } from '../data';
 import { useNotifications } from '../notifications';
 
 const useStyles = mStyles(({ spacing }) => ({
@@ -47,12 +47,12 @@ export const TorrentContextMenu: FC = memo(props => {
       torrentListSelection,
       contextMenu: { isOpen },
     },
-    { updateContextMenuIsOpen, updateDeleteConfirmationDialogIsOpen },
+    { updateContextMenuIsOpen, updateDeleteConfirmationDialogIsOpen, updateSetLocationDialogIsOpen },
   ] = useUiState();
-  const selectedTorrents = torrentListSelection.map(hash => torrentsState.collection[hash]);
+  const selectedTorrents = torrentListSelection.map(hash => torrentsState.collection[hash] || { hash });
   const ops = getContextOperations(selectedTorrents);
 
-  const { mutate: basicAction } = useTorrentsBasicActionMutation();
+  const { mutate: basicAction } = useTorrentsOperationMutation();
 
   const handleClick: MouseEventHandler = useCallback(
     event => {
@@ -69,7 +69,7 @@ export const TorrentContextMenu: FC = memo(props => {
         const list = selectedTorrents.map(({ hash }) => hash);
 
         switch (action) {
-          case 'setForceStart':
+          case 'setForceStart': {
             basicAction({ list, params: [action, { value: actionValue }] });
             create({
               message: formatMessage(
@@ -87,7 +87,9 @@ export const TorrentContextMenu: FC = memo(props => {
               ),
             });
             break;
-          case 'setSuperSeeding':
+          }
+
+          case 'setSuperSeeding': {
             basicAction({ list, params: [action, { value: actionValue }] });
             create({
               message: formatMessage(
@@ -108,7 +110,9 @@ export const TorrentContextMenu: FC = memo(props => {
               ),
             });
             break;
-          case 'setAutoManagement':
+          }
+
+          case 'setAutoManagement': {
             basicAction({ list, params: [action, { enable: actionValue }] });
             create({
               message: formatMessage(
@@ -129,24 +133,37 @@ export const TorrentContextMenu: FC = memo(props => {
               ),
             });
             break;
+          }
+
           case 'resume':
           case 'pause':
           case 'recheck':
           case 'reannounce':
           case 'toggleSequentialDownload':
-          case 'toggleFirstLastPiecePrio':
+          case 'toggleFirstLastPiecePrio': {
             basicAction({ list, params: [action] });
             create({ message: getNotificationForContextOps(action, selectedTorrents) });
             break;
+          }
+
           case 'copyName':
           case 'copyHash':
-          case 'copyMagnetLink':
+          case 'copyMagnetLink': {
             copyTorrentPropToClipboard(action, selectedTorrents);
             create({ message: getNotificationForContextOps(action, selectedTorrents) });
             break;
-          case 'delete':
+          }
+
+          case 'delete': {
             updateDeleteConfirmationDialogIsOpen({ value: true });
             break;
+          }
+
+          case 'setLocation': {
+            updateSetLocationDialogIsOpen({ value: true });
+            break;
+          }
+
           default:
             console.log('Action not implemented', action);
             create({ message: `"${action}" action not implemented yet!`, severity: 'warning' });

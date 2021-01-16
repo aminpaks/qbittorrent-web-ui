@@ -9,15 +9,24 @@ export interface UiState {
   deleteConfirmation: {
     isOpen: boolean;
   };
+  setLocation: {
+    isOpen: boolean;
+  };
 }
 
 const initialUiState: UiState = {
-  torrentListSelection: [],
+  torrentListSelection: [
+    '0ad955dda9ae2747b001e72130b59d7fa9a6587e',
+    '7e68dcdec4645befe7051a6afbed31e65133bd48',
+  ],
   contextMenu: {
     isOpen: false,
   },
   deleteConfirmation: {
     isOpen: false,
+  },
+  setLocation: {
+    isOpen: true,
   },
 };
 
@@ -33,16 +42,21 @@ const updateContextMenuIsOpen = actionCreator('contextMenu.isOpen')<{ value: boo
 
 const updateDeleteConfirmationDialogIsOpen = actionCreator('deleteConfirmation.isOpen')<{ value: boolean }>();
 
-export type UiActions =
-  | ReturnType<typeof updateTorrentSelectionList>
-  | ReturnType<typeof updateContextMenuIsOpen>
-  | ReturnType<typeof updateDeleteConfirmationDialogIsOpen>;
+const updateSetLocationDialogIsOpen = actionCreator('setLocation.isOpen')<{ value: boolean }>();
 
 export const uiActions = {
   updateTorrentSelectionList,
   updateContextMenuIsOpen,
   updateDeleteConfirmationDialogIsOpen,
+  updateSetLocationDialogIsOpen,
 };
+
+type ActionReturns<T> = T extends Record<string, infer AC>
+  ? AC extends (...args: any) => infer R
+    ? R
+    : never
+  : never;
+export type UiActions = ActionReturns<typeof uiActions>;
 
 const reducer = produce((draft: UiState, action: UiActions) => {
   switch (action.type) {
@@ -83,6 +97,12 @@ const reducer = produce((draft: UiState, action: UiActions) => {
 
     case 'deleteConfirmation.isOpen':
       draft.deleteConfirmation.isOpen = action.payload.value;
+      break;
+
+    case 'setLocation.isOpen':
+      draft.setLocation.isOpen = action.payload.value;
+      break;
+
     default:
       break;
   }

@@ -2,11 +2,17 @@
   "11WYT7": {
     "defaultMessage": "Copy Name"
   },
+  "1M6M38": {
+    "defaultMessage": "Set a new location for {itemCount}:"
+  },
   "3BG+4W": {
     "defaultMessage": "Limit Share Ratio"
   },
   "3y9DGg": {
     "defaultMessage": "Resume"
+  },
+  "47FYwb": {
+    "defaultMessage": "Cancel"
   },
   "4AWEqx": {
     "defaultMessage": "Session Download"
@@ -37,6 +43,12 @@
   },
   "AyGauy": {
     "defaultMessage": "Login"
+  },
+  "BPnK5w": {
+    "defaultMessage": "Location updated on {itemCount, plural, one {# item} other {# items} }"
+  },
+  "BWpuKl": {
+    "defaultMessage": "Update"
   },
   "Bw/0Hs": {
     "defaultMessage": "Up Limit"
@@ -247,6 +259,9 @@
   },
   "xMpvRG": {
     "defaultMessage": "Copy Hash"
+  },
+  "xR/RMM": {
+    "defaultMessage": "Update location"
   },
   "yiy6QW": {
     "defaultMessage": "Queued upload"
