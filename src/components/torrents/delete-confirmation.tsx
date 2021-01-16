@@ -1,7 +1,7 @@
 import { Fragment, useState } from 'react';
 import { FormattedMessage, FormattedPlural } from 'react-intl';
 import { storageGet, storageSet } from '../../utils';
-import { useTorrentsBasicActionMutation } from '../data';
+import { useTorrentsOperationMutation } from '../data';
 import {
   Dialog,
   DialogContent,
@@ -30,7 +30,7 @@ export const DeleteConfirmation = () => {
 
   const [isHardDeleteChecked, setIsHardDeleteChecked] = useState(() => storageGet(HARD_DELETE_CHECK, false));
 
-  const { mutate: basicAction, isLoading } = useTorrentsBasicActionMutation({
+  const { mutate: basicAction, isLoading } = useTorrentsOperationMutation({
     onSuccess: response => {
       if (response === true) {
         updateTorrentSelectionList({ type: 'only', list: [] });

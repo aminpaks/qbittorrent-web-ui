@@ -50,7 +50,7 @@ export const Notifications = () => {
             horizontal: 'left',
           }}
           open={state === 'idle'}
-          autoHideDuration={severity === 'info' ? 8000 : null}
+          autoHideDuration={severity !== 'error' ? (severity === 'success' ? 12_000 : 8000) : null}
           onClose={event => {
             if (event === null) {
               remove({ id });

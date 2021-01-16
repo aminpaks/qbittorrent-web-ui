@@ -10,7 +10,7 @@ export const useTorrentsQuery = () => {
   return queryResult;
 };
 
-export const useTorrentsBasicActionMutation = (
+export const useTorrentsOperationMutation = (
   { onSuccess, onError } = {} as {
     onSuccess?: LazyReason<Promise<void>, boolean>;
     onError?: LazyReason<Promise<void>>;

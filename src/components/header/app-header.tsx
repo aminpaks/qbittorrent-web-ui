@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useIntl } from 'react-intl';
 import { mStyles } from '../common';
-import { useTorrentsBasicActionMutation } from '../data';
+import { useTorrentsOperationMutation } from '../data';
 import { Typography, Box, IconButton } from '../material-ui-core';
 import {
   ChevronLeftIcon,
@@ -55,7 +55,7 @@ export const AppHeader: FC<{ qbtVersion: string }> = ({ qbtVersion }) => {
   const classes = useStyles();
   const intl = useIntl();
   const [{ torrentListSelection }] = useUiState();
-  const { mutate: executeOperation } = useTorrentsBasicActionMutation({
+  const { mutate: executeOperation } = useTorrentsOperationMutation({
     onError: (err: unknown) => {
       console.log('error', err);
       return Promise.resolve();

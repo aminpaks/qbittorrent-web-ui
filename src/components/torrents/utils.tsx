@@ -232,6 +232,16 @@ export function getNotificationForContextOps(action: ContextOps, items: Torrent[
           values={values}
         />
       );
+    case 'setLocation':
+      return (
+        <FormattedMessage
+          defaultMessage="Location updated on {itemCount, plural,
+              one {# item}
+              other {# items}
+            }"
+          values={values}
+        />
+      );
     case 'recheck':
       return (
         <FormattedMessage
@@ -355,6 +365,7 @@ export const getOperationDivider = (
     case 'setUploadLimit':
       return previousOperation !== 'setDownloadLimit';
     case 'setDownloadLimit':
+    case 'setLocation':
     case 'delete':
     case 'toggleSequentialDownload':
     case 'recheck':
