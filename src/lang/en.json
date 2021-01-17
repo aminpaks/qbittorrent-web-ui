@@ -149,9 +149,6 @@
   "PfW4AI": {
     "defaultMessage": "No limit"
   },
-  "QPwd+2": {
-    "defaultMessage": "Sequel Order Download"
-  },
   "QQd4r5": {
     "defaultMessage": "Copy Magnet Link"
   },
@@ -197,11 +194,11 @@
   "eypWNM": {
     "defaultMessage": "Automatic Management"
   },
+  "f/yZba": {
+    "defaultMessage": "Download in Sequential Order"
+  },
   "fCBjOc": {
     "defaultMessage": "Copied {itemCount, plural, one {# magnet URI} other {# magnet URIs} } to clipboard"
-  },
-  "fgz0lo": {
-    "defaultMessage": "Download First/Last Piece"
   },
   "g+bno4": {
     "defaultMessage": "Force resume <b>activated</b> on {itemCount, plural, one {# item} other {# items} }"
@@ -295,6 +292,9 @@
   },
   "uU7FbM": {
     "defaultMessage": "New share limit applied to {itemCount, plural, one {one item} other {# items} }"
+  },
+  "uUCYxK": {
+    "defaultMessage": "Download First/Last Piece First"
   },
   "v3MWTZ": {
     "defaultMessage": "online"
