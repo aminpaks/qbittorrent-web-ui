@@ -1,7 +1,4 @@
 {
-  "+wqTL3": {
-    "defaultMessage": "Set a new name for this item:"
-  },
   "11WYT7": {
     "defaultMessage": "Copy Name"
   },
@@ -118,6 +115,9 @@
   },
   "M5Uo3T": {
     "defaultMessage": "Move Down One in Queue"
+  },
+  "OZfkbJ": {
+    "defaultMessage": "Set a new name for item below:"
   },
   "OlwlCi": {
     "defaultMessage": "Downloaded"

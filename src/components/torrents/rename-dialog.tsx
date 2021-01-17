@@ -71,7 +71,9 @@ export const TorrentRenameDialog = () => {
       </DialogTitle>
       <DialogContent>
         <DialogContentText>
-          <FormattedMessage defaultMessage="Set a new name for this item:" />
+          <FormattedMessage defaultMessage="Set a new name for item below:" />
+          <br />
+          {selectedTorrents[0]?.name}
         </DialogContentText>
 
         <TextField
