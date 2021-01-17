@@ -242,6 +242,8 @@ export function getNotificationForContextOps(action: ContextOps, items: Torrent[
           values={values}
         />
       );
+    case 'rename':
+      return <FormattedMessage defaultMessage="Name updated on one item" />;
     case 'recheck':
       return (
         <FormattedMessage

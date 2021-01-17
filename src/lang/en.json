@@ -29,6 +29,9 @@
   "8AXy/H": {
     "defaultMessage": "Downloading <small>[F]</small>"
   },
+  "8JMAIc": {
+    "defaultMessage": "Name updated on one item"
+  },
   "95stPq": {
     "defaultMessage": "Completed"
   },
@@ -82,6 +85,9 @@
   },
   "HAlOn1": {
     "defaultMessage": "Name"
+  },
+  "IXuOcz": {
+    "defaultMessage": "New name"
   },
   "JCIgkj": {
     "defaultMessage": "Username"

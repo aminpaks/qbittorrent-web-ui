@@ -31,7 +31,7 @@ export const TorrentRenameDialog = () => {
       if (response === true) {
         updateTorrentSelectionList({ type: 'only', list: [] });
         updateRenameDialogIsOpen({ value: false });
-        create({ message: getNotificationForContextOps('setLocation', selectedTorrents) });
+        create({ message: getNotificationForContextOps('rename', selectedTorrents) });
       }
       return Promise.resolve();
     },
@@ -78,7 +78,7 @@ export const TorrentRenameDialog = () => {
 
         <TextField
           autoFocus
-          label="New name"
+          label={<FormattedMessage defaultMessage="New name" />}
           value={newName}
           style={{ minWidth: 400 }}
           onKeyDown={({ key }) => {
