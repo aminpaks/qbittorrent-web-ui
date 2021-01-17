@@ -273,6 +273,16 @@ export function getNotificationForContextOps(action: ContextOps, items: Torrent[
           }}
         />
       );
+    case 'setShareLimits':
+      return (
+        <FormattedMessage
+          defaultMessage="New share limit applied to {itemCount, plural,
+            one {one item}
+            other {# items}
+          }"
+          values={values}
+        />
+      );
     case 'reannounce':
       return (
         <FormattedMessage
