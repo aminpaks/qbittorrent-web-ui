@@ -15,6 +15,10 @@ export interface UiState {
   rename: {
     isOpen: boolean;
   };
+  limitRateDialog: {
+    kind: 'download' | 'upload';
+    isOpen: boolean;
+  };
 }
 
 const initialUiState: UiState = {
@@ -29,6 +33,10 @@ const initialUiState: UiState = {
     isOpen: false,
   },
   rename: {
+    isOpen: false,
+  },
+  limitRateDialog: {
+    kind: 'download',
     isOpen: false,
   },
 };
@@ -49,12 +57,21 @@ const updateSetLocationDialogIsOpen = actionCreator('setLocation.isOpen')<{ valu
 
 const updateRenameDialogIsOpen = actionCreator('rename.isOpen')<{ value: boolean }>();
 
+const updateLimitRateDialogOpen = actionCreator('limitRateDialog.isOpen')<
+  | {
+      kind: 'download' | 'upload';
+      value: true;
+    }
+  | { value: false }
+>();
+
 export const uiActions = {
   updateTorrentSelectionList,
   updateContextMenuIsOpen,
   updateDeleteConfirmationDialogIsOpen,
   updateSetLocationDialogIsOpen,
   updateRenameDialogIsOpen,
+  updateLimitRateDialogOpen,
 };
 
 type ActionReturns<T> = T extends Record<string, infer AC>
@@ -111,6 +128,14 @@ const reducer = produce((draft: UiState, action: UiActions) => {
 
     case 'rename.isOpen':
       draft.rename.isOpen = action.payload.value;
+      break;
+
+    case 'limitRateDialog.isOpen':
+      const { payload } = action;
+      draft.limitRateDialog.isOpen = payload.value;
+      if (payload.value === true) {
+        draft.limitRateDialog.kind = payload.kind;
+      }
       break;
 
     default:

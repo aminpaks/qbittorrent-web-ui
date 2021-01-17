@@ -254,6 +254,25 @@ export function getNotificationForContextOps(action: ContextOps, items: Torrent[
           values={values}
         />
       );
+    case 'setDownloadLimit':
+    case 'setUploadLimit':
+      return (
+        <FormattedMessage
+          defaultMessage="New {type} rate applied to {itemCount, plural,
+            one {# item}
+            other {# items}
+          }"
+          values={{
+            ...values,
+            type:
+              action === 'setDownloadLimit' ? (
+                <FormattedMessage defaultMessage="download" />
+              ) : (
+                <FormattedMessage defaultMessage="upload" />
+              ),
+          }}
+        />
+      );
     case 'reannounce':
       return (
         <FormattedMessage

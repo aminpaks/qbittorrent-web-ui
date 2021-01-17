@@ -52,6 +52,7 @@ export const TorrentContextMenu: FC = memo(props => {
       updateDeleteConfirmationDialogIsOpen,
       updateSetLocationDialogIsOpen,
       updateRenameDialogIsOpen,
+      updateLimitRateDialogOpen,
     },
   ] = useUiState();
   const selectedTorrents = torrentListSelection.map(hash => torrentsState.collection[hash] || { hash });
@@ -171,6 +172,15 @@ export const TorrentContextMenu: FC = memo(props => {
 
           case 'rename': {
             updateRenameDialogIsOpen({ value: true });
+            break;
+          }
+
+          case 'setDownloadLimit':
+          case 'setUploadLimit': {
+            updateLimitRateDialogOpen({
+              kind: action === 'setDownloadLimit' ? 'download' : 'upload',
+              value: true,
+            });
             break;
           }
 

@@ -80,6 +80,9 @@
   "FkDkSn": {
     "defaultMessage": "Are you sure you wanna delete {itemCount}?"
   },
+  "G4ezCI": {
+    "defaultMessage": "upload"
+  },
   "Go06C4": {
     "defaultMessage": "Login failed, {reason}"
   },
@@ -115,6 +118,9 @@
   },
   "L3+RNP": {
     "defaultMessage": "Seeding <small>[F]</small>"
+  },
+  "LaM7n1": {
+    "defaultMessage": "download"
   },
   "LwdDVa": {
     "defaultMessage": "Uploaded"
@@ -170,6 +176,9 @@
   "coM7+7": {
     "defaultMessage": "Copied {itemCount, plural, one {# name} other {# names} } to clipboard"
   },
+  "ekXood": {
+    "defaultMessage": "Unlimited"
+  },
   "eypWNM": {
     "defaultMessage": "Automatic Management"
   },
@@ -184,6 +193,9 @@
   },
   "gKhP3B": {
     "defaultMessage": "Up Speed"
+  },
+  "hVIj7Y": {
+    "defaultMessage": "Limited"
   },
   "hceE/7": {
     "defaultMessage": "Force Resume"
@@ -212,6 +224,9 @@
   "lnCIis": {
     "defaultMessage": "free"
   },
+  "lw1zXA": {
+    "defaultMessage": "Set a new limit rate for {itemCount}:"
+  },
   "mZwdRJ": {
     "defaultMessage": "Set Location"
   },
@@ -223,6 +238,9 @@
   },
   "pbYuwH": {
     "defaultMessage": "Total Size"
+  },
+  "pwFP+o": {
+    "defaultMessage": "Update {type} limit rate"
   },
   "qY8vs4": {
     "defaultMessage": "And {count} more items..."
@@ -268,6 +286,9 @@
   },
   "wNCvfg": {
     "defaultMessage": "Added On"
+  },
+  "wkjp48": {
+    "defaultMessage": "New {type} rate applied to {itemCount, plural, one {# item} other {# items} }"
   },
   "xMpvRG": {
     "defaultMessage": "Copy Hash"
