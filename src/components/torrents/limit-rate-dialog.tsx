@@ -20,6 +20,12 @@ import { usePersistentSelectedTorrents, useUiState } from '../state';
 import { useTorrentsOperationMutation } from '../data';
 import { useNotifications } from '../notifications';
 import { getNotificationForContextOps } from './utils';
+import { Torrent } from '../../api';
+
+const LIMIT_RATE_UNIT_VALUE: Record<'k' | 'm', number> = {
+  k: 1_024,
+  m: 1_048_576,
+};
 
 export const TorrentLimitRateDialog = () => {
   const [
@@ -54,33 +60,38 @@ export const TorrentLimitRateDialog = () => {
       list: selectedTorrents.map(({ hash }) => hash),
       params: [
         kind === 'download' ? 'setDownloadLimit' : 'setUploadLimit',
-        { limit: newLimitRate > 0 ? newLimitRate * 1024 : -1 },
+        { limit: newLimitRate > 0 ? newLimitRate * LIMIT_RATE_UNIT_VALUE[limitRateUnit] : -1 },
       ],
     });
   };
 
-  const currentLimitRate =
-    (selectedTorrents.length === 1
-      ? kind === 'download'
-        ? selectedTorrents[0]?.dl_limit
-        : selectedTorrents[0]?.up_limit
-      : 0) ?? 0;
+  let currentLimitRate = Math.min(
+    ...selectedTorrents.map(({ dl_limit = 0, up_limit = 0 } = {} as Torrent) => {
+      const value = kind === 'download' ? dl_limit : up_limit;
+      return value > 0 ? value : 9e12;
+    })
+  );
+  if (currentLimitRate === 9e12) {
+    currentLimitRate = 0;
+  }
 
   // Only update the initial value when mutation is in idle state
   useEffect(() => {
     if (isOpen) {
       if (status === 'idle') {
-        setNewLimitRate(s => {
-          if (selectedTorrents.length > 1) {
-            return 0;
-          } else if (currentLimitRate > 0) {
-            return currentLimitRate / 1024;
+        setLimitRateUnit('k');
+        setNewLimitRate(() => {
+          if (currentLimitRate > 0) {
+            if (currentLimitRate > LIMIT_RATE_UNIT_VALUE.m) {
+              setLimitRateUnit('m');
+              return currentLimitRate / LIMIT_RATE_UNIT_VALUE.m;
+            }
+            return currentLimitRate / LIMIT_RATE_UNIT_VALUE.k;
           }
-          return s;
+          return 0;
         });
       }
     } else {
-      setNewLimitRate(0);
       if (status === 'success') {
         reset();
         persistSelectedTorrents(false);
