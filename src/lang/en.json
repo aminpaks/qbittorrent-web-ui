@@ -1,4 +1,7 @@
 {
+  "+wqTL3": {
+    "defaultMessage": "Set a new name for this item:"
+  },
   "11WYT7": {
     "defaultMessage": "Copy Name"
   },
@@ -37,6 +40,9 @@
   },
   "A6sL8J": {
     "defaultMessage": "Remember me"
+  },
+  "AL6Naj": {
+    "defaultMessage": "Update Name"
   },
   "AYXyuk": {
     "defaultMessage": "Downloading"

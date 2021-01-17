@@ -4,6 +4,7 @@ import { TorrentContextMenu } from './context-menu';
 import { TorrentListSelection } from './selection';
 import { DeleteConfirmation } from './delete-confirmation';
 import { TorrentSetLocation } from './set-location';
+import { TorrentRenameDialog } from './rename-dialog';
 
 export const TorrentsContainer: FC = () => {
   return (
@@ -17,6 +18,8 @@ export const TorrentsContainer: FC = () => {
       <DeleteConfirmation />
 
       <TorrentSetLocation />
+
+      <TorrentRenameDialog />
     </>
   );
 };
