@@ -39,7 +39,7 @@ export const BodyCell: FC<
   const data = (props as unknown) as Record<ExtendedTorrentKeys, unknown>;
   const dataValue = dataKey != null ? data[dataKey] : undefined;
   const hash = data.hash as string;
-  const isSelected = useMemo(() => torrentListSelection.indexOf(hash) >= 0, [torrentListSelection]);
+  const isSelected = torrentListSelection.indexOf(hash) >= 0;
 
   return data.hash ? (
     <div
