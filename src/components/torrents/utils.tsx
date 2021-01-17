@@ -15,8 +15,10 @@ import {
   FindInPageIcon,
   FolderOpenIcon,
   LinkIcon,
+  LowPriorityIcon,
   PauseIcon,
   PlayArrowIcon,
+  ReorderIcon,
   SpeedIcon,
   SubtitlesIcon,
   VerticalAlignBottomIcon,
@@ -83,9 +85,9 @@ export const getContextMenuActionString = (action: ContextOps) => {
     case 'setShareLimits':
       return <FormattedMessage defaultMessage="Limit Share Ratio" />;
     case 'toggleSequentialDownload':
-      return <FormattedMessage defaultMessage="Sequel Order Download" />;
+      return <FormattedMessage defaultMessage="Download in Sequential Order" />;
     case 'toggleFirstLastPiecePrio':
-      return <FormattedMessage defaultMessage="Download First/Last Piece" />;
+      return <FormattedMessage defaultMessage="Download First/Last Piece First" />;
     case 'topPrio':
       return <FormattedMessage defaultMessage="Move to Top of Queue" />;
     case 'increasePrio':
@@ -135,6 +137,10 @@ export const getContextMenuOperationIcon = (operationDetail: ContextOpsSetting) 
       return <VerticalAlignTopIcon fontSize="small" />;
     case 'setShareLimits':
       return <BlockIcon fontSize="small" />;
+    case 'toggleSequentialDownload':
+      return <ReorderIcon fontSize="small" color={isEnabled === true ? 'primary' : 'disabled'} />;
+    case 'toggleFirstLastPiecePrio':
+      return <LowPriorityIcon fontSize="small" color={isEnabled === true ? 'primary' : 'disabled'} />;
     case 'recheck':
     case 'reannounce':
       return <FindInPageIcon fontSize="small" />;
@@ -459,8 +465,6 @@ export const getContextOperations = (items = [] as Torrent[]): ContextOpsSetting
   }
   if (isDownloading || (isPaused && hasSomeIncomplete)) {
     ops.set('setDownloadLimit', false);
-    ops.set('toggleSequentialDownload', false);
-    ops.set('toggleFirstLastPiecePrio', false);
   }
   if (isDownloading || isUploading) {
     ops.set('pause', false);
@@ -474,8 +478,8 @@ export const getContextOperations = (items = [] as Torrent[]): ContextOpsSetting
     ops.set('setForceStart', false);
   }
   if ((isPaused || isDownloading) && hasSomeIncomplete) {
-    ops.set('toggleSequentialDownload', false);
-    ops.set('toggleFirstLastPiecePrio', false);
+    ops.set('toggleSequentialDownload', !items.some(({ seq_dl }) => seq_dl === false));
+    ops.set('toggleFirstLastPiecePrio', !items.some(({ f_l_piece_prio }) => f_l_piece_prio === false));
   }
   if (items.length === 1) {
     ops.set('rename', false);
