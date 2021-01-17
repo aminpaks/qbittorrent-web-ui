@@ -24,6 +24,7 @@ import LabelImportantIcon from '@material-ui/icons/LabelImportant';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import LinkIcon from '@material-ui/icons/Link';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
+import LowPriorityIcon from '@material-ui/icons/LowPriority';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import PauseIcon from '@material-ui/icons/Pause';
@@ -32,6 +33,7 @@ import PowerIcon from '@material-ui/icons/Power';
 import PowerOffIcon from '@material-ui/icons/PowerOff';
 import PublishIcon from '@material-ui/icons/Publish';
 import RemoveIcon from '@material-ui/icons/Remove';
+import ReorderIcon from '@material-ui/icons/Reorder';
 import ShareIcon from '@material-ui/icons/Share';
 import SpeedIcon from '@material-ui/icons/Speed';
 import StorageIcon from '@material-ui/icons/Storage';
@@ -70,6 +72,7 @@ export {
   LastPageIcon,
   LinkIcon,
   LockOpenIcon,
+  LowPriorityIcon,
   MoreHorizIcon,
   MoreVertIcon,
   PauseIcon,
@@ -78,6 +81,7 @@ export {
   PowerOffIcon,
   PublishIcon,
   RemoveIcon,
+  ReorderIcon,
   ShareIcon,
   SpeedIcon,
   StorageIcon,
