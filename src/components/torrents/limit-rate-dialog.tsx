@@ -74,12 +74,12 @@ export const TorrentLimitRateDialog = () => {
   if (currentLimitRate === 9e12) {
     currentLimitRate = 0;
   }
-  console.log(currentLimitRate);
 
   // Only update the initial value when mutation is in idle state
   useEffect(() => {
     if (isOpen) {
       if (status === 'idle') {
+        setLimitRateUnit('k');
         setNewLimitRate(() => {
           if (currentLimitRate > 0) {
             if (currentLimitRate > LIMIT_RATE_UNIT_VALUE.m) {
@@ -92,8 +92,6 @@ export const TorrentLimitRateDialog = () => {
         });
       }
     } else {
-      // setNewLimitRate(0);
-      setLimitRateUnit('k');
       if (status === 'success') {
         reset();
         persistSelectedTorrents(false);
