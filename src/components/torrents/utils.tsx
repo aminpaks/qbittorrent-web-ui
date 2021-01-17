@@ -242,6 +242,8 @@ export function getNotificationForContextOps(action: ContextOps, items: Torrent[
           values={values}
         />
       );
+    case 'rename':
+      return <FormattedMessage defaultMessage="Name updated on one item" />;
     case 'recheck':
       return (
         <FormattedMessage
@@ -346,7 +348,6 @@ export const CONTEXT_OPS_ORDER: ContextOpsOrder = [
 export const DEFAULT_CONTEXT_OPS: ContextOps[] = [
   'delete',
   'setLocation',
-  'rename',
   'setUploadLimit',
   'setShareLimits',
   'recheck',
@@ -446,6 +447,9 @@ export const getContextOperations = (items = [] as Torrent[]): ContextOpsSetting
   if ((isPaused || isDownloading) && hasSomeIncomplete) {
     ops.set('toggleSequentialDownload', false);
     ops.set('toggleFirstLastPiecePrio', false);
+  }
+  if (items.length === 1) {
+    ops.set('rename', false);
   }
 
   return getSortedContextMenuOperations(Array.from(ops.entries()));

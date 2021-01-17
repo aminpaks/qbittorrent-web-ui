@@ -47,7 +47,12 @@ export const TorrentContextMenu: FC = memo(props => {
       torrentListSelection,
       contextMenu: { isOpen },
     },
-    { updateContextMenuIsOpen, updateDeleteConfirmationDialogIsOpen, updateSetLocationDialogIsOpen },
+    {
+      updateContextMenuIsOpen,
+      updateDeleteConfirmationDialogIsOpen,
+      updateSetLocationDialogIsOpen,
+      updateRenameDialogIsOpen,
+    },
   ] = useUiState();
   const selectedTorrents = torrentListSelection.map(hash => torrentsState.collection[hash] || { hash });
   const ops = getContextOperations(selectedTorrents);
@@ -161,6 +166,11 @@ export const TorrentContextMenu: FC = memo(props => {
 
           case 'setLocation': {
             updateSetLocationDialogIsOpen({ value: true });
+            break;
+          }
+
+          case 'rename': {
+            updateRenameDialogIsOpen({ value: true });
             break;
           }
 

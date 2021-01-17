@@ -29,6 +29,9 @@
   "8AXy/H": {
     "defaultMessage": "Downloading <small>[F]</small>"
   },
+  "8JMAIc": {
+    "defaultMessage": "Name updated on one item"
+  },
   "95stPq": {
     "defaultMessage": "Completed"
   },
@@ -37,6 +40,9 @@
   },
   "A6sL8J": {
     "defaultMessage": "Remember me"
+  },
+  "AL6Naj": {
+    "defaultMessage": "Update Name"
   },
   "AYXyuk": {
     "defaultMessage": "Downloading"
@@ -80,6 +86,9 @@
   "HAlOn1": {
     "defaultMessage": "Name"
   },
+  "IXuOcz": {
+    "defaultMessage": "New name"
+  },
   "JCIgkj": {
     "defaultMessage": "Username"
   },
@@ -112,6 +121,9 @@
   },
   "M5Uo3T": {
     "defaultMessage": "Move Down One in Queue"
+  },
+  "OZfkbJ": {
+    "defaultMessage": "Set a new name for item below:"
   },
   "OlwlCi": {
     "defaultMessage": "Downloaded"

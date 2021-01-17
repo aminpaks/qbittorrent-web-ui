@@ -12,6 +12,9 @@ export interface UiState {
   setLocation: {
     isOpen: boolean;
   };
+  rename: {
+    isOpen: boolean;
+  };
 }
 
 const initialUiState: UiState = {
@@ -23,6 +26,9 @@ const initialUiState: UiState = {
     isOpen: false,
   },
   setLocation: {
+    isOpen: false,
+  },
+  rename: {
     isOpen: false,
   },
 };
@@ -41,11 +47,14 @@ const updateDeleteConfirmationDialogIsOpen = actionCreator('deleteConfirmation.i
 
 const updateSetLocationDialogIsOpen = actionCreator('setLocation.isOpen')<{ value: boolean }>();
 
+const updateRenameDialogIsOpen = actionCreator('rename.isOpen')<{ value: boolean }>();
+
 export const uiActions = {
   updateTorrentSelectionList,
   updateContextMenuIsOpen,
   updateDeleteConfirmationDialogIsOpen,
   updateSetLocationDialogIsOpen,
+  updateRenameDialogIsOpen,
 };
 
 type ActionReturns<T> = T extends Record<string, infer AC>
@@ -98,6 +107,10 @@ const reducer = produce((draft: UiState, action: UiActions) => {
 
     case 'setLocation.isOpen':
       draft.setLocation.isOpen = action.payload.value;
+      break;
+
+    case 'rename.isOpen':
+      draft.rename.isOpen = action.payload.value;
       break;
 
     default:

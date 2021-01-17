@@ -1,5 +1,8 @@
 import { FormattedMessage } from 'react-intl';
 import { ConnectionStatus } from '../../api';
+import { usePersistentMemo } from '../utils';
+import { useTorrentsState } from './server-state';
+import { useUiState } from './ui-state';
 
 export const getConnectionStatusString = (status: ConnectionStatus) => {
   switch (status) {
@@ -11,4 +14,11 @@ export const getConnectionStatusString = (status: ConnectionStatus) => {
     default:
       return <FormattedMessage defaultMessage="offline" tagName="span" />;
   }
+};
+
+export const usePersistentSelectedTorrents = () => {
+  const { collection, hashList } = useTorrentsState();
+  const [{ torrentListSelection: selection }] = useUiState();
+
+  return usePersistentMemo(() => selection.map(hash => collection[hash] ?? { hash }), [selection, hashList]);
 };

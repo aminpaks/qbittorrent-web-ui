@@ -44,6 +44,29 @@ type TorrentPrimitiveOperationRecord = {
   recheck: never;
   reannounce: never;
 };
+type HashPayload = { hash: string };
+type HashListPayload = { hashes: string };
+type TorrentOperationPayload = {
+  resume: HashListPayload;
+  pause: HashListPayload;
+  setForceStart: { value: boolean } & HashListPayload;
+  delete: { deleteFiles: boolean } & HashListPayload;
+  setLocation: { location: string } & HashListPayload;
+  rename: { name: string } & HashPayload;
+  setAutoManagement: { enable: boolean } & HashListPayload;
+  setSuperSeeding: { value: boolean } & HashListPayload;
+  setDownloadLimit: { limit: number } & HashListPayload;
+  setUploadLimit: { limit: number } & HashListPayload;
+  setShareLimits: { ratioLimit: number; seedingTimeLimit: number } & HashListPayload;
+  toggleSequentialDownload: never & HashListPayload;
+  toggleFirstLastPiecePrio: never & HashListPayload;
+  topPrio: HashListPayload;
+  increasePrio: HashListPayload;
+  decreasePrio: HashListPayload;
+  bottomPrio: HashListPayload;
+  recheck: HashListPayload;
+  reannounce: HashListPayload;
+};
 type TorrentPrimitiveOperationOrder = [
   'resume',
   'pause',
@@ -65,9 +88,8 @@ type TorrentPrimitiveOperationOrder = [
   'recheck',
   'reannounce'
 ];
-export type TorrentPrimitiveOperations = keyof TorrentPrimitiveOperationRecord;
-type TorrentBasicActionOption<K extends TorrentPrimitiveOperations> = TorrentPrimitiveOperationRecord[K];
 
+export type TorrentPrimitiveOperations = keyof TorrentPrimitiveOperationRecord;
 export type TorrentPrimitiveOperationOptions = {
   [K in TorrentPrimitiveOperations]: TorrentPrimitiveOperationRecord[K] extends never
     ? [action: K]
@@ -148,51 +170,54 @@ const torrentsPrimitiveOperations: TorrentPrimitiveOperationOrder = [
 ];
 
 const getOperationFormParams = (
-  ...args: TorrentPrimitiveOperationOptions
-): TorrentBasicActionOption<typeof args[0]> | {} => {
-  switch (args[0]) {
+  hashList: string[],
+  params: TorrentPrimitiveOperationOptions
+): TorrentOperationPayload[typeof params[0]] => {
+  const hash = hashList[0];
+  const hashes = hashList.join('|');
+  switch (params[0]) {
     case 'setForceStart':
     case 'setSuperSeeding':
-      const { value = false } = args[1] || {};
-      return { value };
+      const { value = false } = params[1] || {};
+      return { hashes, value };
 
     case 'setAutoManagement':
-      const { enable = true } = args[1] || {};
-      return { enable };
+      const { enable = true } = params[1] || {};
+      return { hashes, enable };
 
     case 'delete':
-      const { hardDelete: deleteFiles = false } = args[1] || {};
-      return { deleteFiles };
+      const { hardDelete: deleteFiles = false } = params[1] || {};
+      return { hashes, deleteFiles };
 
     case 'rename':
-      const { name = '' } = args[1] || {};
+      const { name = '' } = params[1] || {};
       if (!name) {
         throw buildError(`Missing parameter "name"`);
       }
-      return { name };
+      return { hash, name };
 
     case 'setLocation':
-      const { location = '' } = args[1] || {};
+      const { location = '' } = params[1] || {};
       if (!location) {
         throw buildError(`Missing parameter "Location"`);
       }
-      return { location };
+      return { hashes, location };
 
     case 'setDownloadLimit':
     case 'setUploadLimit':
-      const { limit = 0 } = args[1] || {};
-      return { limit };
+      const { limit = 0 } = params[1] || {};
+      return { hashes, limit };
 
     case 'setShareLimits':
       // The value -2 is global settings
-      const { ratioLimit = -2, seedingTimeLimit = -2 } = args[1] || {};
+      const { ratioLimit = -2, seedingTimeLimit = -2 } = params[1] || {};
       if (ratioLimit < -2 || seedingTimeLimit < -2) {
         throw buildError(`Invalid parameter limit "${JSON.stringify({ ratioLimit, seedingTimeLimit })}"`);
       }
-      return { ratioLimit, seedingTimeLimit };
+      return { hashes, ratioLimit, seedingTimeLimit };
 
     default:
-      return {};
+      return { hashes };
   }
 };
 
@@ -203,9 +228,6 @@ export const apiV2TorrentsBasicAction = (hashList: string[], params: TorrentPrim
 
   return request(buildEndpointUrl(`/api/v2/torrents/${params[0]}`), {
     method: 'POST',
-    body: getFormData({
-      hashes: hashList.join('|'),
-      ...getOperationFormParams(...params),
-    }),
+    body: getFormData(getOperationFormParams(hashList, params)),
   }).then(() => true);
 };
