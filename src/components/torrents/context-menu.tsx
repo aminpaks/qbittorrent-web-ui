@@ -175,13 +175,12 @@ export const TorrentContextMenu: FC = memo(props => {
             break;
           }
 
-          case 'setDownloadLimit': {
-            updateLimitRateDialogOpen({ kind: 'download', value: true });
-            break;
-          }
-
+          case 'setDownloadLimit':
           case 'setUploadLimit': {
-            updateLimitRateDialogOpen({ kind: 'upload', value: true });
+            updateLimitRateDialogOpen({
+              kind: action === 'setDownloadLimit' ? 'download' : 'upload',
+              value: true,
+            });
             break;
           }
 

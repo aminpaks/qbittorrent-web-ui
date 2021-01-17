@@ -41,9 +41,6 @@
   "A6sL8J": {
     "defaultMessage": "Remember me"
   },
-  "ACJf9p": {
-    "defaultMessage": "Update download limit rate"
-  },
   "AL6Naj": {
     "defaultMessage": "Update Name"
   },
@@ -149,9 +146,6 @@
   "R0VtDp": {
     "defaultMessage": "Auto management <b>{state}</b> on {itemCount, plural, one {# item} other {# items} }"
   },
-  "TAngT0": {
-    "defaultMessage": "Update uploaded limit rate"
-  },
   "UWFphS": {
     "defaultMessage": "Copied {itemCount, plural, one {# hash} other {# hashes} } to clipboard"
   },
@@ -182,6 +176,9 @@
   "coM7+7": {
     "defaultMessage": "Copied {itemCount, plural, one {# name} other {# names} } to clipboard"
   },
+  "ekXood": {
+    "defaultMessage": "Unlimited"
+  },
   "eypWNM": {
     "defaultMessage": "Automatic Management"
   },
@@ -196,6 +193,9 @@
   },
   "gKhP3B": {
     "defaultMessage": "Up Speed"
+  },
+  "hVIj7Y": {
+    "defaultMessage": "Limited"
   },
   "hceE/7": {
     "defaultMessage": "Force Resume"
@@ -238,6 +238,9 @@
   },
   "pbYuwH": {
     "defaultMessage": "Total Size"
+  },
+  "pwFP+o": {
+    "defaultMessage": "Update {type} limit rate"
   },
   "qY8vs4": {
     "defaultMessage": "And {count} more items..."

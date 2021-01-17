@@ -32,7 +32,7 @@ export const TorrentLimitRateDialog = () => {
   const [newLimitRate, setNewLimitRate] = useState(0);
   const [limitRateUnit, setLimitRateUnit] = useState('k' as 'k' | 'm');
   const [selectedTorrents, persistSelectedTorrents] = usePersistentSelectedTorrents();
-  const { mutate: basicAction, isLoading, status, reset } = useTorrentsOperationMutation({
+  const { mutate: executeOperation, isLoading, status, reset } = useTorrentsOperationMutation({
     onSuccess: response => {
       if (response === true) {
         updateLimitRateDialogOpen({ value: false });
@@ -50,7 +50,7 @@ export const TorrentLimitRateDialog = () => {
 
   const handleLimitRateChange = () => {
     persistSelectedTorrents();
-    basicAction({
+    executeOperation({
       list: selectedTorrents.map(({ hash }) => hash),
       params: [
         kind === 'download' ? 'setDownloadLimit' : 'setUploadLimit',
@@ -98,11 +98,17 @@ export const TorrentLimitRateDialog = () => {
       }}
     >
       <DialogTitle>
-        {kind === 'download' ? (
-          <FormattedMessage defaultMessage="Update download limit rate" />
-        ) : (
-          <FormattedMessage defaultMessage="Update uploaded limit rate" />
-        )}
+        <FormattedMessage
+          defaultMessage="Update {type} limit rate"
+          values={{
+            type:
+              kind === 'download' ? (
+                <FormattedMessage defaultMessage="download" />
+              ) : (
+                <FormattedMessage defaultMessage="upload" />
+              ),
+          }}
+        />
       </DialogTitle>
       <DialogContent>
         <DialogContentText>
@@ -142,8 +148,16 @@ export const TorrentLimitRateDialog = () => {
               }
             }}
           >
-            <FormControlLabel value="limited" control={<Radio />} label={<span>Limited</span>} />
-            <FormControlLabel value="unlimited" control={<Radio />} label={<span>Unlimited</span>} />
+            <FormControlLabel
+              value="limited"
+              control={<Radio />}
+              label={<FormattedMessage defaultMessage="Limited" />}
+            />
+            <FormControlLabel
+              value="unlimited"
+              control={<Radio />}
+              label={<FormattedMessage defaultMessage="Unlimited" />}
+            />
           </RadioGroup>
         </FormControl>
         {newLimitRate > 0 ? (
