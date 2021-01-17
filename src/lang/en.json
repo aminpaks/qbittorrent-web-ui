@@ -5,6 +5,9 @@
   "1M6M38": {
     "defaultMessage": "Set a new location for {itemCount}:"
   },
+  "38Uuxq": {
+    "defaultMessage": "Set a new limit ratio for {itemCount}:"
+  },
   "3BG+4W": {
     "defaultMessage": "Limit Share Ratio"
   },
@@ -19,6 +22,9 @@
   },
   "4rBTD/": {
     "defaultMessage": "Toggled first/last piece priority on {itemCount, plural, one {# item} other {# items} }"
+  },
+  "4xq39n": {
+    "defaultMessage": "Update share limit ratio"
   },
   "5jeq8P": {
     "defaultMessage": "Unknown"
@@ -74,6 +80,9 @@
   "Cnm0QA": {
     "defaultMessage": "Queued"
   },
+  "Ebg0yQ": {
+    "defaultMessage": "these items"
+  },
   "F+mMwM": {
     "defaultMessage": "Welcome to qBittorrent"
   },
@@ -91,6 +100,9 @@
   },
   "IXuOcz": {
     "defaultMessage": "New name"
+  },
+  "IgB6GU": {
+    "defaultMessage": "Individual"
   },
   "JCIgkj": {
     "defaultMessage": "Username"
@@ -133,6 +145,9 @@
   },
   "OlwlCi": {
     "defaultMessage": "Downloaded"
+  },
+  "PfW4AI": {
+    "defaultMessage": "No limit"
   },
   "QPwd+2": {
     "defaultMessage": "Sequel Order Download"
@@ -193,6 +208,9 @@
   },
   "gKhP3B": {
     "defaultMessage": "Up Speed"
+  },
+  "hBAWHR": {
+    "defaultMessage": "this item"
   },
   "hVIj7Y": {
     "defaultMessage": "Limited"
@@ -275,6 +293,9 @@
   "tzMNF3": {
     "defaultMessage": "Status"
   },
+  "uU7FbM": {
+    "defaultMessage": "New share limit applied to {itemCount, plural, one {one item} other {# items} }"
+  },
   "v3MWTZ": {
     "defaultMessage": "online"
   },
@@ -304,5 +325,8 @@
   },
   "zmJ4SQ": {
     "defaultMessage": "Missing files"
+  },
+  "zmx/Ju": {
+    "defaultMessage": "Global limit"
   }
 }

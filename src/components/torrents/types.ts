@@ -19,3 +19,5 @@ export interface ContextOpsState {
   hasCompletedItems: boolean;
   hasDownloadingItems: boolean;
 }
+
+export type ShareLimitType = 'globalLimit' | 'noLimit' | 'individual';

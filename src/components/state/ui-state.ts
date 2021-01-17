@@ -19,6 +19,9 @@ export interface UiState {
     kind: 'download' | 'upload';
     isOpen: boolean;
   };
+  limitShareDialog: {
+    isOpen: boolean;
+  };
 }
 
 const initialUiState: UiState = {
@@ -37,6 +40,9 @@ const initialUiState: UiState = {
   },
   limitRateDialog: {
     kind: 'download',
+    isOpen: false,
+  },
+  limitShareDialog: {
     isOpen: false,
   },
 };
@@ -65,6 +71,8 @@ const updateLimitRateDialogOpen = actionCreator('limitRateDialog.isOpen')<
   | { value: false }
 >();
 
+const updateShareLimitDialogOpen = actionCreator('limitShareDialog.isOpen')<{ value: boolean }>();
+
 export const uiActions = {
   updateTorrentSelectionList,
   updateContextMenuIsOpen,
@@ -72,6 +80,7 @@ export const uiActions = {
   updateSetLocationDialogIsOpen,
   updateRenameDialogIsOpen,
   updateLimitRateDialogOpen,
+  updateShareLimitDialogOpen,
 };
 
 type ActionReturns<T> = T extends Record<string, infer AC>
@@ -136,6 +145,10 @@ const reducer = produce((draft: UiState, action: UiActions) => {
       if (payload.value === true) {
         draft.limitRateDialog.kind = payload.kind;
       }
+      break;
+
+    case 'limitShareDialog.isOpen':
+      draft.limitShareDialog.isOpen = action.payload.value;
       break;
 
     default:

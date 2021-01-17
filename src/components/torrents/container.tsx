@@ -6,6 +6,7 @@ import { DeleteConfirmation } from './delete-confirmation';
 import { TorrentSetLocation } from './set-location';
 import { TorrentRenameDialog } from './rename-dialog';
 import { TorrentLimitRateDialog } from './limit-rate-dialog';
+import { TorrentShareLimitDialog } from './limit-share-dialog';
 
 export const TorrentsContainer: FC = () => {
   return (
@@ -23,6 +24,8 @@ export const TorrentsContainer: FC = () => {
       <TorrentRenameDialog />
 
       <TorrentLimitRateDialog />
+
+      <TorrentShareLimitDialog />
     </>
   );
 };

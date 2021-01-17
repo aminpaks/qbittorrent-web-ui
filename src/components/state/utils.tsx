@@ -1,5 +1,5 @@
 import { FormattedMessage } from 'react-intl';
-import { ConnectionStatus } from '../../api';
+import { ConnectionStatus, Torrent } from '../../api';
 import { usePersistentMemo } from '../utils';
 import { useTorrentsState } from './server-state';
 import { useUiState } from './ui-state';
@@ -16,9 +16,14 @@ export const getConnectionStatusString = (status: ConnectionStatus) => {
   }
 };
 
-export const usePersistentSelectedTorrents = () => {
+export const usePersistentSelectedTorrents = (): [Torrent[], (shouldPersist?: boolean) => void, string[]] => {
   const { collection, hashList } = useTorrentsState();
   const [{ torrentListSelection: selection }] = useUiState();
 
-  return usePersistentMemo(() => selection.map(hash => collection[hash] ?? { hash }), [selection, hashList]);
+  const [torrents, persist] = usePersistentMemo(() => selection.map(hash => collection[hash] ?? { hash }), [
+    selection,
+    hashList,
+  ]);
+
+  return [torrents, persist, hashList];
 };
