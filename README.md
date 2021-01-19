@@ -1,6 +1,9 @@
 # qBittorrent Web UI
 A simple but efficient UI for qBittorrent
 
+## Installation & Usage
+Follow [this article](https://github.com/aminpaks/qbittorrent-web-ui/wiki/How-to-use-this-custom-WebUI) in Wiki explaining how to install this alternative WebUI for your qBittorrent.
+
 ## Development
 To start development environment you will need to get installed some tools.
 We are using webpack dev-server to handle the local web server. Follow [this section](#start-the-local-web-server) to see how to start.
