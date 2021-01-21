@@ -1,4 +1,4 @@
-import { getFormData } from '../utils';
+import { getFormData, getFormDataFileList } from '../utils';
 import { apiRequest, request } from './request';
 import { buildEndpointUrl, buildError } from './utils';
 
@@ -229,5 +229,42 @@ export const apiV2TorrentsBasicAction = (hashList: string[], params: TorrentPrim
   return request(buildEndpointUrl(`/api/v2/torrents/${params[0]}`), {
     method: 'POST',
     body: getFormData(getOperationFormParams(hashList, params)),
+  }).then(() => true);
+};
+
+export interface TorrentAddOptions {
+  savepath: string; //	Download folder
+  cookie: string; //	Cookie sent to download the .torrent file
+  category: string; //	Category for the torrent
+  tags: string; //	Tags for the torrent, split by ','
+  skip_checking: string; //	Skip hash checking. Possible values are true, false (default)
+  paused: string; //	Add torrents in the paused state. Possible values are true, false (default)
+  root_folder: string; //	Create the root folder. Possible values are true, false, unset (default)
+  rename: string; //	Rename torrent
+  upLimit: number; //	Set torrent upload speed limit. Unit in bytes/second
+  dlLimit: number; //	Set torrent download speed limit. Unit in bytes/second
+  autoTMM: boolean; //	Whether Automatic Torrent Management should be used
+  sequentialDownload: string; //	Enable sequential download. Possible values are true, false (default)
+  firstLastPiecePrio: string; //	Prioritize download first last piece. Possible values are true, false (default)
+}
+
+export const apiV2TorrentsAddFile = (
+  newItems: { files: File[]; _tag: 'file' } | { urls: string[]; _tag: 'url' },
+  options = {} as Partial<TorrentAddOptions>
+) => {
+  const body =
+    newItems._tag === 'file'
+      ? getFormDataFileList(options, {
+          fieldName: 'torrents',
+          files: newItems.files,
+        })
+      : getFormData({
+          ...options,
+          urls: newItems.urls.join('\n'),
+        });
+
+  return request(buildEndpointUrl(`/api/v2/torrents/add`), {
+    method: 'POST',
+    body,
   }).then(() => true);
 };

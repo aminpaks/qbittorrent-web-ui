@@ -8,3 +8,16 @@ export const getFormData = (obj: object) => {
 
   return body;
 };
+
+export const getFormDataFileList = (
+  data: object,
+  { fieldName, files, fileNames = [] }: { fieldName: string; files: File[]; fileNames?: string[] }
+) => {
+  const form = getFormData(data);
+
+  files.forEach((file, idx) => {
+    form.append(fieldName, file, fileNames[idx]);
+  });
+
+  return form;
+};

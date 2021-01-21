@@ -4,6 +4,7 @@ import { mStyles } from '../common';
 import { useTorrentsOperationMutation } from '../data';
 import { Typography, Box, IconButton } from '../material-ui-core';
 import {
+  AddIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
   FirstPageIcon,
@@ -54,7 +55,7 @@ const useStyles = mStyles(({ spacing, palette }) => ({
 export const AppHeader: FC<{ qbtVersion: string }> = ({ qbtVersion }) => {
   const classes = useStyles();
   const intl = useIntl();
-  const [{ torrentListSelection }] = useUiState();
+  const [{ torrentListSelection }, { updateAddNewDialogOpen }] = useUiState();
   const { mutate: executeOperation } = useTorrentsOperationMutation({
     onError: (err: unknown) => {
       console.log('error', err);
@@ -64,7 +65,6 @@ export const AppHeader: FC<{ qbtVersion: string }> = ({ qbtVersion }) => {
 
   const getHandleButtonClick = (action: HeaderActions) => {
     return () => {
-      console.log(action, torrentListSelection);
       switch (action) {
         case 'resume':
         case 'pause':
@@ -73,7 +73,10 @@ export const AppHeader: FC<{ qbtVersion: string }> = ({ qbtVersion }) => {
         case 'increasePrio':
         case 'decreasePrio':
           return executeOperation({ list: torrentListSelection, params: [action] });
+        case 'add':
+          updateAddNewDialogOpen({ value: true });
         default:
+          console.log(action, torrentListSelection);
           return;
       }
     };
@@ -87,6 +90,11 @@ export const AppHeader: FC<{ qbtVersion: string }> = ({ qbtVersion }) => {
         </div>
       </div>
       <div className={classes.actionButtons}>
+        <div>
+          <IconButton color="inherit" onClick={getHandleButtonClick('add')}>
+            <AddIcon />
+          </IconButton>
+        </div>
         <div className="qbt--header--action-buttons-wrapper">
           <IconButton
             color="inherit"

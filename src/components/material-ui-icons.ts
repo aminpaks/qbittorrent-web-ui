@@ -1,3 +1,4 @@
+import AddIcon from '@material-ui/icons/Add';
 import AlarmIcon from '@material-ui/icons/Alarm';
 import AllInclusiveIcon from '@material-ui/icons/AllInclusive';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
@@ -46,6 +47,7 @@ import WifiIcon from '@material-ui/icons/Wifi';
 import WifiOffIcon from '@material-ui/icons/WifiOff';
 
 export {
+  AddIcon,
   AlarmIcon,
   AllInclusiveIcon,
   ArrowDownwardIcon,

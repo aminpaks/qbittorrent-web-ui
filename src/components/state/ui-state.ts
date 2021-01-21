@@ -1,5 +1,5 @@
 import produce from 'immer';
-import { actionCreator, buildCustomContext } from '../utils';
+import { actionCreator, ActionUnion, buildCustomContext } from '../utils';
 
 export interface UiState {
   torrentListSelection: string[];
@@ -20,6 +20,9 @@ export interface UiState {
     isOpen: boolean;
   };
   limitShareDialog: {
+    isOpen: boolean;
+  };
+  addNewDialog: {
     isOpen: boolean;
   };
 }
@@ -43,6 +46,9 @@ const initialUiState: UiState = {
     isOpen: false,
   },
   limitShareDialog: {
+    isOpen: false,
+  },
+  addNewDialog: {
     isOpen: false,
   },
 };
@@ -73,6 +79,8 @@ const updateLimitRateDialogOpen = actionCreator('limitRateDialog.isOpen')<
 
 const updateShareLimitDialogOpen = actionCreator('limitShareDialog.isOpen')<{ value: boolean }>();
 
+const updateAddNewDialogOpen = actionCreator('addNewDialog.isOpen')<{ value: boolean }>();
+
 export const uiActions = {
   updateTorrentSelectionList,
   updateContextMenuIsOpen,
@@ -81,14 +89,10 @@ export const uiActions = {
   updateRenameDialogIsOpen,
   updateLimitRateDialogOpen,
   updateShareLimitDialogOpen,
+  updateAddNewDialogOpen,
 };
 
-type ActionReturns<T> = T extends Record<string, infer AC>
-  ? AC extends (...args: any) => infer R
-    ? R
-    : never
-  : never;
-export type UiActions = ActionReturns<typeof uiActions>;
+export type UiActions = ActionUnion<typeof uiActions>;
 
 const reducer = produce((draft: UiState, action: UiActions) => {
   switch (action.type) {
@@ -149,6 +153,10 @@ const reducer = produce((draft: UiState, action: UiActions) => {
 
     case 'limitShareDialog.isOpen':
       draft.limitShareDialog.isOpen = action.payload.value;
+      break;
+
+    case 'addNewDialog.isOpen':
+      draft.addNewDialog.isOpen = action.payload.value;
       break;
 
     default:
