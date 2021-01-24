@@ -39,80 +39,85 @@ export const AppContextProvider: FC = ({ children }) => {
 
   useEffect(() => {
     let tid: number | null = null;
+    let nextFetchDelay = 1_000;
 
     async function fetchMaindata() {
       const sync = await tryCatch(() => apiV2SyncMaindata(referenceId.current), {} as SyncMaindata);
       const { rid, full_update, torrents = {}, torrents_removed, server_state } = sync;
 
-      referenceId.current = rid;
+      if (rid) {
+        referenceId.current = rid;
 
-      if (torrents_removed && torrents_removed.length > 0) {
-        setTorrentsState(s =>
-          produce(s, draft => {
-            draft.hashList = draft.hashList.filter(hash => torrents_removed.indexOf(hash) < 0);
-            torrents_removed.forEach(hash => {
-              delete draft.collection[hash];
-            });
-          })
-        );
-      }
-
-      const torrentHashes = Object.keys(torrents);
-      if (full_update) {
-        // Mutate items and update hash property
-        for (const hash in torrents) {
-          torrents[hash].hash = hash;
-        }
-        setTorrentsState({
-          collection: torrents as TorrentCollection,
-          hashList: sortTorrent(Object.values(torrents) as Torrent[]),
-        });
-      } else if (torrentHashes.length > 0) {
-        setTorrentsState(s => {
-          return produce(s, draft => {
-            let shouldUpdateHashOrder = false;
-            torrentHashes.forEach(hash => {
-              const currentItem = draft.collection[hash] as Torrent | null;
-              const torrent = torrents[hash];
-              if (currentItem) {
-                Object.entries(torrent).forEach(item => {
-                  const [key, value] = item as [keyof Torrent, never];
-                  if (key === 'priority') {
-                    shouldUpdateHashOrder = true;
-                  }
-                  currentItem[key] = value;
-                });
-              } else {
-                draft.collection[hash] = torrent as Torrent;
-                draft.hashList.push(hash);
-              }
-            });
-            if (shouldUpdateHashOrder) {
-              let updatedHashList = sortTorrent(Object.values(draft.collection) as Torrent[]);
-              draft.hashList = updatedHashList;
-            }
-          });
-        });
-      }
-
-      // Update Server state
-      if (server_state) {
-        if (full_update) {
-          setServerState(server_state);
-        } else {
-          setServerState(s =>
-            produce(s, (draft: any) => {
-              for (const key in server_state) {
-                draft[key] = (server_state as any)[key];
-              }
+        if (torrents_removed && torrents_removed.length > 0) {
+          setTorrentsState(s =>
+            produce(s, draft => {
+              draft.hashList = draft.hashList.filter(hash => torrents_removed.indexOf(hash) < 0);
+              torrents_removed.forEach(hash => {
+                delete draft.collection[hash];
+              });
             })
           );
         }
+
+        const torrentHashes = Object.keys(torrents);
+        if (full_update) {
+          // Mutate items and update hash property
+          for (const hash in torrents) {
+            torrents[hash].hash = hash;
+          }
+          setTorrentsState({
+            collection: torrents as TorrentCollection,
+            hashList: sortTorrent(Object.values(torrents) as Torrent[]),
+          });
+        } else if (torrentHashes.length > 0) {
+          setTorrentsState(s => {
+            return produce(s, draft => {
+              let shouldUpdateHashOrder = false;
+              torrentHashes.forEach(hash => {
+                const currentItem = draft.collection[hash] as Torrent | undefined;
+                const torrent = torrents[hash];
+                if (currentItem) {
+                  Object.entries(torrent).forEach(item => {
+                    const [key, value] = item as [keyof Torrent, never];
+                    if (key === 'priority') {
+                      shouldUpdateHashOrder = true;
+                    }
+                    currentItem[key] = value;
+                  });
+                } else {
+                  draft.collection[hash] = { ...torrent, hash } as Torrent;
+                  draft.hashList.push(hash);
+                }
+              });
+              if (shouldUpdateHashOrder) {
+                let updatedHashList = sortTorrent(Object.values(draft.collection) as Torrent[]);
+                draft.hashList = updatedHashList;
+              }
+            });
+          });
+        }
+
+        // Update Server state
+        if (server_state) {
+          if (full_update) {
+            setServerState(server_state);
+          } else {
+            setServerState(s =>
+              produce(s, (draft: any) => {
+                for (const key in server_state) {
+                  draft[key] = (server_state as any)[key];
+                }
+              })
+            );
+          }
+        }
+      } else {
+        nextFetchDelay = 30_000;
       }
 
       tid = window.setTimeout(() => {
         fetchMaindata();
-      }, 1_000);
+      }, nextFetchDelay);
     }
 
     fetchMaindata();
