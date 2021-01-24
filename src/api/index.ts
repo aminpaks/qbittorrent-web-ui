@@ -1,5 +1,5 @@
 export * from './app';
-export * from './appPreferences';
+export * from './app-preferences';
 export * from './auth';
 export * from './request';
 export * from './sync';

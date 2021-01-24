@@ -15,11 +15,17 @@ export const tableColumns: TableColumn[] = [
     align: 'right',
   },
   { label: <FormattedMessage defaultMessage="Progress" />, dataKey: 'progress', width: 120 },
-  { label: <FormattedMessage defaultMessage="Status" />, dataKey: 'state', width: 140 },
+  { label: <FormattedMessage defaultMessage="Status" />, dataKey: 'state', width: 160 },
   {
     label: <FormattedMessage defaultMessage="Size" />,
     dataKey: 'size',
     width: 80,
+    align: 'right',
+  },
+  {
+    label: <FormattedMessage defaultMessage="Total Size" />,
+    dataKey: 'total_size',
+    width: 100,
     align: 'right',
   },
   {
@@ -32,12 +38,6 @@ export const tableColumns: TableColumn[] = [
     label: <FormattedMessage defaultMessage="Peers" />,
     dataKey: 'num_leechs',
     width: 80,
-    align: 'right',
-  },
-  {
-    label: <FormattedMessage defaultMessage="Total Size" />,
-    dataKey: 'total_size',
-    width: 100,
     align: 'right',
   },
   {

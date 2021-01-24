@@ -5,4 +5,5 @@ export type HeaderActions =
   | 'topPrio'
   | 'increasePrio'
   | 'decreasePrio'
-  | 'bottomPrio';
+  | 'bottomPrio'
+  | 'add';

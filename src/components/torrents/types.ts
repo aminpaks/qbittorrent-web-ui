@@ -21,3 +21,19 @@ export interface ContextOpsState {
 }
 
 export type ShareLimitType = 'globalLimit' | 'noLimit' | 'individual';
+
+export interface NewTorrentOptions {
+  savePath: string;
+  rootFolder: string;
+  name: string;
+  cookie: string;
+  category: string;
+  tags: string[];
+  autoStart: boolean;
+  skipHashChecking: boolean;
+  uploadLimit: number;
+  downloadLimit: number;
+  autoManagement: boolean;
+  sequentialDownload: boolean;
+  firstLastPiecePrioritized: boolean;
+}

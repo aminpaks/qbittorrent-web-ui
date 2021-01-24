@@ -13,3 +13,12 @@ export const pick = <T extends object, K extends keyof T>(obj: T, keys: K[]) => 
     return acc;
   }, {} as Pick<T, K>);
 };
+
+export const unsafeMutateDefaults = <T extends object>(i: Required<T>) => (obj: T): T => {
+  for (const key of Object.keys(i) as (keyof T)[]) {
+    if (obj[key] === undefined) {
+      obj[key] = i[key];
+    }
+  }
+  return obj;
+};
