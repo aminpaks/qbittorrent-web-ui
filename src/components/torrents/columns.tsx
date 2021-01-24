@@ -15,7 +15,7 @@ export const tableColumns: TableColumn[] = [
     align: 'right',
   },
   { label: <FormattedMessage defaultMessage="Progress" />, dataKey: 'progress', width: 120 },
-  { label: <FormattedMessage defaultMessage="Status" />, dataKey: 'state', width: 140 },
+  { label: <FormattedMessage defaultMessage="Status" />, dataKey: 'state', width: 160 },
   {
     label: <FormattedMessage defaultMessage="Size" />,
     dataKey: 'size',
