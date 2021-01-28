@@ -2,7 +2,7 @@ on:
   push:
     branches: [ actions ]
 
-name: qBittorrent WebUI App
+name: Prepare Release
 
 jobs:
   debug:
