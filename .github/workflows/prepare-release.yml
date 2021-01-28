@@ -9,12 +9,12 @@ jobs:
     name: Debug
     runs-on: ubuntu-latest
     steps:
-      - name: Dump env
-        run: env | sort
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
+    - name: Dump env
+      run: env | sort
+    - name: Dump GitHub context
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: echo "$GITHUB_CONTEXT"
 
   build:
     runs-on: ubuntu-latest
@@ -33,8 +33,6 @@ jobs:
       run: |
         echo $RELEASE_VERSION
         echo ${{ env.RELEASE_VERSION }}
-
-    - run: echo ${{ github.event.release.tag_name }}
 
     - name: Get yarn cache directory path
       id: yarn-cache-dir-path
@@ -56,7 +54,5 @@ jobs:
     - run: yarn install --pure-lockfile --non-interactive --no-progress
     - run: yarn run typecheck
     - run: yarn run build
-    - run: echo $version
       env:
         CI: true
-        version: ${{ github.event.release.tag_name }}
