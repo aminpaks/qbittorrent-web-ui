@@ -1,8 +1,6 @@
-on:
-  push:
-    branches: [ actions ]
-
 name: Prepare Release
+
+on: [ push ]
 
 jobs:
   debug:
