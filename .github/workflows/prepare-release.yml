@@ -2,7 +2,7 @@ on:
   push:
     branches: [ actions ]
 
-name: Build qBittorrent WebUI App
+name: qBittorrent WebUI App
 
 jobs:
   build:
@@ -12,7 +12,7 @@ jobs:
       matrix:
         node-version: [14.x]
 
-    name: Build
+    name: Draft Release
     steps:
     - uses: actions/checkout@v2
 
@@ -33,6 +33,10 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+    - run: |
+          echo $SOURCE_NAME
+          echo $SOURCE_BRANCH
+          echo $SOURCE_TAG
     # - run: yarn install --pure-lockfile --non-interactive --no-progress
     # - run: yarn run typecheck
     # - run: yarn run build
