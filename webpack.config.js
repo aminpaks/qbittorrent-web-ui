@@ -10,7 +10,7 @@ const { getConfig: getProdConfig } = require('./webpack/prod.config');
 module.exports = ({ production = false }) => {
   const rootPath = Path.resolve(__dirname);
   const publicFolderPath = Path.resolve(rootPath, 'public');
-  const buildFolderPath = Path.resolve(rootPath, 'build');
+  const buildFolderPath = Path.resolve(rootPath, 'build', 'public');
   const clientEntry = Path.resolve(rootPath, 'src', 'main.ts');
 
   // For now we use standard Public URL as ''
