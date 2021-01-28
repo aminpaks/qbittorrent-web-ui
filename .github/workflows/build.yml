@@ -1,6 +1,11 @@
 name: qBittorrent WebUI App
 
-on: [ push, pull_request ]
+on:
+  push:
+    branches:
+      - development
+  pull_request:
+    types: [assigned, opened, synchronize, reopened]
 
 jobs:
   build:
@@ -30,6 +35,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+
     - run: yarn install --pure-lockfile --non-interactive --no-progress
-    - run: yarn run typecheck
+    - run: yarn run typecheck --diagnostics
     - run: yarn run build

@@ -35,6 +35,7 @@ devServer.listen(9000, 'localhost', err => {
 
 //   console.log(stats.toJson('minimal'));
 // });
+console.log('check');
 
 process.once('SIGUSR2', function () {
   console.log('shutting down...');
