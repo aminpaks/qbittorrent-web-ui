@@ -1,9 +1,8 @@
 {
   "name": "qbittorrent-web-ui",
-  "version": "0.0.1",
-  "main": "app/main.js",
-  "repository": "https://github.com/drsepanta/qbittorrent-web-ui.git",
-  "author": "Dr. Sepanta <dr_sepanta@yahoo.com>",
+  "version": "0.1.0",
+  "repository": "https://github.com/aminpaks/qbittorrent-web-ui.git",
+  "author": "Amin Pakseresht <amin.pakseresht@hotmail.com>",
   "license": "MIT",
   "scripts": {
     "start": "run-p \"serve-dev\" \"typecheck -- -w\"",
