@@ -11,7 +11,7 @@ export const tableColumns: TableColumn[] = [
   {
     label: <FormattedMessage defaultMessage="Ratio" />,
     dataKey: 'ratio',
-    width: 50,
+    width: 70,
     align: 'right',
   },
   { label: <FormattedMessage defaultMessage="Progress" />, dataKey: 'progress', width: 120 },
@@ -43,7 +43,7 @@ export const tableColumns: TableColumn[] = [
   {
     label: <FormattedMessage defaultMessage="Downloaded" />,
     dataKey: 'downloaded',
-    width: 100,
+    width: 120,
     align: 'right',
   },
   {
@@ -55,13 +55,13 @@ export const tableColumns: TableColumn[] = [
   {
     label: <FormattedMessage defaultMessage="Session Download" />,
     dataKey: 'downloaded_session',
-    width: 80,
+    width: 100,
     align: 'right',
   },
   {
     label: <FormattedMessage defaultMessage="Session Upload" />,
     dataKey: 'uploaded_session',
-    width: 80,
+    width: 100,
     align: 'right',
   },
   {

@@ -13,6 +13,9 @@ export const ROW_CELL_HEIGHT = 32;
 const useStyles = mStyles(({ palette, typography }) => ({
   tableRoot: {
     overflow: 'hidden',
+    '& .MuiSvgIcon-root': {
+      verticalAlign: 'text-bottom',
+    },
   },
   tableHeader: {
     outline: 'none',
@@ -21,9 +24,42 @@ const useStyles = mStyles(({ palette, typography }) => ({
     '& .header--cell': {
       display: 'flex',
       alignItems: 'center',
+      justifyContent: 'space-between',
       padding: '1px 6px 0px',
       border: 'none',
       borderBottom: `1px solid ${colorAlpha('#000', 0.03).string()}`,
+
+      '& > span:nth-child(2)': {
+        opacity: 0,
+        marginLeft: -6,
+        marginRight: -6,
+        transition: 'opacity 140ms, transform 200ms ease-out',
+        '&.sorted-by': {
+          opacity: 1,
+        },
+        '&.sorting-desc': {
+          transform: 'rotate(180deg)',
+        },
+      },
+
+      '&.right-align': {
+        '& > span:nth-child(1)': {
+          order: 1,
+          textAlign: 'right',
+        },
+      },
+
+      '&:not(:last-of-type)::before': {
+        display: 'block',
+        content: '""',
+        top: '50%',
+        right: 0,
+        width: 1,
+        height: 20,
+        position: 'absolute',
+        transform: 'translateY(-50%)',
+        backgroundColor: colorAlpha('#000', 0.1).string(),
+      },
     },
   },
   tableBody: {
@@ -47,9 +83,6 @@ const useStyles = mStyles(({ palette, typography }) => ({
       '& *': {
         pointerEvents: 'none',
       },
-    },
-    '& .MuiSvgIcon-root': {
-      verticalAlign: 'text-bottom',
     },
   },
 }));

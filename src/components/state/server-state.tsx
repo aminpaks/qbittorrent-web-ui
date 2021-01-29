@@ -1,41 +1,120 @@
 import produce from 'immer';
-import { createContext, FC, useContext, useEffect, useRef, useState } from 'react';
+import { createContext, FC, useCallback, useContext, useEffect, useReducer, useRef, useState } from 'react';
 import { apiV2SyncMaindata, ServerState, SyncMaindata, Torrent } from '../../api';
 import { TorrentCollection } from '../../types';
-import { tryCatch } from '../../utils';
+import { storageGet, storageSet, tryCatch } from '../../utils';
+
+type TorrentKeys = keyof Torrent;
+
+const TORRENT_SORT_KEY = 'torrentListSort';
 
 const initialServerState = {} as ServerState;
 const initialTorrentsState = { collection: {}, hashList: [] } as {
   collection: TorrentCollection;
   hashList: string[];
 };
+const initialTorrentSortState = {
+  column: 'priority' as TorrentKeys,
+  desc: false,
+};
 
 const ServerContext = createContext(initialServerState);
 const TorrentsContext = createContext(initialTorrentsState);
 const TorrentHashListContext = createContext(initialTorrentsState.hashList);
+const TorrentSortContext = createContext(([initialTorrentSortState, undefined] as unknown) as [
+  typeof initialTorrentSortState,
+  (column: TorrentKeys) => void
+]);
 
-const sortTorrent = (l: Torrent[]) =>
-  l
-    .sort(({ priority: xPriority = 0, name: xName }, { priority: yPriority = 0, name: yName }) => {
-      if (xPriority === 0 && yPriority === 0) {
-        return xName.localeCompare(yName);
-      } else if (xPriority === 0 && yPriority !== 0) {
-        return 1;
-      } else if (xPriority !== 0 && yPriority === 0) {
-        return -1;
-      }
+const toString = (i: boolean | number | string) => {
+  if (typeof i === 'string') {
+    return i.toLowerCase();
+  } else if (typeof i === 'number') {
+    return i.toFixed(4).padStart(50, '0');
+  }
+  return String(i);
+};
 
-      const xStrPriority = String(xPriority).padStart(20, '0');
-      const yStrPriority = String(yPriority).padStart(20, '0');
+const sortByPriority = (x: Torrent, y: Torrent, isDesc: boolean) => {
+  if (x.priority === 0 && y.priority === 0) {
+    return isDesc
+      ? toString(y.name).localeCompare(toString(x.name))
+      : toString(x.name).localeCompare(toString(y.name));
+  } else if (x.priority === 0 && y.priority !== 0) {
+    return isDesc ? -1 : 1;
+  } else if (x.priority !== 0 && y.priority === 0) {
+    return isDesc ? 1 : -1;
+  }
+  return isDesc
+    ? toString(y.priority).localeCompare(toString(x.priority))
+    : toString(x.priority).localeCompare(toString(y.priority));
+};
 
-      return xStrPriority.localeCompare(yStrPriority);
-    })
-    .map(({ hash }) => hash);
+const sortTorrent = (l: Torrent[], sortBy: TorrentKeys = 'priority', desc = false) => {
+  l.sort((x, y) => {
+    const xSortValue = x[sortBy];
+    const ySortValue = y[sortBy];
+
+    if (sortBy === 'priority') {
+      return sortByPriority(x, y, desc);
+    }
+
+    let result = toString(xSortValue).localeCompare(toString(ySortValue));
+
+    if (result === 0) {
+      return sortByPriority(x, y, desc);
+    }
+
+    return result;
+  });
+
+  if (desc === true) {
+    l.reverse();
+  }
+  return l.map(({ hash }) => hash);
+};
 
 export const AppContextProvider: FC = ({ children }) => {
   const referenceId = useRef(0);
   const [serverState, setServerState] = useState(initialServerState);
   const [torrentsState, setTorrentsState] = useState(initialTorrentsState);
+  const [torrentSortState, setTorrentSortState] = useState(
+    storageGet(TORRENT_SORT_KEY, initialTorrentSortState)
+  );
+  const torrentSortStateRef = useRef(torrentSortState);
+
+  const handleSortBy = useCallback((column: TorrentKeys) => {
+    setTorrentSortState(s => {
+      const updatedSort = produce(s, draft => {
+        if (draft.column === column) {
+          draft.desc = !draft.desc;
+        } else {
+          draft.desc = false;
+        }
+        draft.column = column;
+      });
+
+      return storageSet(TORRENT_SORT_KEY, updatedSort);
+    });
+  }, []);
+
+  useEffect(() => {
+    const { column, desc } = torrentSortState;
+    const { column: columnRef, desc: descRef } = torrentSortStateRef.current;
+    if (column !== columnRef || desc !== descRef) {
+      torrentSortStateRef.current = torrentSortState;
+
+      setTorrentsState(s =>
+        produce(s, draft => {
+          draft.hashList = sortTorrent(
+            Object.values(s.collection),
+            torrentSortState.column,
+            torrentSortState.desc
+          );
+        })
+      );
+    }
+  }, [torrentSortState]);
 
   useEffect(() => {
     let tid: number | null = null;
@@ -59,6 +138,7 @@ export const AppContextProvider: FC = ({ children }) => {
           );
         }
 
+        const { column: sortingBy, desc: isSortingDesc } = torrentSortStateRef.current;
         const torrentHashes = Object.keys(torrents);
         if (full_update) {
           // Mutate items and update hash property
@@ -67,7 +147,7 @@ export const AppContextProvider: FC = ({ children }) => {
           }
           setTorrentsState({
             collection: torrents as TorrentCollection,
-            hashList: sortTorrent(Object.values(torrents) as Torrent[]),
+            hashList: sortTorrent(Object.values(torrents) as Torrent[], sortingBy, isSortingDesc),
           });
         } else if (torrentHashes.length > 0) {
           setTorrentsState(s => {
@@ -78,8 +158,8 @@ export const AppContextProvider: FC = ({ children }) => {
                 const torrent = torrents[hash];
                 if (currentItem) {
                   Object.entries(torrent).forEach(item => {
-                    const [key, value] = item as [keyof Torrent, never];
-                    if (key === 'priority') {
+                    const [key, value] = item as [TorrentKeys, never];
+                    if (key === sortingBy) {
                       shouldUpdateHashOrder = true;
                     }
                     currentItem[key] = value;
@@ -90,8 +170,11 @@ export const AppContextProvider: FC = ({ children }) => {
                 }
               });
               if (shouldUpdateHashOrder) {
-                let updatedHashList = sortTorrent(Object.values(draft.collection) as Torrent[]);
-                draft.hashList = updatedHashList;
+                draft.hashList = sortTorrent(
+                  Object.values(draft.collection) as Torrent[],
+                  sortingBy,
+                  isSortingDesc
+                );
               }
             });
           });
@@ -133,7 +216,9 @@ export const AppContextProvider: FC = ({ children }) => {
     <ServerContext.Provider value={serverState}>
       <TorrentsContext.Provider value={torrentsState}>
         <TorrentHashListContext.Provider value={torrentsState.hashList}>
-          {children}
+          <TorrentSortContext.Provider value={[torrentSortState, handleSortBy]}>
+            {children}
+          </TorrentSortContext.Provider>
         </TorrentHashListContext.Provider>
       </TorrentsContext.Provider>
     </ServerContext.Provider>
@@ -150,4 +235,8 @@ export const useTorrentsState = () => {
 
 export const useTorrentList = () => {
   return useContext(TorrentHashListContext);
+};
+
+export const useTorrentSort = () => {
+  return useContext(TorrentSortContext);
 };
