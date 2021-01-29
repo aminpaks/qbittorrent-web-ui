@@ -1,26 +1,39 @@
 import clsx from 'clsx';
-import { FC, CSSProperties, useMemo } from 'react';
+import { FC, CSSProperties } from 'react';
 import { Torrent } from '../../api';
 import { cellRenderer } from './renderers';
 import { getTableColumn } from './columns';
 import { ExtendedTorrentKeys } from './types';
-import { useUiState } from '../state';
+import { useTorrentSort, useUiState } from '../state';
+import { ArrowDropDownIcon } from '../material-ui-icons';
 
 export const HeaderCell: FC<{ index: number; style: CSSProperties }> = ({ index, style }) => {
+  const [{ column: sortedBy, desc: isSortingDesc }, updateSort] = useTorrentSort();
   const column = getTableColumn(index);
 
   if (!column) {
     return null;
   }
 
-  const { label, align } = column;
+  const { label, align, dataKey } = column;
+  const isSortedBy = dataKey === sortedBy;
 
   return (
     <div
-      className="header--cell"
-      style={{ ...style, justifyContent: align === 'right' ? 'flex-end' : undefined }}
+      className={clsx('header--cell', {
+        'right-align': align === 'right',
+      })}
+      style={style}
+      onClick={() => {
+        if (dataKey !== 'action' && dataKey !== 'invalid') {
+          updateSort(dataKey);
+        }
+      }}
     >
-      <span style={{ textAlign: align === 'right' ? align : undefined }}>{label}</span>
+      <span>{label}</span>
+      <span className={clsx({ 'sorted-by': isSortedBy, 'sorting-desc': isSortedBy && isSortingDesc })}>
+        <ArrowDropDownIcon fontSize="small" />
+      </span>
     </div>
   );
 };

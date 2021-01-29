@@ -2,6 +2,7 @@ import AddIcon from '@material-ui/icons/Add';
 import AlarmIcon from '@material-ui/icons/Alarm';
 import AllInclusiveIcon from '@material-ui/icons/AllInclusive';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import AssistantIcon from '@material-ui/icons/Assistant';
@@ -51,6 +52,7 @@ export {
   AlarmIcon,
   AllInclusiveIcon,
   ArrowDownwardIcon,
+  ArrowDropDownIcon,
   ArrowUpwardIcon,
   AssignmentTurnedInIcon,
   AssistantIcon,
