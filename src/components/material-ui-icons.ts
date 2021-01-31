@@ -46,8 +46,10 @@ import VerticalAlignBottomIcon from '@material-ui/icons/VerticalAlignBottom';
 import VerticalAlignTopIcon from '@material-ui/icons/VerticalAlignTop';
 import WifiIcon from '@material-ui/icons/Wifi';
 import WifiOffIcon from '@material-ui/icons/WifiOff';
+import SearchIcon from '@material-ui/icons/Search';
 
 export {
+  SearchIcon,
   AddIcon,
   AlarmIcon,
   AllInclusiveIcon,

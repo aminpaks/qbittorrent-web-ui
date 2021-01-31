@@ -31,14 +31,15 @@ const useStyles = mStyles(({ palette, typography }) => ({
 
       '& > span:nth-child(2)': {
         opacity: 0,
-        marginLeft: -6,
-        marginRight: -6,
+        marginLeft: -5,
+        marginRight: -5,
         transition: 'opacity 140ms, transform 200ms ease-out',
+        transform: 'rotate(180deg)',
         '&.sorted-by': {
           opacity: 1,
         },
         '&.sorting-desc': {
-          transform: 'rotate(180deg)',
+          transform: 'rotate(0deg)',
         },
       },
 
