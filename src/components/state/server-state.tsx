@@ -45,7 +45,7 @@ const toString = (i: boolean | number | string) => {
   return String(i);
 };
 
-const sortByPriority = (x: Torrent, y: Torrent) => {
+const sortByPriorityOrName = (x: Torrent, y: Torrent) => {
   if (x.priority === 0 && y.priority === 0) {
     return toString(x.name).localeCompare(toString(y.name));
   } else if (x.priority === 0 && y.priority !== 0) {
@@ -62,13 +62,13 @@ const sortTorrent = (l: Torrent[], sortBy: TorrentKeys = 'priority', asc = true)
     const ySortValue = y[sortBy];
 
     if (sortBy === 'priority') {
-      return sortByPriority(x, y);
+      return sortByPriorityOrName(x, y);
     }
 
     let result = toString(xSortValue).localeCompare(toString(ySortValue));
 
     if (result === 0) {
-      return sortByPriority(x, y);
+      return sortByPriorityOrName(x, y);
     }
 
     return result;
@@ -83,14 +83,14 @@ const sortTorrent = (l: Torrent[], sortBy: TorrentKeys = 'priority', asc = true)
 const toHashList = (l: Torrent[]) => l.map(({ hash }) => hash);
 
 const sortAndFilter = (state: SortFilterStateValue, l: Torrent[]): Torrent[] => {
-  const { column, asc: desc, search } = state;
+  const { column, asc, search } = state;
 
   if (search) {
     const fuzzyResults = fuzzysort.go(search, l, { key: 'name' });
     return fuzzyResults.map(({ obj }) => obj);
   }
 
-  return sortTorrent(l, column, desc);
+  return sortTorrent(l, column, asc);
 };
 
 export const AppContextProvider: FC = ({ children }) => {

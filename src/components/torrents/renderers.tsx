@@ -1,5 +1,6 @@
 import { CSSProperties, FC, MouseEventHandler, ReactNode } from 'react';
 import { TableHeaderProps } from 'react-virtualized';
+import { FormattedMessage, FormattedRelativeTime, IntlShape } from 'react-intl';
 import { DayJs } from '../common';
 import { IconButton, LinearProgress } from '../material-ui-core';
 import { AllInclusiveIcon, DoneIcon, MoreVertIcon } from '../material-ui-icons';
@@ -21,6 +22,12 @@ const DivBox: FC<CSSProperties> = ({
 };
 
 export const dateCellRenderer = (value: number) => DayJs(value * 1000).format('YYYY-MM-DD HH:mm A');
+export const relativeDateCellRenderer = (value: number) =>
+  value > 0 ? (
+    <FormattedRelativeTime value={value / -1000} numeric="auto" updateIntervalInSeconds={10} style="short" />
+  ) : (
+    <AllInclusiveIcon fontSize="small" color="inherit" />
+  );
 export const ratioCellRenderer = (value: number) => <DivBox textAlign="right">{value.toFixed(2)}</DivBox>;
 export const statusCellRenderer = (value: TorrentState) => (
   <>
@@ -78,6 +85,26 @@ const priorityRenderer = (value: number = 0) => (
   <DivBox textAlign="right">{value === 0 ? <DoneIcon fontSize="small" color="disabled" /> : value}</DivBox>
 );
 
+const ratioLimitCellRenderer = (value: number = -2, seedingLimit: number) => {
+  if (value < -1) {
+    return <FormattedMessage defaultMessage="Global" />;
+  } else if (value === -1) {
+    return <AllInclusiveIcon fontSize="small" color="inherit" />;
+  }
+  return seedingLimit > 0 ? (
+    <FormattedMessage
+      defaultMessage="{ratio} ratio <small>or</small> {minutes} minutes"
+      values={{
+        ratio: value.toFixed(2),
+        minutes: seedingLimit,
+        small: (chunk: string) => <small>{chunk}</small>,
+      }}
+    />
+  ) : (
+    <FormattedMessage defaultMessage="{ratio} ratio" values={{ ratio: value.toFixed(2) }} />
+  );
+};
+
 const defaultRenderer = (value: unknown, style: CSSProperties = {}): ReactNode => (
   <DivBox {...style}>{value != null ? String(value) : null}</DivBox>
 );
@@ -85,7 +112,8 @@ const defaultRenderer = (value: unknown, style: CSSProperties = {}): ReactNode =
 export const cellRenderer = (
   key: ExtendedTorrentKeys,
   value: unknown,
-  data: Record<ExtendedTorrentKeys, unknown>
+  data: Record<ExtendedTorrentKeys, unknown>,
+  formatters: IntlShape
 ): ReactNode => {
   switch (key) {
     case 'invalid':
@@ -113,12 +141,17 @@ export const cellRenderer = (
       );
     case 'added_on':
       return dateCellRenderer(value as number);
+    case 'time_active':
+    case 'last_activity':
+      return relativeDateCellRenderer(value as number);
     case 'upspeed':
     case 'dlspeed':
       return speedCellRenderer(value as number);
     case 'dl_limit':
     case 'up_limit':
       return speedCellRenderer(value as number);
+    case 'ratio_limit':
+      return ratioLimitCellRenderer(value as number, data['seeding_time_limit'] as number);
     default:
       return defaultRenderer(value);
   }
