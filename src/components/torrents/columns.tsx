@@ -8,6 +8,7 @@ export const tableColumns: TableColumn[] = [
     dataKey: 'name',
     width: 460,
   },
+  { label: <FormattedMessage defaultMessage="Added On" />, dataKey: 'added_on', width: 160 },
   {
     label: <FormattedMessage defaultMessage="Ratio" />,
     dataKey: 'ratio',
@@ -88,7 +89,15 @@ export const tableColumns: TableColumn[] = [
     width: 100,
     align: 'right',
   },
-  { label: <FormattedMessage defaultMessage="Added On" />, dataKey: 'added_on', width: 180 },
+  {
+    label: <FormattedMessage defaultMessage="Share Limit" />,
+    dataKey: 'ratio_limit',
+    width: 200,
+  },
+  { label: <FormattedMessage defaultMessage="Category" />, dataKey: 'category', width: 160 },
+  { label: <FormattedMessage defaultMessage="Tags" />, dataKey: 'tags', width: 280 },
+  { label: <FormattedMessage defaultMessage="Time Active" />, dataKey: 'time_active', width: 160 },
+  { label: <FormattedMessage defaultMessage="Last Activity" />, dataKey: 'last_activity', width: 160 },
   { label: '', dataKey: 'action', width: 40 },
 ];
 

@@ -2,6 +2,9 @@
   "11WYT7": {
     "defaultMessage": "Copy Name"
   },
+  "1EYCdR": {
+    "defaultMessage": "Tags"
+  },
   "1M6M38": {
     "defaultMessage": "Set a new location for {itemCount}:"
   },
@@ -95,6 +98,12 @@
   "Cnm0QA": {
     "defaultMessage": "Queued"
   },
+  "DurM8l": {
+    "defaultMessage": "Time Active"
+  },
+  "EWyQH5": {
+    "defaultMessage": "Global"
+  },
   "Ebg0yQ": {
     "defaultMessage": "these items"
   },
@@ -113,6 +122,9 @@
   "HAlOn1": {
     "defaultMessage": "Name"
   },
+  "HeqCOM": {
+    "defaultMessage": "{ratio} ratio <small>or</small> {minutes} minutes"
+  },
   "IXuOcz": {
     "defaultMessage": "New name"
   },
@@ -121,6 +133,9 @@
   },
   "JCIgkj": {
     "defaultMessage": "Username"
+  },
+  "JPVHkL": {
+    "defaultMessage": "Last Activity"
   },
   "JicsBV": {
     "defaultMessage": "disactivated"
@@ -158,6 +173,9 @@
   "M5Uo3T": {
     "defaultMessage": "Move Down One in Queue"
   },
+  "MFAoD8": {
+    "defaultMessage": "{ratio} ratio"
+  },
   "MJhZTD": {
     "defaultMessage": "{count, plural, =0 {Click here to select files} one {# file selected} other {# files selected}}"
   },
@@ -194,6 +212,9 @@
   "V2T7Eg": {
     "defaultMessage": "Limit download rate"
   },
+  "VG+Z9f": {
+    "defaultMessage": "Share Limit"
+  },
   "VNNgop": {
     "defaultMessage": "Seeding"
   },
@@ -220,6 +241,9 @@
   },
   "cZP25r": {
     "defaultMessage": "Also delete from hard disk"
+  },
+  "ccXLVi": {
+    "defaultMessage": "Category"
   },
   "coM7+7": {
     "defaultMessage": "Copied {itemCount, plural, one {# name} other {# names} } to clipboard"

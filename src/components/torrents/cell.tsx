@@ -6,17 +6,24 @@ import { getTableColumn } from './columns';
 import { ExtendedTorrentKeys } from './types';
 import { useTorrentSortFilterState, useUiState } from '../state';
 import { ArrowDropDownIcon } from '../material-ui-icons';
+import { useIntl } from 'react-intl';
 
 export const HeaderCell: FC<{ index: number; style: CSSProperties }> = ({ index, style }) => {
-  const [{ column: sortedBy, asc: isSortingAsc }, updateSortFilter] = useTorrentSortFilterState();
+  const [{ column: sortedBy, asc: isSortingAsc, search }, updateSortFilter] = useTorrentSortFilterState();
   const column = getTableColumn(index);
 
   if (!column) {
     return null;
   }
 
-  const { label, align, dataKey } = column;
-  const isSortedBy = dataKey === sortedBy;
+  const { label, align } = column;
+  let dataKey = column.dataKey;
+  if (dataKey === 'num_seeds') {
+    dataKey = 'num_complete';
+  } else if (dataKey === 'num_leechs') {
+    dataKey = 'num_incomplete';
+  }
+  const isSortedBy = !search && dataKey === sortedBy;
 
   return (
     <div
@@ -27,12 +34,7 @@ export const HeaderCell: FC<{ index: number; style: CSSProperties }> = ({ index,
       onClick={() => {
         if (dataKey !== 'action' && dataKey !== 'invalid') {
           let column = dataKey;
-          if (dataKey === 'num_seeds') {
-            column = 'num_complete';
-          } else if (dataKey === 'num_leechs') {
-            column = 'num_incomplete';
-          }
-          updateSortFilter({ column });
+          updateSortFilter({ column: dataKey });
         }
       }}
     >
@@ -54,6 +56,7 @@ export const BodyCell: FC<
     style: object;
   }
 > = ({ style, rowIndex, columnIndex, dataKey, children, ...props }) => {
+  const intl = useIntl();
   const [{ torrentListSelection }, { updateContextMenuIsOpen, updateTorrentSelectionList }] = useUiState();
   const data = (props as unknown) as Record<ExtendedTorrentKeys, unknown>;
   const dataValue = dataKey != null ? data[dataKey] : undefined;
@@ -82,7 +85,7 @@ export const BodyCell: FC<
       data-row-index={rowIndex}
       data-torrent-hash={data.hash}
     >
-      {cellRenderer(dataKey, dataValue, data)}
+      {cellRenderer(dataKey, dataValue, data, intl)}
     </div>
   ) : null;
 };

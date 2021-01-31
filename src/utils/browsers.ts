@@ -1,5 +1,7 @@
-import { delay } from './functions';
+import { storageGet, storageSet } from './storage';
 import { tryCatch, tryCatchSync } from './tryCatch';
+
+const CLIENT_LOCALE = 'clientLocale';
 
 export const isTouchAvailable = () => {
   return Boolean('ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0);
@@ -28,3 +30,13 @@ export const copyToClipboard = async (value: string) => {
 
   return;
 };
+
+export const getLanguageSubtag = (locale: string, fallback = 'en') =>
+  tryCatchSync(() => locale.split('-')[0], fallback);
+
+export const getClientLocale = (fallback = 'en-US') =>
+  storageGet(
+    CLIENT_LOCALE,
+    tryCatchSync(() => navigator.language, fallback)
+  );
+export const setClientLocale = (locale: string) => storageSet(CLIENT_LOCALE, locale);
