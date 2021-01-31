@@ -18,6 +18,8 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormLabel from '@material-ui/core/FormLabel';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
+import Input from '@material-ui/core/Input';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import InputLabel from '@material-ui/core/InputLabel';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import List from '@material-ui/core/List';
@@ -54,6 +56,8 @@ export {
   FormLabel,
   Grid,
   IconButton,
+  Input,
+  InputAdornment,
   InputLabel,
   LinearProgress,
   List,

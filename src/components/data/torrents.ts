@@ -18,8 +18,8 @@ export const useTorrentsQuery = () => {
 
 export const useTorrentsOperationMutation = (
   { onSuccess, onError } = {} as {
-    onSuccess?: LazyReason<Promise<void>, boolean>;
-    onError?: LazyReason<Promise<void>>;
+    onSuccess?: LazyReason<Promise<void> | void, boolean>;
+    onError?: LazyReason<Promise<void> | void>;
   }
 ) => {
   const mutationObject = useMutation(

@@ -4,11 +4,11 @@ import { Torrent } from '../../api';
 import { cellRenderer } from './renderers';
 import { getTableColumn } from './columns';
 import { ExtendedTorrentKeys } from './types';
-import { useTorrentSort, useUiState } from '../state';
+import { useTorrentSortFilterState, useUiState } from '../state';
 import { ArrowDropDownIcon } from '../material-ui-icons';
 
 export const HeaderCell: FC<{ index: number; style: CSSProperties }> = ({ index, style }) => {
-  const [{ column: sortedBy, desc: isSortingDesc }, updateSort] = useTorrentSort();
+  const [{ column: sortedBy, asc: isSortingAsc }, updateSortFilter] = useTorrentSortFilterState();
   const column = getTableColumn(index);
 
   if (!column) {
@@ -26,12 +26,18 @@ export const HeaderCell: FC<{ index: number; style: CSSProperties }> = ({ index,
       style={style}
       onClick={() => {
         if (dataKey !== 'action' && dataKey !== 'invalid') {
-          updateSort(dataKey);
+          let column = dataKey;
+          if (dataKey === 'num_seeds') {
+            column = 'num_complete';
+          } else if (dataKey === 'num_leechs') {
+            column = 'num_incomplete';
+          }
+          updateSortFilter({ column });
         }
       }}
     >
       <span>{label}</span>
-      <span className={clsx({ 'sorted-by': isSortedBy, 'sorting-desc': isSortedBy && isSortingDesc })}>
+      <span className={clsx({ 'sorted-by': isSortedBy, 'sorting-desc': isSortedBy && !isSortingAsc })}>
         <ArrowDropDownIcon fontSize="small" />
       </span>
     </div>

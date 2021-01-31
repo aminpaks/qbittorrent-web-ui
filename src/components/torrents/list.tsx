@@ -31,14 +31,15 @@ const useStyles = mStyles(({ palette, typography }) => ({
 
       '& > span:nth-child(2)': {
         opacity: 0,
-        marginLeft: -6,
-        marginRight: -6,
+        marginLeft: -5,
+        marginRight: -5,
         transition: 'opacity 140ms, transform 200ms ease-out',
+        transform: 'rotate(180deg)',
         '&.sorted-by': {
           opacity: 1,
         },
         '&.sorting-desc': {
-          transform: 'rotate(180deg)',
+          transform: 'rotate(0deg)',
         },
       },
 
@@ -89,7 +90,7 @@ const useStyles = mStyles(({ palette, typography }) => ({
 
 export const TorrentList: FC = () => {
   const classes = useStyles();
-  const { hashList, collection } = useTorrentsState();
+  const { viewHashList, collection } = useTorrentsState();
 
   return (
     <ScrollSync>
@@ -113,12 +114,12 @@ export const TorrentList: FC = () => {
               <Grid
                 width={width}
                 height={height - HEADER_CELL_HEIGHT}
-                rowCount={hashList.length}
+                rowCount={viewHashList.length}
                 rowHeight={ROW_CELL_HEIGHT}
                 columnCount={tableColumns.length}
                 columnWidth={getColumnWidth}
                 cellRenderer={({ key, rowIndex, style, columnIndex }) => {
-                  const torrent = getTorrentOrElse(rowIndex, hashList, collection);
+                  const torrent = getTorrentOrElse(rowIndex, viewHashList, collection);
                   const currentItemHash = torrent.hash || '';
                   const dataKey = getTableColumn(columnIndex)?.dataKey || 'invalid';
                   return (
