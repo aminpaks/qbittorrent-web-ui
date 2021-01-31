@@ -1,16 +1,8 @@
-import { ChangeEventHandler, FC, KeyboardEventHandler, MouseEventHandler, useMemo, useState } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { ChangeEventHandler, FC, useMemo } from 'react';
+import { useIntl } from 'react-intl';
 import { mStyles } from '../common';
 import { useTorrentsOperationMutation } from '../data';
-import {
-  Typography,
-  Box,
-  IconButton,
-  Input,
-  InputLabel,
-  TextField,
-  InputAdornment,
-} from '../material-ui-core';
+import { Box, IconButton, Input, InputAdornment, Typography } from '../material-ui-core';
 import {
   AddIcon,
   ChevronLeftIcon,
@@ -27,6 +19,7 @@ import { HeaderActions } from './types';
 const useStyles = mStyles(({ spacing, palette }) => ({
   headerRoot: {
     display: 'flex',
+    flexWrap: 'wrap',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: spacing(1),
@@ -78,7 +71,7 @@ export const AppHeader: FC<{ qbtVersion: string }> = ({ qbtVersion }) => {
   const [{ search }, updateSortFilter] = useTorrentSortFilterState();
   const { mutate: executeOperation } = useTorrentsOperationMutation({
     onError: (err: unknown) => {
-      console.log('error', err);
+      console.log('Please report this error', err);
     },
   });
 
