@@ -31,6 +31,7 @@ const initialTorrentSortFilterState: SortFilterStateValue = {
 const ServerContext = createContext(initialServerState);
 const TorrentsContext = createContext(initialTorrentsState);
 const TorrentHashListContext = createContext(initialTorrentsState.hashList);
+const TorrentViewHashListContext = createContext(initialTorrentsState.viewHashList);
 const TorrentSortFilterContext = createContext(([
   initialTorrentSortFilterState,
   undefined,
@@ -238,9 +239,11 @@ export const AppContextProvider: FC = ({ children }) => {
     <ServerContext.Provider value={serverState}>
       <TorrentsContext.Provider value={torrentsState}>
         <TorrentHashListContext.Provider value={torrentsState.hashList}>
-          <TorrentSortFilterContext.Provider value={[torrentSortFilterState, handleListSortFilter]}>
-            {children}
-          </TorrentSortFilterContext.Provider>
+          <TorrentViewHashListContext.Provider value={torrentsState.viewHashList}>
+            <TorrentSortFilterContext.Provider value={[torrentSortFilterState, handleListSortFilter]}>
+              {children}
+            </TorrentSortFilterContext.Provider>
+          </TorrentViewHashListContext.Provider>
         </TorrentHashListContext.Provider>
       </TorrentsContext.Provider>
     </ServerContext.Provider>
@@ -257,6 +260,10 @@ export const useTorrentsState = () => {
 
 export const useTorrentList = () => {
   return useContext(TorrentHashListContext);
+};
+
+export const useTorrentViewList = () => {
+  return useContext(TorrentViewHashListContext);
 };
 
 export const useTorrentSortFilterState = () => {

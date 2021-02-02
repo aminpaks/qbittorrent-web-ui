@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { useEffect, useRef, useState } from 'react';
-import { useTorrentList, useUiState } from '../state';
+import { useTorrentViewList, useUiState } from '../state';
 import { ROW_CELL_HEIGHT } from './list';
 import { color, getElementAttr } from '../../utils';
 import { mStyles } from '../common';
@@ -36,7 +36,7 @@ const initialState = {
 
 export const TorrentListSelection = () => {
   const classes = useStyles();
-  const hashList = useTorrentList();
+  const hashList = useTorrentViewList();
   const [{ torrentListSelection }, { updateTorrentSelectionList, updateContextMenuIsOpen }] = useUiState();
   const [state, setState] = useState(initialState);
   const isUpdatingEndRef = useRef(false);
@@ -199,5 +199,3 @@ function getRectBound(state: typeof initialState) {
 
   return result;
 }
-
-function getSelectionRange() {}
