@@ -1,18 +1,10 @@
 import produce from 'immer';
-import fuzzysort from 'fuzzysort';
-import { createContext, FC, useCallback, useContext, useEffect, useReducer, useRef, useState } from 'react';
+import { createContext, FC, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { apiV2SyncMaindata, ServerState, SyncMaindata, Torrent } from '../../api';
-import { TorrentCollection } from '../../types';
+import { TorrentCollection, TorrentKeys } from '../../types';
 import { storageGet, storageSet, tryCatch, unsafeMutateDefaults } from '../../utils';
-
-type TorrentKeys = keyof Torrent;
-interface SortFilterStateValue {
-  column: TorrentKeys;
-  asc: boolean;
-  search: string;
-}
-type SortFilterState = [SortFilterStateValue, SortFilterHandler];
-type SortFilterHandler = (payload: { column?: TorrentKeys; search?: string }) => void;
+import { SortFilterHandler, SortFilterState, SortFilterStateValue } from './types';
+import { sortAndFilter, toHashList } from './utils';
 
 const TORRENT_SORT_KEY = 'torrentListSortFilter';
 
@@ -36,63 +28,6 @@ const TorrentSortFilterContext = createContext(([
   initialTorrentSortFilterState,
   undefined,
 ] as unknown) as SortFilterState);
-
-const toString = (i: boolean | number | string) => {
-  if (typeof i === 'string') {
-    return i.toLowerCase();
-  } else if (typeof i === 'number') {
-    return i.toFixed(4).padStart(50, '0');
-  }
-  return String(i);
-};
-
-const sortByPriorityOrName = (x: Torrent, y: Torrent) => {
-  if (x.priority === 0 && y.priority === 0) {
-    return toString(x.name).localeCompare(toString(y.name));
-  } else if (x.priority === 0 && y.priority !== 0) {
-    return 1;
-  } else if (x.priority !== 0 && y.priority === 0) {
-    return -1;
-  }
-  return toString(x.priority).localeCompare(toString(y.priority));
-};
-
-const sortTorrent = (l: Torrent[], sortBy: TorrentKeys = 'priority', asc = true) => {
-  l.sort((x, y) => {
-    const xSortValue = x[sortBy];
-    const ySortValue = y[sortBy];
-
-    if (sortBy === 'priority') {
-      return sortByPriorityOrName(x, y);
-    }
-
-    let result = toString(xSortValue).localeCompare(toString(ySortValue));
-
-    if (result === 0) {
-      return sortByPriorityOrName(x, y);
-    }
-
-    return result;
-  });
-
-  if (asc === false) {
-    l.reverse();
-  }
-  return l;
-};
-
-const toHashList = (l: Torrent[]) => l.map(({ hash }) => hash);
-
-const sortAndFilter = (state: SortFilterStateValue, l: Torrent[]): Torrent[] => {
-  const { column, asc, search } = state;
-
-  if (search) {
-    const fuzzyResults = fuzzysort.go(search, l, { key: 'name' });
-    return fuzzyResults.map(({ obj }) => obj);
-  }
-
-  return sortTorrent(l, column, asc);
-};
 
 export const AppContextProvider: FC = ({ children }) => {
   const referenceId = useRef(0);

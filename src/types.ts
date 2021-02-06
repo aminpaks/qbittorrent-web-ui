@@ -6,6 +6,7 @@ export type Fallback<T> = Lazy<T> | T;
 export type FallbackReason<T> = LazyReason<T> | T;
 
 export type TorrentCollection = Record<string, Torrent>;
+export type TorrentKeys = keyof Torrent;
 
 export type NoOp = () => void;
 

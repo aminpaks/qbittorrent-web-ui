@@ -22,7 +22,13 @@ const DivBox: FC<CSSProperties> = ({
 };
 
 export const dateCellRenderer = (value: number) => DayJs(value * 1000).format('YYYY-MM-DD HH:mm A');
-export const relativeDateCellRenderer = (value: number) =>
+export const remainingTimeCellRenderer = (value: number) =>
+  value < 8_640_000 ? (
+    <FormattedRelativeTime value={value} numeric="auto" updateIntervalInSeconds={10} style="short" />
+  ) : (
+    <AllInclusiveIcon fontSize="small" color="inherit" />
+  );
+export const relativeTimeCellRenderer = (value: number) =>
   value > 0 ? (
     <FormattedRelativeTime value={value / -1000} numeric="auto" updateIntervalInSeconds={10} style="short" />
   ) : (
@@ -141,9 +147,11 @@ export const cellRenderer = (
       );
     case 'added_on':
       return dateCellRenderer(value as number);
+    case 'eta':
+      return remainingTimeCellRenderer(value as number);
     case 'time_active':
     case 'last_activity':
-      return relativeDateCellRenderer(value as number);
+      return relativeTimeCellRenderer(value as number);
     case 'upspeed':
     case 'dlspeed':
       return speedCellRenderer(value as number);
