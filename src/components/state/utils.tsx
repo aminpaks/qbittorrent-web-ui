@@ -1,10 +1,9 @@
 import fuzzysort from 'fuzzysort';
-import { FormattedMessage } from 'react-intl';
-import { ConnectionStatus, Torrent } from '../../api';
-import { TorrentKeys } from '../../types';
+import { FormattedMessage, IntlShape } from 'react-intl';
+import { Category, ConnectionStatus, Torrent, TorrentKeys } from '../../api';
 import { usePersistentMemo } from '../utils';
 import { useTorrentsState } from './server-state';
-import { SortFilterStateValue } from './types';
+import { CategoryState, SortFilterStateValue } from './types';
 import { useUiState } from './ui-state';
 
 export const getConnectionStatusString = (status: ConnectionStatus) => {
@@ -77,13 +76,58 @@ export const sortTorrent = (l: Torrent[], sortBy: TorrentKeys = 'priority', asc 
 
 export const toHashList = (l: Torrent[]) => l.map(({ hash }) => hash);
 
-export const sortAndFilter = (state: SortFilterStateValue, l: Torrent[]): Torrent[] => {
-  const { column, asc, search } = state;
+export const getNormalizedCategory = (cat: string) => (cat ? cat : '__none__');
+
+export const sortAndFilter = (
+  state: SortFilterStateValue,
+  l: Torrent[],
+  categoryState: CategoryState
+): Torrent[] => {
+  const { column, asc, search, category: selectedCategory } = state;
 
   if (search) {
     const fuzzyResults = fuzzysort.go(search, l, { key: 'name' });
     return fuzzyResults.map(({ obj }) => obj);
   }
 
-  return sortTorrent(l, column, asc);
+  const filteredList =
+    selectedCategory === '__all__'
+      ? l
+      : l.filter(({ category }) => getNormalizedCategory(category) === selectedCategory);
+
+  return sortTorrent(filteredList, column, asc);
+};
+
+export const buildCategory = ({
+  name,
+  savePath = '',
+  hashList = [],
+  __internal = false,
+}: Partial<Omit<Category, 'name'>> & { name: string }): Category => ({
+  name,
+  savePath,
+  hashList,
+  __internal,
+});
+
+export const getCategoryName = (c: Category) => (c.__internal ? c.__internal : c.name);
+
+export const getInitialCategories = (intl: IntlShape, serverCategories: Record<string, Category>) => {
+  return Object.entries(serverCategories).reduce(
+    (acc, [categoryName, category]) => {
+      acc[categoryName] = buildCategory(category);
+
+      return acc;
+    },
+    {
+      __all__: buildCategory({
+        __internal: '__all__',
+        name: intl.formatMessage({ defaultMessage: 'All categories' }),
+      }),
+      __none__: buildCategory({
+        __internal: '__none__',
+        name: intl.formatMessage({ defaultMessage: 'Uncategorized' }),
+      }),
+    } as Record<string, Category>
+  );
 };

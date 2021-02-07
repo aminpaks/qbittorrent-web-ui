@@ -3,7 +3,7 @@ import { TableHeaderProps } from 'react-virtualized';
 import { FormattedMessage, FormattedRelativeTime, IntlShape } from 'react-intl';
 import { DayJs } from '../common';
 import { IconButton, LinearProgress } from '../material-ui-core';
-import { AllInclusiveIcon, DoneIcon, MoreVertIcon } from '../material-ui-icons';
+import { AllInclusiveIcon, DoneIcon, HelpIcon, HelpOutlineIcon, MoreVertIcon } from '../material-ui-icons';
 import { getTorrentStateIcon, getTorrentStateString } from './utils';
 import { formatPercentage, humanFileSize } from '../../utils';
 import { TorrentState } from '../../api';
@@ -26,13 +26,13 @@ export const remainingTimeCellRenderer = (value: number) =>
   value < 8_640_000 ? (
     <FormattedRelativeTime value={value} numeric="auto" updateIntervalInSeconds={10} style="short" />
   ) : (
-    <AllInclusiveIcon fontSize="small" color="inherit" />
+    <HelpOutlineIcon fontSize="small" color="disabled" />
   );
 export const relativeTimeCellRenderer = (value: number) =>
   value > 0 ? (
     <FormattedRelativeTime value={value / -1000} numeric="auto" updateIntervalInSeconds={10} style="short" />
   ) : (
-    <AllInclusiveIcon fontSize="small" color="inherit" />
+    <HelpOutlineIcon fontSize="small" color="disabled" />
   );
 export const ratioCellRenderer = (value: number) => <DivBox textAlign="right">{value.toFixed(2)}</DivBox>;
 export const statusCellRenderer = (value: TorrentState) => (

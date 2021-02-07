@@ -7,7 +7,7 @@ import { getTableColumn, getColumnWidth, tableColumns } from './columns';
 import { getTorrentOrElse } from './utils';
 import { BodyCell, HeaderCell } from './cell';
 
-export const HEADER_CELL_HEIGHT = 44;
+export const HEADER_CELL_HEIGHT = 48;
 export const ROW_CELL_HEIGHT = 32;
 
 const useStyles = mStyles(({ palette, typography }) => ({

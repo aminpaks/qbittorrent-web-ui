@@ -97,6 +97,7 @@ export type TorrentPrimitiveOperationOptions = {
 }[TorrentPrimitiveOperations];
 
 export type TorrentKeys = keyof Torrent;
+export type TorrentCollection = Record<string, Torrent>;
 
 export interface Torrent {
   added_on: number; //	Time (Unix Epoch) when the torrent was added to the client

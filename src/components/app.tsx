@@ -2,12 +2,12 @@ import { FC } from 'react';
 import { mStyles } from './common';
 import { useAppVersionQuery } from './data';
 import { MainLayout } from './layout';
+import Sidebar from './sidebar';
 import TorrentsContainer from './torrents';
 
 const useStyles = mStyles(() => ({
   torrentContainer: {
-    width: '100%',
-    flex: '1 0 auto',
+    height: '100%',
   },
 }));
 
@@ -16,10 +16,8 @@ export const App: FC = () => {
   const { data: qbtVersion } = useAppVersionQuery();
 
   return (
-    <MainLayout qbtVersion={qbtVersion || ''}>
-      <div className={classes.torrentContainer}>
-        <TorrentsContainer />
-      </div>
+    <MainLayout qbtVersion={qbtVersion || ''} sideBar={<Sidebar />}>
+      <TorrentsContainer />
     </MainLayout>
   );
 };

@@ -59,6 +59,9 @@
   "9CV2vm": {
     "defaultMessage": "URLs"
   },
+  "9g2jKz": {
+    "defaultMessage": "All categories"
+  },
   "9naK/J": {
     "defaultMessage": "Toggled sequential download {itemCount, plural, one {# item} other {# items} }"
   },
@@ -218,6 +221,9 @@
   "VG+Z9f": {
     "defaultMessage": "Share Limit"
   },
+  "VKb1MS": {
+    "defaultMessage": "Categories"
+  },
   "VNNgop": {
     "defaultMessage": "Seeding"
   },
@@ -277,6 +283,9 @@
   },
   "hceE/7": {
     "defaultMessage": "Force Resume"
+  },
+  "iO050q": {
+    "defaultMessage": "Uncategorized"
   },
   "iXNbPf": {
     "defaultMessage": "Rename"
