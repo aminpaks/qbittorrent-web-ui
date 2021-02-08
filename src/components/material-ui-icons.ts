@@ -51,8 +51,10 @@ import VerticalAlignTopIcon from '@material-ui/icons/VerticalAlignTop';
 import ViewListIcon from '@material-ui/icons/ViewList';
 import WifiIcon from '@material-ui/icons/Wifi';
 import WifiOffIcon from '@material-ui/icons/WifiOff';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 export {
+  SettingsIcon,
   AddIcon,
   AlarmIcon,
   AllInclusiveIcon,

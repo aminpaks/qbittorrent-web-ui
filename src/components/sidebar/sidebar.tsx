@@ -76,7 +76,7 @@ const useStyles = mStyles(({ spacing, palette }) => ({
     borderRight: '3px solid #000',
   },
   drawerClosed: {
-    width: spacing(7) + 1,
+    width: spacing(6) + 1,
   },
   drawerRoot: {
     minHeight: '100%',
@@ -143,16 +143,13 @@ const useStyles = mStyles(({ spacing, palette }) => ({
 
     '&$accordionSummaryExpanded': {
       minHeight: spacing(6),
-      '& .MuiSvgIcon-root': {
-        marginRight: spacing(2),
-      },
     },
     '& $accordionSummaryExpanded': {
       margin: 0,
       marginRight: spacing(2),
     },
     '& .MuiSvgIcon-root': {
-      marginLeft: spacing(1),
+      marginLeft: spacing(0.5),
       marginRight: spacing(3),
       transition: '140ms ease-in-out margin-left',
       flex: '0 0 auto',
