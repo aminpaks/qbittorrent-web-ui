@@ -8,11 +8,20 @@
   "1M6M38": {
     "defaultMessage": "Set a new location for {itemCount}:"
   },
+  "1mQAJl": {
+    "defaultMessage": "Edit category"
+  },
   "1w0KAb": {
     "defaultMessage": "Add new torrents"
   },
   "2/2yg+": {
     "defaultMessage": "Add"
+  },
+  "2GURFS": {
+    "defaultMessage": "Pause torrents"
+  },
+  "2goucs": {
+    "defaultMessage": "Delete category"
   },
   "38Uuxq": {
     "defaultMessage": "Set a new limit ratio for {itemCount}:"
@@ -46,6 +55,9 @@
   },
   "7hccGY": {
     "defaultMessage": "One URL/link per line, press Enter to add extra"
+  },
+  "7uWmG1": {
+    "defaultMessage": "Delete torrents"
   },
   "8AXy/H": {
     "defaultMessage": "Downloading <small>[F]</small>"
@@ -124,6 +136,9 @@
   },
   "HAlOn1": {
     "defaultMessage": "Name"
+  },
+  "HP5Uui": {
+    "defaultMessage": "Apply to selection"
   },
   "HeqCOM": {
     "defaultMessage": "{ratio} ratio <small>or</small> {minutes} minutes"
@@ -217,6 +232,9 @@
   },
   "V2T7Eg": {
     "defaultMessage": "Limit download rate"
+  },
+  "V4DdBL": {
+    "defaultMessage": "Apply to selection <small>({count})</small>"
   },
   "VG+Z9f": {
     "defaultMessage": "Share Limit"
@@ -373,6 +391,9 @@
   },
   "uUCYxK": {
     "defaultMessage": "Download First/Last Piece First"
+  },
+  "ubROvH": {
+    "defaultMessage": "Resume torrents"
   },
   "v3MWTZ": {
     "defaultMessage": "online"

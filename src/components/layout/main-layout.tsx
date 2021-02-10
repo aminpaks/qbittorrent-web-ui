@@ -3,6 +3,7 @@ import AppHeader from '../header';
 import { AppStatusBar } from '../app-statusbar';
 import { mStyles } from '../common';
 import { AppBar } from '../material-ui-core';
+import clsx from 'clsx';
 
 const useStyles = mStyles(({ spacing, zIndex }) => ({
   mainLayoutRoot: {
@@ -27,7 +28,8 @@ export const MainLayout: FC<{
   statusBar?: ReactElement;
   sideBar?: ReactElement;
   qbtVersion: string;
-}> = ({ header, statusBar, sideBar = <div />, qbtVersion, children }) => {
+  className?: string;
+}> = ({ header, statusBar, sideBar = <div />, qbtVersion, children, className }) => {
   const classes = useStyles();
 
   return (
@@ -35,7 +37,7 @@ export const MainLayout: FC<{
       <AppBar position="static">{header || <AppHeader qbtVersion={qbtVersion} />}</AppBar>
       <div className={classes.mainLayoutContainer}>
         {sideBar}
-        <div className={classes.appChildren}>{children}</div>
+        <div className={clsx(classes.appChildren, className)}>{children}</div>
       </div>
       {statusBar || <AppStatusBar />}
     </div>

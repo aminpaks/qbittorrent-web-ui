@@ -1,3 +1,4 @@
+import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
 import AlarmIcon from '@material-ui/icons/Alarm';
 import AllInclusiveIcon from '@material-ui/icons/AllInclusive';
@@ -12,6 +13,7 @@ import CheckIcon from '@material-ui/icons/Check';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ClassIcon from '@material-ui/icons/Class';
+import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from '@material-ui/icons/Done';
 import FastForwardIcon from '@material-ui/icons/FastForward';
@@ -40,6 +42,7 @@ import PublishIcon from '@material-ui/icons/Publish';
 import RemoveIcon from '@material-ui/icons/Remove';
 import ReorderIcon from '@material-ui/icons/Reorder';
 import SearchIcon from '@material-ui/icons/Search';
+import SettingsIcon from '@material-ui/icons/Settings';
 import ShareIcon from '@material-ui/icons/Share';
 import SpeedIcon from '@material-ui/icons/Speed';
 import StorageIcon from '@material-ui/icons/Storage';
@@ -51,10 +54,13 @@ import VerticalAlignTopIcon from '@material-ui/icons/VerticalAlignTop';
 import ViewListIcon from '@material-ui/icons/ViewList';
 import WifiIcon from '@material-ui/icons/Wifi';
 import WifiOffIcon from '@material-ui/icons/WifiOff';
-import SettingsIcon from '@material-ui/icons/Settings';
+import TrackChangesIcon from '@material-ui/icons/TrackChanges';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 export {
-  SettingsIcon,
+  HighlightOffIcon,
+  TrackChangesIcon,
+  EditIcon,
   AddIcon,
   AlarmIcon,
   AllInclusiveIcon,
@@ -69,6 +75,7 @@ export {
   ChevronLeftIcon,
   ChevronRightIcon,
   ClassIcon,
+  CloseIcon,
   DeleteIcon,
   DoneIcon,
   FastForwardIcon,
@@ -97,6 +104,7 @@ export {
   RemoveIcon,
   ReorderIcon,
   SearchIcon,
+  SettingsIcon,
   ShareIcon,
   SpeedIcon,
   StorageIcon,
