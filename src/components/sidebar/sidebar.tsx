@@ -10,6 +10,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Typography,
+  IconButton,
 } from '../material-ui-core';
 import { ViewListIcon } from '../material-ui-icons';
 import { Categories } from './categories';
@@ -58,7 +59,6 @@ export const Sidebar = () => {
           <Typography>
             <FormattedMessage defaultMessage="Categories" />
           </Typography>
-          {sectionStatus['category'] ? '' : null}
         </AccordionSummary>
         <AccordionDetails classes={{ root: classes.accordionDetailsRoot }}>
           <Categories />

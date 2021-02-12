@@ -1,4 +1,5 @@
 import produce from 'immer';
+import { Category } from '../../api';
 import { actionCreator, ActionUnion, buildCustomContext } from '../utils';
 
 export interface UiState {
@@ -25,6 +26,16 @@ export interface UiState {
   addNewDialog: {
     isOpen: boolean;
   };
+  category: {
+    addEditDialog: {
+      isOpen: boolean;
+      category: Pick<Category, 'name' | 'savePath'> | null;
+    };
+    deleteConfirmationDialog: {
+      isOpen: boolean;
+      categories: string[];
+    };
+  };
 }
 
 const initialUiState: UiState = {
@@ -50,6 +61,16 @@ const initialUiState: UiState = {
   },
   addNewDialog: {
     isOpen: false,
+  },
+  category: {
+    addEditDialog: {
+      isOpen: false,
+      category: null,
+    },
+    deleteConfirmationDialog: {
+      isOpen: false,
+      categories: [],
+    },
   },
 };
 
@@ -81,6 +102,18 @@ const updateShareLimitDialogOpen = actionCreator('limitShareDialog.isOpen')<{ va
 
 const updateAddNewDialogOpen = actionCreator('addNewDialog.isOpen')<{ value: boolean }>();
 
+const updateCategoryDeleteDialogOpen = actionCreator('category.deleteDialog.isOpen')<
+  | {
+      value: true;
+      categories: string[];
+    }
+  | { value: false }
+>();
+
+const updateCategoryAddEditDialogOpen = actionCreator('category.addEditDialog.isOpen')<
+  { value: false } | { value: true; type: 'add' } | { value: true; type: 'edit'; category: Category }
+>();
+
 export const uiActions = {
   updateTorrentSelectionList,
   updateContextMenuIsOpen,
@@ -90,6 +123,8 @@ export const uiActions = {
   updateLimitRateDialogOpen,
   updateShareLimitDialogOpen,
   updateAddNewDialogOpen,
+  updateCategoryDeleteDialogOpen,
+  updateCategoryAddEditDialogOpen,
 };
 
 export type UiActions = ActionUnion<typeof uiActions>;
@@ -158,6 +193,25 @@ const reducer = produce((draft: UiState, action: UiActions) => {
     case 'addNewDialog.isOpen':
       draft.addNewDialog.isOpen = action.payload.value;
       break;
+
+    case 'category.deleteDialog.isOpen':
+      draft.category.deleteConfirmationDialog.isOpen = action.payload.value;
+      if (action.payload.value === true) {
+        draft.category.deleteConfirmationDialog.categories = action.payload.categories;
+      } else {
+        draft.category.deleteConfirmationDialog.categories = [];
+      }
+      break;
+
+    case 'category.addEditDialog.isOpen':
+      draft.category.addEditDialog.isOpen = action.payload.value;
+      if (action.payload.value === true) {
+        if (action.payload.type === 'add') {
+          draft.category.addEditDialog.category = null;
+        } else {
+          draft.category.addEditDialog.category = action.payload.category;
+        }
+      }
 
     default:
       break;

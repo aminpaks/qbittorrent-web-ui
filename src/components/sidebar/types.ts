@@ -1,4 +1,5 @@
 export type CategoryAction =
+  | 'create'
   | 'edit'
   | 'delete'
   | 'applyToItems'

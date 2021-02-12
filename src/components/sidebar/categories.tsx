@@ -2,7 +2,7 @@ import { IconButton, Popover } from '@material-ui/core';
 import { useRef, useState } from 'react';
 import { Category } from '../../api';
 import { mStyles } from '../common';
-import { useCategoryOperationsMutation } from '../data';
+import { useCategoryOperationsMutation, useTorrentsOperationMutation } from '../data';
 import {
   List,
   ListItem,
@@ -11,10 +11,12 @@ import {
   ListItemSecondaryAction,
   Divider,
 } from '../material-ui-core';
-import { FolderIcon, FolderOpenIcon, MoreVertIcon } from '../material-ui-icons';
+import { AddCircleIcon, FolderIcon, FolderOpenIcon, MoreVertIcon } from '../material-ui-icons';
 import { useCategories, useTorrentSortFilterState, useUiState } from '../state';
 import { useClickOutsideElement, useDocumentEvents } from '../utils/events';
 import { getCategoryDisableStatus, getCategoryIcon, getCategoryLabels } from './categories-utils';
+import { CategoryAddEditDialog } from './category-add-edit-dialog';
+import { CategoryDeleteDialog } from './category-delete-dialog';
 import { CategoryAction } from './types';
 
 const useStyles = mStyles(() => ({
@@ -66,7 +68,10 @@ export const Categories = () => {
   const listRef = useRef<HTMLUListElement>(null);
   const [state, setState] = useState(INITIAL_STATE_VALUE);
   const categoryCollection = useCategories();
-  const [{ torrentListSelection }] = useUiState();
+  const [
+    { torrentListSelection },
+    { updateCategoryAddEditDialogOpen, updateCategoryDeleteDialogOpen },
+  ] = useUiState();
   const [{ category: selectedCategoryName }, updateFilter] = useTorrentSortFilterState();
 
   useClickOutsideElement(() => {
@@ -82,12 +87,45 @@ export const Categories = () => {
     ['keyup']
   );
 
-  const { mutate } = useCategoryOperationsMutation();
+  const { mutate: update } = useCategoryOperationsMutation({
+    onSuccess: () => {},
+  });
+  const { mutate: torrentsOperates } = useTorrentsOperationMutation();
 
-  const handleContextItemClick = (action: CategoryAction, params: { category: string; list: string[] }) => {
+  const handleContextItemClick = (
+    action: CategoryAction,
+    { category, list }: { category: string; list: string[] }
+  ) => {
     switch (action) {
+      case 'create': {
+        updateCategoryAddEditDialogOpen({
+          value: true,
+          type: 'add',
+        });
+        break;
+      }
+      case 'edit': {
+        updateCategoryAddEditDialogOpen({
+          value: true,
+          type: 'edit',
+          category: categoryCollection[category],
+        });
+        break;
+      }
+      case 'delete': {
+        updateCategoryDeleteDialogOpen({ value: true, categories: [category] });
+        break;
+      }
       case 'applyToItems': {
-        mutate(params);
+        update(['assign', { category, list }]);
+        break;
+      }
+      case 'resumeItems': {
+        torrentsOperates({ list, params: ['resume'] });
+        break;
+      }
+      case 'pauseItems': {
+        torrentsOperates({ list, params: ['pause'] });
         break;
       }
       default:
@@ -124,9 +162,21 @@ export const Categories = () => {
                 <span className="shouldShorten">{categoryName}</span> <small>({hashList.length})</small>
               </ListItemText>
               <ListItemSecondaryAction>
-                {__internal ? null : (
+                {__internal ? (
+                  __internal === '__all__' ? (
+                    <IconButton
+                      edge="end"
+                      size="small"
+                      onClick={() => {
+                        updateCategoryAddEditDialogOpen({ value: true, type: 'add' });
+                      }}
+                    >
+                      <AddCircleIcon fontSize="small" />
+                    </IconButton>
+                  ) : null
+                ) : (
                   <IconButton
-                    edge="start"
+                    edge="end"
                     size="small"
                     className="ModifyButton"
                     onClick={({ target }) => {
@@ -173,6 +223,8 @@ export const Categories = () => {
           )}
         </List>
       </Popover>
+      <CategoryDeleteDialog />
+      <CategoryAddEditDialog />
     </>
   );
 };

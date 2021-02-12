@@ -191,7 +191,7 @@ export const AppContextProvider: FC = ({ children }) => {
 
           setCategoryState(updatedInitialCategoryState);
         } else {
-          if (Object.keys(updatedCategories).length > 0 || categories_removed) {
+          if (Object.keys(updatedCategories).length > 0 || categories || categories_removed) {
             setCategoryState(s => {
               const value = produce(s, draft => {
                 if (categories_removed) {
