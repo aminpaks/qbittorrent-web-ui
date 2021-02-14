@@ -84,7 +84,9 @@ const updateTorrentSelectionList = actionCreator('torrentList.updateSelection')<
 
 const updateContextMenuIsOpen = actionCreator('contextMenu.isOpen')<{ value: boolean }>();
 
-const updateDeleteConfirmationDialogIsOpen = actionCreator('deleteConfirmation.isOpen')<{ value: boolean }>();
+const updateDeleteConfirmationDialogIsOpen = actionCreator('deleteConfirmation.isOpen')<
+  { value: false } | { value: true; list?: string[] }
+>();
 
 const updateSetLocationDialogIsOpen = actionCreator('setLocation.isOpen')<{ value: boolean }>();
 
@@ -168,6 +170,9 @@ const reducer = produce((draft: UiState, action: UiActions) => {
 
     case 'deleteConfirmation.isOpen':
       draft.deleteConfirmation.isOpen = action.payload.value;
+      if (action.payload.value === true && action.payload.list) {
+        draft.torrentListSelection = action.payload.list;
+      }
       break;
 
     case 'setLocation.isOpen':

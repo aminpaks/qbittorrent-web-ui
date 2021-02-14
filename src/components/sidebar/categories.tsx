@@ -70,18 +70,18 @@ export const Categories = () => {
   const categoryCollection = useCategories();
   const [
     { torrentListSelection },
-    { updateCategoryAddEditDialogOpen, updateCategoryDeleteDialogOpen },
+    { updateCategoryAddEditDialogOpen, updateCategoryDeleteDialogOpen, updateDeleteConfirmationDialogIsOpen },
   ] = useUiState();
   const [{ category: selectedCategoryName }, updateFilter] = useTorrentSortFilterState();
 
   useClickOutsideElement(() => {
-    setState(INITIAL_STATE_VALUE);
+    setState(s => ({ ...s, anchor: null }));
   }, listRef.current);
 
   useDocumentEvents(
     ({ key }) => {
       if (key === 'Escape') {
-        setState(INITIAL_STATE_VALUE);
+        setState(s => ({ ...s, anchor: null }));
       }
     },
     ['keyup']
@@ -128,6 +128,9 @@ export const Categories = () => {
         torrentsOperates({ list, params: ['pause'] });
         break;
       }
+      case 'deleteItems': {
+        updateDeleteConfirmationDialogIsOpen({ value: true, list });
+      }
       default:
         break;
     }
@@ -162,18 +165,16 @@ export const Categories = () => {
                 <span className="shouldShorten">{categoryName}</span> <small>({hashList.length})</small>
               </ListItemText>
               <ListItemSecondaryAction>
-                {__internal ? (
-                  __internal === '__all__' ? (
-                    <IconButton
-                      edge="end"
-                      size="small"
-                      onClick={() => {
-                        updateCategoryAddEditDialogOpen({ value: true, type: 'add' });
-                      }}
-                    >
-                      <AddCircleIcon fontSize="small" />
-                    </IconButton>
-                  ) : null
+                {__internal === '__all__' ? (
+                  <IconButton
+                    edge="end"
+                    size="small"
+                    onClick={() => {
+                      updateCategoryAddEditDialogOpen({ value: true, type: 'add' });
+                    }}
+                  >
+                    <AddCircleIcon fontSize="small" />
+                  </IconButton>
                 ) : (
                   <IconButton
                     edge="end"
@@ -181,7 +182,6 @@ export const Categories = () => {
                     className="ModifyButton"
                     onClick={({ target }) => {
                       setState({ anchor: target as Element, category });
-                      console.log('more actions', categoryId);
                     }}
                   >
                     <MoreVertIcon fontSize="small" />
@@ -202,16 +202,17 @@ export const Categories = () => {
                 key={action}
                 button
                 component="li"
-                disabled={getCategoryDisableStatus(
+                disabled={getCategoryDisableStatus({
                   action,
-                  torrentListSelection.length,
-                  state.category?.hashList.length ?? 0
-                )}
+                  category: state.category || undefined,
+                  selectionLength: torrentListSelection.length,
+                  counts: state.category?.hashList.length ?? 0,
+                })}
                 classes={{ root: classes.contextMenuItem }}
                 onClick={() => {
                   handleContextItemClick(action, {
                     category: state.category!.name,
-                    list: torrentListSelection,
+                    list: action === 'applyToItems' ? torrentListSelection : state.category!.hashList,
                   });
                   setState(INITIAL_STATE_VALUE);
                 }}

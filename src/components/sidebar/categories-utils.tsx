@@ -1,4 +1,5 @@
 import { FormattedMessage } from 'react-intl';
+import { Category } from '../../api';
 import {
   CloseIcon,
   DeleteIcon,
@@ -54,11 +55,21 @@ export const getCategoryIcon = (action: CategoryAction) => {
   }
 };
 
-export const getCategoryDisableStatus = (action: CategoryAction, selectionLength: number, counts: number) => {
+export const getCategoryDisableStatus = ({
+  category,
+  action,
+  selectionLength,
+  counts,
+}: {
+  category?: Category;
+  action: CategoryAction;
+  selectionLength: number;
+  counts: number;
+}) => {
   switch (action) {
     case 'edit':
     case 'delete':
-      return false;
+      return Boolean(category?.__internal || false);
     case 'applyToItems':
       return selectionLength <= 0;
     case 'resumeItems':

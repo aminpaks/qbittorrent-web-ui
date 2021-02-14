@@ -200,7 +200,13 @@ export const AppContextProvider: FC = ({ children }) => {
                   });
                 }
                 const oldCategories = Object.values(draft);
-                const newCategories = Object.values(categories || {}).map(buildCategory);
+                const newCategories = Object.entries(categories || {}).map(([name, category]) => {
+                  const prev = draft[name] ? draft[name] : ({} as Category);
+                  return buildCategory({
+                    ...prev,
+                    ...category,
+                  });
+                });
                 oldCategories.concat(newCategories).forEach(category => {
                   const categoryName = getCategoryName(category);
                   const updates = updatedCategories[categoryName];
