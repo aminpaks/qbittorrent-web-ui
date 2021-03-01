@@ -1,5 +1,8 @@
 import { PopoverOrigin } from '@material-ui/core/Popover/index';
 import { SvgIconTypeMap } from '@material-ui/core/SvgIcon/index';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
 import Alert from '@material-ui/lab/Alert';
 import AppBar from '@material-ui/core/AppBar';
 import Box from '@material-ui/core/Box';
@@ -11,6 +14,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Divider from '@material-ui/core/Divider';
+import Drawer from '@material-ui/core/Drawer';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
@@ -38,6 +43,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
 export {
+  Accordion,
   Alert,
   AppBar,
   Box,
@@ -49,6 +55,8 @@ export {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Divider,
+  Drawer,
   FormControl,
   FormControlLabel,
   FormGroup,
@@ -76,4 +84,6 @@ export {
   SvgIconTypeMap,
   TextField,
   Typography,
+  AccordionDetails,
+  AccordionSummary,
 };

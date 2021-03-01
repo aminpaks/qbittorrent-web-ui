@@ -1,3 +1,4 @@
+import { Category, CategoryCollection } from './category';
 import { requestJson } from './request';
 import { Torrent } from './torrents';
 import { buildEndpointUrl } from './utils';
@@ -21,8 +22,8 @@ export interface SyncMaindata {
   full_update: boolean; //	Whether the response contains all the data or partial data
   torrents?: Record<string, Partial<Torrent>>; //	Property: torrent hash, value: same as torrent list
   torrents_removed?: string[]; //	List of hashes of torrents removed since last request
-  categories: unknown; //	Info for categories added since last request
-  categories_removed?: unknown[]; //	List of categories removed since last request
+  categories: CategoryCollection; //	Info for categories added since last request
+  categories_removed?: string[]; //	List of categories removed since last request
   tags?: unknown[]; //	List of tags added since last request
   tags_removed?: unknown[]; //	List of tags removed since last request
   server_state?: ServerState; //	Global transfer info

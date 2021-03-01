@@ -1,3 +1,4 @@
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 import AddIcon from '@material-ui/icons/Add';
 import AlarmIcon from '@material-ui/icons/Alarm';
 import AllInclusiveIcon from '@material-ui/icons/AllInclusive';
@@ -12,16 +13,22 @@ import CheckIcon from '@material-ui/icons/Check';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ClassIcon from '@material-ui/icons/Class';
+import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from '@material-ui/icons/Done';
+import EditIcon from '@material-ui/icons/Edit';
 import FastForwardIcon from '@material-ui/icons/FastForward';
 import FeaturedPlayListIcon from '@material-ui/icons/FeaturedPlayList';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import FindInPageIcon from '@material-ui/icons/FindInPage';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
+import FolderIcon from '@material-ui/icons/Folder';
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import GrainIcon from '@material-ui/icons/Grain';
+import HelpIcon from '@material-ui/icons/Help';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import LabelImportantIcon from '@material-ui/icons/LabelImportant';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import LinkIcon from '@material-ui/icons/Link';
@@ -36,20 +43,23 @@ import PowerOffIcon from '@material-ui/icons/PowerOff';
 import PublishIcon from '@material-ui/icons/Publish';
 import RemoveIcon from '@material-ui/icons/Remove';
 import ReorderIcon from '@material-ui/icons/Reorder';
+import SearchIcon from '@material-ui/icons/Search';
+import SettingsIcon from '@material-ui/icons/Settings';
 import ShareIcon from '@material-ui/icons/Share';
 import SpeedIcon from '@material-ui/icons/Speed';
 import StorageIcon from '@material-ui/icons/Storage';
 import SubtitlesIcon from '@material-ui/icons/Subtitles';
+import TrackChangesIcon from '@material-ui/icons/TrackChanges';
 import TrendingDownIcon from '@material-ui/icons/TrendingDown';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import VerticalAlignBottomIcon from '@material-ui/icons/VerticalAlignBottom';
 import VerticalAlignTopIcon from '@material-ui/icons/VerticalAlignTop';
+import ViewListIcon from '@material-ui/icons/ViewList';
 import WifiIcon from '@material-ui/icons/Wifi';
 import WifiOffIcon from '@material-ui/icons/WifiOff';
-import SearchIcon from '@material-ui/icons/Search';
 
 export {
-  SearchIcon,
+  AddCircleIcon,
   AddIcon,
   AlarmIcon,
   AllInclusiveIcon,
@@ -64,16 +74,22 @@ export {
   ChevronLeftIcon,
   ChevronRightIcon,
   ClassIcon,
+  CloseIcon,
   DeleteIcon,
   DoneIcon,
+  EditIcon,
   FastForwardIcon,
   FeaturedPlayListIcon,
   FileCopyIcon,
   FindInPageIcon,
   FirstPageIcon,
+  FolderIcon,
   FolderOpenIcon,
   GetAppIcon,
   GrainIcon,
+  HelpIcon,
+  HelpOutlineIcon,
+  HighlightOffIcon,
   LabelImportantIcon,
   LastPageIcon,
   LinkIcon,
@@ -88,14 +104,18 @@ export {
   PublishIcon,
   RemoveIcon,
   ReorderIcon,
+  SearchIcon,
+  SettingsIcon,
   ShareIcon,
   SpeedIcon,
   StorageIcon,
   SubtitlesIcon,
+  TrackChangesIcon,
   TrendingDownIcon,
   TrendingUpIcon,
   VerticalAlignBottomIcon,
   VerticalAlignTopIcon,
+  ViewListIcon,
   WifiIcon,
   WifiOffIcon,
 };

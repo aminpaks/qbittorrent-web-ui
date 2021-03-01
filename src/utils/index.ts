@@ -1,6 +1,6 @@
 export * from './browsers';
 export * from './colors';
-export * from './domHelpers';
+export * from './dom-helpers';
 export * from './fileSize';
 export * from './formData';
 export * from './functions';

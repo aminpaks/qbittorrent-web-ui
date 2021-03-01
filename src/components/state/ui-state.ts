@@ -1,4 +1,5 @@
 import produce from 'immer';
+import { Category } from '../../api';
 import { actionCreator, ActionUnion, buildCustomContext } from '../utils';
 
 export interface UiState {
@@ -24,6 +25,16 @@ export interface UiState {
   };
   addNewDialog: {
     isOpen: boolean;
+  };
+  category: {
+    addEditDialog: {
+      isOpen: boolean;
+      category: Pick<Category, 'name' | 'savePath'> | null;
+    };
+    deleteConfirmationDialog: {
+      isOpen: boolean;
+      categories: string[];
+    };
   };
 }
 
@@ -51,6 +62,16 @@ const initialUiState: UiState = {
   addNewDialog: {
     isOpen: false,
   },
+  category: {
+    addEditDialog: {
+      isOpen: false,
+      category: null,
+    },
+    deleteConfirmationDialog: {
+      isOpen: false,
+      categories: [],
+    },
+  },
 };
 
 const updateTorrentSelectionList = actionCreator('torrentList.updateSelection')<
@@ -63,7 +84,9 @@ const updateTorrentSelectionList = actionCreator('torrentList.updateSelection')<
 
 const updateContextMenuIsOpen = actionCreator('contextMenu.isOpen')<{ value: boolean }>();
 
-const updateDeleteConfirmationDialogIsOpen = actionCreator('deleteConfirmation.isOpen')<{ value: boolean }>();
+const updateDeleteConfirmationDialogIsOpen = actionCreator('deleteConfirmation.isOpen')<
+  { value: false } | { value: true; list?: string[] }
+>();
 
 const updateSetLocationDialogIsOpen = actionCreator('setLocation.isOpen')<{ value: boolean }>();
 
@@ -81,6 +104,18 @@ const updateShareLimitDialogOpen = actionCreator('limitShareDialog.isOpen')<{ va
 
 const updateAddNewDialogOpen = actionCreator('addNewDialog.isOpen')<{ value: boolean }>();
 
+const updateCategoryDeleteDialogOpen = actionCreator('category.deleteDialog.isOpen')<
+  | {
+      value: true;
+      categories: string[];
+    }
+  | { value: false }
+>();
+
+const updateCategoryAddEditDialogOpen = actionCreator('category.addEditDialog.isOpen')<
+  { value: false } | { value: true; type: 'add' } | { value: true; type: 'edit'; category: Category }
+>();
+
 export const uiActions = {
   updateTorrentSelectionList,
   updateContextMenuIsOpen,
@@ -90,6 +125,8 @@ export const uiActions = {
   updateLimitRateDialogOpen,
   updateShareLimitDialogOpen,
   updateAddNewDialogOpen,
+  updateCategoryDeleteDialogOpen,
+  updateCategoryAddEditDialogOpen,
 };
 
 export type UiActions = ActionUnion<typeof uiActions>;
@@ -133,6 +170,9 @@ const reducer = produce((draft: UiState, action: UiActions) => {
 
     case 'deleteConfirmation.isOpen':
       draft.deleteConfirmation.isOpen = action.payload.value;
+      if (action.payload.value === true && action.payload.list) {
+        draft.torrentListSelection = action.payload.list;
+      }
       break;
 
     case 'setLocation.isOpen':
@@ -158,6 +198,25 @@ const reducer = produce((draft: UiState, action: UiActions) => {
     case 'addNewDialog.isOpen':
       draft.addNewDialog.isOpen = action.payload.value;
       break;
+
+    case 'category.deleteDialog.isOpen':
+      draft.category.deleteConfirmationDialog.isOpen = action.payload.value;
+      if (action.payload.value === true) {
+        draft.category.deleteConfirmationDialog.categories = action.payload.categories;
+      } else {
+        draft.category.deleteConfirmationDialog.categories = [];
+      }
+      break;
+
+    case 'category.addEditDialog.isOpen':
+      draft.category.addEditDialog.isOpen = action.payload.value;
+      if (action.payload.value === true) {
+        if (action.payload.type === 'add') {
+          draft.category.addEditDialog.category = null;
+        } else {
+          draft.category.addEditDialog.category = action.payload.category;
+        }
+      }
 
     default:
       break;

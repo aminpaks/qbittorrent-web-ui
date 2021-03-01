@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Torrent, TorrentState } from '../../api';
-import { TorrentCollection } from '../../types';
+import { Torrent, TorrentCollection, TorrentState } from '../../api';
 import { copyToClipboard, getElementAttr } from '../../utils';
 import {
   ArrowDownwardIcon,

@@ -1,22 +1,31 @@
 import produce from 'immer';
-import fuzzysort from 'fuzzysort';
-import { createContext, FC, useCallback, useContext, useEffect, useReducer, useRef, useState } from 'react';
-import { apiV2SyncMaindata, ServerState, SyncMaindata, Torrent } from '../../api';
-import { TorrentCollection } from '../../types';
+import { useIntl } from 'react-intl';
+import { createContext, FC, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { storageGet, storageSet, tryCatch, unsafeMutateDefaults } from '../../utils';
-
-type TorrentKeys = keyof Torrent;
-interface SortFilterStateValue {
-  column: TorrentKeys;
-  asc: boolean;
-  search: string;
-}
-type SortFilterState = [SortFilterStateValue, SortFilterHandler];
-type SortFilterHandler = (payload: { column?: TorrentKeys; search?: string }) => void;
+import { CategoryState, SortFilterHandler, SortFilterState, SortFilterStateValue } from './types';
+import {
+  buildCategory,
+  getCategoryName,
+  getInitialCategories,
+  sortAndFilter,
+  toHashList,
+  getNormalizedCategory,
+} from './utils';
+import {
+  apiV2SyncMaindata,
+  Category,
+  ServerState,
+  SyncMaindata,
+  Torrent,
+  TorrentCollection,
+  TorrentKeys,
+} from '../../api';
+import { useUiState } from './ui-state';
 
 const TORRENT_SORT_KEY = 'torrentListSortFilter';
 
 const initialServerState = {} as ServerState;
+const initialCategoryState: CategoryState = {};
 const initialTorrentsState = { collection: {}, hashList: [], viewHashList: [] } as {
   collection: TorrentCollection;
   hashList: string[];
@@ -26,9 +35,11 @@ const initialTorrentSortFilterState: SortFilterStateValue = {
   column: 'priority',
   asc: true,
   search: '',
+  category: '__all__',
 };
 
 const ServerContext = createContext(initialServerState);
+const CategoryContext = createContext(initialCategoryState);
 const TorrentsContext = createContext(initialTorrentsState);
 const TorrentHashListContext = createContext(initialTorrentsState.hashList);
 const TorrentViewHashListContext = createContext(initialTorrentsState.viewHashList);
@@ -37,67 +48,12 @@ const TorrentSortFilterContext = createContext(([
   undefined,
 ] as unknown) as SortFilterState);
 
-const toString = (i: boolean | number | string) => {
-  if (typeof i === 'string') {
-    return i.toLowerCase();
-  } else if (typeof i === 'number') {
-    return i.toFixed(4).padStart(50, '0');
-  }
-  return String(i);
-};
-
-const sortByPriorityOrName = (x: Torrent, y: Torrent) => {
-  if (x.priority === 0 && y.priority === 0) {
-    return toString(x.name).localeCompare(toString(y.name));
-  } else if (x.priority === 0 && y.priority !== 0) {
-    return 1;
-  } else if (x.priority !== 0 && y.priority === 0) {
-    return -1;
-  }
-  return toString(x.priority).localeCompare(toString(y.priority));
-};
-
-const sortTorrent = (l: Torrent[], sortBy: TorrentKeys = 'priority', asc = true) => {
-  l.sort((x, y) => {
-    const xSortValue = x[sortBy];
-    const ySortValue = y[sortBy];
-
-    if (sortBy === 'priority') {
-      return sortByPriorityOrName(x, y);
-    }
-
-    let result = toString(xSortValue).localeCompare(toString(ySortValue));
-
-    if (result === 0) {
-      return sortByPriorityOrName(x, y);
-    }
-
-    return result;
-  });
-
-  if (asc === false) {
-    l.reverse();
-  }
-  return l;
-};
-
-const toHashList = (l: Torrent[]) => l.map(({ hash }) => hash);
-
-const sortAndFilter = (state: SortFilterStateValue, l: Torrent[]): Torrent[] => {
-  const { column, asc, search } = state;
-
-  if (search) {
-    const fuzzyResults = fuzzysort.go(search, l, { key: 'name' });
-    return fuzzyResults.map(({ obj }) => obj);
-  }
-
-  return sortTorrent(l, column, asc);
-};
-
 export const AppContextProvider: FC = ({ children }) => {
+  const intl = useIntl();
   const referenceId = useRef(0);
   const [sortFilterRefId, setSortFilterRefId] = useState(0);
   const [serverState, setServerState] = useState(initialServerState);
+  const [categoryState, setCategoryState] = useState(initialCategoryState);
   const [torrentsState, setTorrentsState] = useState(initialTorrentsState);
   const [torrentSortFilterState, setTorrentSortState] = useState(
     unsafeMutateDefaults(initialTorrentSortFilterState)(
@@ -105,10 +61,13 @@ export const AppContextProvider: FC = ({ children }) => {
     )
   );
   const torrentSortFilterStateRef = useRef(torrentSortFilterState);
+  const categoryStateRef = useRef(categoryState);
+
+  const [, { updateTorrentSelectionList }] = useUiState();
 
   const handleListSortFilter = useCallback<SortFilterHandler>(payload => {
     setTorrentSortState(s => {
-      const { column, search } = payload;
+      const { column, search, category } = payload;
 
       const updatedSort = produce(s, draft => {
         if (column) {
@@ -122,7 +81,11 @@ export const AppContextProvider: FC = ({ children }) => {
         if (search != null) {
           draft.search = search;
         }
+        if (category != null) {
+          draft.category = category;
+        }
       });
+      updateTorrentSelectionList({ type: 'only', list: [] });
 
       return storageSet(TORRENT_SORT_KEY, updatedSort);
     });
@@ -134,10 +97,19 @@ export const AppContextProvider: FC = ({ children }) => {
 
     async function fetchMaindata() {
       const sync = await tryCatch(() => apiV2SyncMaindata(referenceId.current), {} as SyncMaindata);
-      const { rid, full_update, torrents = {}, torrents_removed, server_state } = sync;
+      const {
+        rid,
+        full_update,
+        torrents = {},
+        torrents_removed,
+        server_state,
+        categories,
+        categories_removed,
+      } = sync;
 
       if (rid) {
         referenceId.current = rid;
+
         if (torrents_removed && torrents_removed.length > 0) {
           setSortFilterRefId(Date.now());
           setTorrentsState(s =>
@@ -151,6 +123,7 @@ export const AppContextProvider: FC = ({ children }) => {
         }
 
         const torrentHashes = Object.keys(torrents);
+        const updatedCategories: Record<string, [string, boolean][]> = {};
         if (full_update) {
           // Mutate items and update hash property
           for (const hash in torrents) {
@@ -172,11 +145,23 @@ export const AppContextProvider: FC = ({ children }) => {
                 const torrent = torrents[hash];
                 if (currentItem) {
                   Object.entries(torrent).forEach(item => {
-                    const [key, value] = item as [TorrentKeys, never];
+                    const [key, value] = item as [TorrentKeys, unknown];
+                    if (key === 'category' && currentItem.category !== value && typeof value === 'string') {
+                      const oldCategoryName = getNormalizedCategory(currentItem.category);
+                      const newCategoryName = getNormalizedCategory(value);
+                      const newCategorySet = updatedCategories[newCategoryName] || [];
+                      const oldCategorySet = updatedCategories[oldCategoryName] || [];
+
+                      newCategorySet.push([currentItem.hash, true]);
+                      oldCategorySet.push([currentItem.hash, false]);
+
+                      updatedCategories[oldCategoryName] = oldCategorySet;
+                      updatedCategories[newCategoryName] = newCategorySet;
+                    }
                     if (key === torrentSortFilterStateRef.current.column) {
                       shouldUpdateHashOrder = true;
                     }
-                    currentItem[key] = value;
+                    currentItem[key] = value as never;
                   });
                 } else {
                   shouldUpdateHashOrder = true;
@@ -190,6 +175,64 @@ export const AppContextProvider: FC = ({ children }) => {
               });
             });
           });
+        }
+
+        // Set category state
+        if (full_update) {
+          const updatedInitialCategoryState: CategoryState = Object.values(
+            torrents as Record<string, Torrent>
+          ).reduce((acc, torrent) => {
+            const { hash, category: categoryStr } = torrent;
+
+            const category: Category | undefined = categoryStr !== '' ? acc[categoryStr] : acc['__none__'];
+
+            if (category) {
+              category.hashList.push(hash);
+            }
+            acc['__all__'].hashList.push(hash);
+            return acc;
+          }, getInitialCategories(intl, categories));
+
+          setCategoryState(updatedInitialCategoryState);
+        } else {
+          if (Object.keys(updatedCategories).length > 0 || categories || categories_removed) {
+            setCategoryState(s => {
+              const value = produce(s, draft => {
+                if (categories_removed) {
+                  categories_removed.forEach(categoryName => {
+                    delete draft[categoryName];
+                  });
+                }
+                const oldCategories = Object.values(draft);
+                const newCategories = Object.entries(categories || {}).map(([name, category]) => {
+                  const prev = draft[name] ? draft[name] : ({} as Category);
+                  return buildCategory({
+                    ...prev,
+                    ...category,
+                  });
+                });
+                oldCategories.concat(newCategories).forEach(category => {
+                  const categoryName = getCategoryName(category);
+                  const updates = updatedCategories[categoryName];
+                  if (updates && updates.length > 0) {
+                    updates.forEach(([hash, isAdding]) => {
+                      const currentIndex = category.hashList.indexOf(hash);
+                      if (isAdding && currentIndex < 0) {
+                        category.hashList.push(hash);
+                      } else if (!isAdding && currentIndex >= 0) {
+                        category.hashList.splice(currentIndex, 1);
+                      }
+                    });
+                  }
+                  draft[categoryName] = category;
+                });
+              });
+
+              setSortFilterRefId(Date.now());
+
+              return value;
+            });
+          }
         }
 
         // Update Server state
@@ -225,11 +268,17 @@ export const AppContextProvider: FC = ({ children }) => {
   }, []);
 
   useEffect(() => {
+    categoryStateRef.current = categoryState;
+  });
+
+  useEffect(() => {
     torrentSortFilterStateRef.current = torrentSortFilterState;
 
     setTorrentsState(s => {
       const result = produce(s, draft => {
-        draft.viewHashList = toHashList(sortAndFilter(torrentSortFilterState, Object.values(s.collection)));
+        draft.viewHashList = toHashList(
+          sortAndFilter(torrentSortFilterState, Object.values(s.collection), categoryStateRef.current)
+        );
       });
       return result;
     });
@@ -241,7 +290,7 @@ export const AppContextProvider: FC = ({ children }) => {
         <TorrentHashListContext.Provider value={torrentsState.hashList}>
           <TorrentViewHashListContext.Provider value={torrentsState.viewHashList}>
             <TorrentSortFilterContext.Provider value={[torrentSortFilterState, handleListSortFilter]}>
-              {children}
+              <CategoryContext.Provider value={categoryState}>{children}</CategoryContext.Provider>
             </TorrentSortFilterContext.Provider>
           </TorrentViewHashListContext.Provider>
         </TorrentHashListContext.Provider>
@@ -268,4 +317,8 @@ export const useTorrentViewList = () => {
 
 export const useTorrentSortFilterState = () => {
   return useContext(TorrentSortFilterContext);
+};
+
+export const useCategories = () => {
+  return useContext(CategoryContext);
 };

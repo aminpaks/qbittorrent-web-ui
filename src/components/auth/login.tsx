@@ -25,6 +25,10 @@ const LOGIN_PASSWORD = 'loginPassword';
 const LOGIN_REMEMBER_ME = 'loginRememberMe';
 
 const useStyles = mStyles(({ spacing }) => ({
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
   loginRoot: {
     display: 'block',
     flex: '0 0 auto',
@@ -72,7 +76,7 @@ export const Login: FC = () => {
   }, [isSuccess, appVersion]);
 
   return (
-    <MainLayout header={<AppHeader qbtVersion="" />} qbtVersion="">
+    <MainLayout header={<AppHeader qbtVersion="" />} qbtVersion="" className={classes.container}>
       <section className={classes.loginRoot}>
         <Box marginBottom={2} component="header">
           <Typography variant="h4" component="h1">

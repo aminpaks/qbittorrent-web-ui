@@ -9,6 +9,7 @@ export const tableColumns: TableColumn[] = [
     width: 460,
   },
   { label: <FormattedMessage defaultMessage="Added On" />, dataKey: 'added_on', width: 160 },
+  { label: <FormattedMessage defaultMessage="ETA" />, dataKey: 'eta', width: 120 },
   {
     label: <FormattedMessage defaultMessage="Ratio" />,
     dataKey: 'ratio',
