@@ -1,5 +1,6 @@
 import { IconButton, Popover } from '@material-ui/core';
 import { useRef, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { Category } from '../../api';
 import { mStyles } from '../common';
 import { useCategoryOperationsMutation, useTorrentsOperationMutation } from '../data';
@@ -12,6 +13,7 @@ import {
   Divider,
 } from '../material-ui-core';
 import { AddCircleIcon, FolderIcon, FolderOpenIcon, MoreVertIcon } from '../material-ui-icons';
+import { useNotifications } from '../notifications';
 import { useCategories, useTorrentSortFilterState, useUiState } from '../state';
 import { useClickOutsideElement, useDocumentEvents } from '../utils/events';
 import { getCategoryDisableStatus, getCategoryIcon, getCategoryLabels } from './categories-utils';
@@ -73,6 +75,7 @@ export const Categories = () => {
     { updateCategoryAddEditDialogOpen, updateCategoryDeleteDialogOpen, updateDeleteConfirmationDialogIsOpen },
   ] = useUiState();
   const [{ category: selectedCategoryName }, updateFilter] = useTorrentSortFilterState();
+  const { create: createNotification } = useNotifications();
 
   useClickOutsideElement(() => {
     setState(s => ({ ...s, anchor: null }));
@@ -210,9 +213,17 @@ export const Categories = () => {
                 })}
                 classes={{ root: classes.contextMenuItem }}
                 onClick={() => {
+                  if (!state.category) {
+                    return createNotification({
+                      message: <FormattedMessage defaultMessage="Cannot find selected category!" />,
+                      severity: 'error',
+                    });
+                  }
+                  const { __internal, hashList: categoryItems, name } = state.category;
+                  const category = __internal ? '' : name;
                   handleContextItemClick(action, {
-                    category: state.category?.__internal === '__none__' ? '' : state.category!.name,
-                    list: action === 'applyToItems' ? torrentListSelection : state.category!.hashList,
+                    category,
+                    list: action === 'applyToItems' ? torrentListSelection : categoryItems,
                   });
                   setState(INITIAL_STATE_VALUE);
                 }}
