@@ -30,7 +30,9 @@ const useStyles = mStyles(() => ({
         },
       },
       '& .ModifyButton': {
-        opacity: 0,
+        ['@media (min-height: 400px)']: {
+          opacity: 0,
+        },
         transition: '140ms ease opacity',
       },
     },
@@ -221,10 +223,8 @@ export const Categories = () => {
                   }
                   const { __internal, hashList: categoryItems, name } = state.category;
                   const category = __internal ? '' : name;
-                  handleContextItemClick(action, {
-                    category,
-                    list: action === 'applyToItems' ? torrentListSelection : categoryItems,
-                  });
+                  const list = action === 'applyToItems' ? torrentListSelection : categoryItems;
+                  handleContextItemClick(action, { category, list });
                   setState(INITIAL_STATE_VALUE);
                 }}
               >

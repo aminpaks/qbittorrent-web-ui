@@ -3,15 +3,7 @@ import produce from 'immer';
 import { useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { mStyles } from '../common';
-import {
-  Drawer,
-  Divider,
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Typography,
-  IconButton,
-} from '../material-ui-core';
+import { Drawer, Accordion, AccordionDetails, AccordionSummary, Typography } from '../material-ui-core';
 import { ViewListIcon } from '../material-ui-icons';
 import { Categories } from './categories';
 import { colorAlpha, storageGet, storageSet, unsafeMutateDefaults } from '../../utils';
@@ -48,6 +40,7 @@ export const Sidebar = () => {
         square
         expanded={sectionStatus['category']}
         classes={{ root: classes.accordionRoot, expanded: classes.accordionExpanded }}
+        className={clsx({ expanded: sectionStatus['category'] })}
         onChange={getHandleSectionToggle('category')}
       >
         <AccordionSummary
@@ -77,6 +70,9 @@ const useStyles = mStyles(({ spacing, palette }) => ({
   },
   drawerClosed: {
     width: spacing(6) + 1,
+    '& $drawerPaper': {
+      overflow: 'hidden',
+    },
   },
   drawerRoot: {
     minHeight: '100%',
@@ -88,9 +84,9 @@ const useStyles = mStyles(({ spacing, palette }) => ({
   drawerPaper: {
     position: 'relative',
     backgroundColor: 'inherit',
-    zIndex: 1,
-    overflow: 'hidden',
     whiteSpace: 'nowrap',
+    flex: '1 1 0px',
+    zIndex: 1,
   },
   accordionRoot: {
     backgroundColor: 'inherit',
