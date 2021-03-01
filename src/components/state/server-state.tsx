@@ -20,6 +20,7 @@ import {
   TorrentCollection,
   TorrentKeys,
 } from '../../api';
+import { useUiState } from './ui-state';
 
 const TORRENT_SORT_KEY = 'torrentListSortFilter';
 
@@ -62,6 +63,8 @@ export const AppContextProvider: FC = ({ children }) => {
   const torrentSortFilterStateRef = useRef(torrentSortFilterState);
   const categoryStateRef = useRef(categoryState);
 
+  const [, { updateTorrentSelectionList }] = useUiState();
+
   const handleListSortFilter = useCallback<SortFilterHandler>(payload => {
     setTorrentSortState(s => {
       const { column, search, category } = payload;
@@ -82,6 +85,7 @@ export const AppContextProvider: FC = ({ children }) => {
           draft.category = category;
         }
       });
+      updateTorrentSelectionList({ type: 'only', list: [] });
 
       return storageSet(TORRENT_SORT_KEY, updatedSort);
     });

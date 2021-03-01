@@ -211,7 +211,7 @@ export const Categories = () => {
                 classes={{ root: classes.contextMenuItem }}
                 onClick={() => {
                   handleContextItemClick(action, {
-                    category: state.category!.name,
+                    category: state.category?.__internal === '__none__' ? '' : state.category!.name,
                     list: action === 'applyToItems' ? torrentListSelection : state.category!.hashList,
                   });
                   setState(INITIAL_STATE_VALUE);

@@ -71,9 +71,13 @@ export const CategoryAddEditDialog = () => {
   });
 
   useEffect(() => {
-    if (isOpen && currentCategory) {
-      const { name: categoryName, savePath } = currentCategory;
-      setCategoryState({ categoryName, savePath });
+    if (isOpen) {
+      if (currentCategory) {
+        const { name: categoryName, savePath } = currentCategory;
+        setCategoryState({ categoryName, savePath });
+      } else {
+        setCategoryState({ categoryName: '', savePath: '' });
+      }
     }
   }, [isOpen]);
 
