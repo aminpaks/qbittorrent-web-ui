@@ -1,0 +1,1663 @@
+{
+  "11WYT7": [
+    {
+      "type": 0,
+      "value": "复制名称"
+    }
+  ],
+  "1EYCdR": [
+    {
+      "type": 0,
+      "value": "标签"
+    }
+  ],
+  "1M6M38": [
+    {
+      "type": 0,
+      "value": "设置新位置"
+    },
+    {
+      "type": 1,
+      "value": "itemCount"
+    },
+    {
+      "type": 0,
+      "value": ":"
+    }
+  ],
+  "1mQAJl": [
+    {
+      "type": 0,
+      "value": "修改类别"
+    }
+  ],
+  "1w0KAb": [
+    {
+      "type": 0,
+      "value": "添加种子"
+    }
+  ],
+  "2/2yg+": [
+    {
+      "type": 0,
+      "value": "添加"
+    }
+  ],
+  "2GURFS": [
+    {
+      "type": 0,
+      "value": "暂停种子"
+    }
+  ],
+  "2goucs": [
+    {
+      "type": 0,
+      "value": "删除类别"
+    }
+  ],
+  "38Uuxq": [
+    {
+      "type": 0,
+      "value": "设置新的限速规则"
+    },
+    {
+      "type": 1,
+      "value": "itemCount"
+    },
+    {
+      "type": 0,
+      "value": ":"
+    }
+  ],
+  "3BG+4W": [
+    {
+      "type": 0,
+      "value": "限制分享比率"
+    }
+  ],
+  "3STmV0": [
+    {
+      "type": 0,
+      "value": "从URL下载"
+    }
+  ],
+  "3y9DGg": [
+    {
+      "type": 0,
+      "value": "恢复"
+    }
+  ],
+  "47FYwb": [
+    {
+      "type": 0,
+      "value": "取消"
+    }
+  ],
+  "4AWEqx": [
+    {
+      "type": 0,
+      "value": "本次会话下载"
+    }
+  ],
+  "4rBTD/": [
+    {
+      "type": 0,
+      "value": "切换第一个/最后一个优先级为"
+    },
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " item"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " items"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "itemCount"
+    }
+  ],
+  "4xq39n": [
+    {
+      "type": 0,
+      "value": "更新分享限制比率"
+    }
+  ],
+  "5IioVR": [
+    {
+      "type": 0,
+      "value": "无法创建{category}"
+    }
+  ],
+  "5jeq8P": [
+    {
+      "type": 0,
+      "value": "未知"
+    }
+  ],
+  "5sg7KC": [
+    {
+      "type": 0,
+      "value": "密码"
+    }
+  ],
+  "7hccGY": [
+    {
+      "type": 0,
+      "value": "每行一个URL链接，按Enter键可添加其他内容"
+    }
+  ],
+  "7uWmG1": [
+    {
+      "type": 0,
+      "value": "删除种子"
+    }
+  ],
+  "8AXy/H": [
+    {
+      "type": 0,
+      "value": "正在下载 "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "[F]"
+        }
+      ],
+      "type": 8,
+      "value": "small"
+    }
+  ],
+  "8JMAIc": [
+    {
+      "type": 0,
+      "value": "名称已更新一项"
+    }
+  ],
+  "95stPq": [
+    {
+      "type": 0,
+      "value": "完成"
+    }
+  ],
+  "96hNL1": [
+    {
+      "children": [
+        {
+          "type": 1,
+          "value": "category"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " 类别已删除"
+    }
+  ],
+  "9CV2vm": [
+    {
+      "type": 0,
+      "value": "URLs"
+    }
+  ],
+  "9g2jKz": [
+    {
+      "type": 0,
+      "value": "全部类别"
+    }
+  ],
+  "9naK/J": [
+    {
+      "type": 0,
+      "value": "切换顺序下载 "
+    },
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " item"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " items"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "itemCount"
+    }
+  ],
+  "A6sL8J": [
+    {
+      "type": 0,
+      "value": "记住我"
+    }
+  ],
+  "AL6Naj": [
+    {
+      "type": 0,
+      "value": "更新名称"
+    }
+  ],
+  "AYXyuk": [
+    {
+      "type": 0,
+      "value": "正在下载"
+    }
+  ],
+  "AyGauy": [
+    {
+      "type": 0,
+      "value": "登录"
+    }
+  ],
+  "BPnK5w": [
+    {
+      "type": 0,
+      "value": "位置已更新 "
+    },
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " item"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " items"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "itemCount"
+    }
+  ],
+  "BWpuKl": [
+    {
+      "type": 0,
+      "value": "更新"
+    }
+  ],
+  "Bw/0Hs": [
+    {
+      "type": 0,
+      "value": "上传限速"
+    }
+  ],
+  "C2iTEH": [
+    {
+      "type": 0,
+      "value": "暂停"
+    }
+  ],
+  "CBxIPI": [
+    {
+      "type": 0,
+      "value": "开始强制重新检查"
+    },
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " item"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " items"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "itemCount"
+    }
+  ],
+  "CEKX3Y": [
+    {
+      "type": 0,
+      "value": "已恢复 "
+    },
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " item"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " items"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "itemCount"
+    }
+  ],
+  "CQg6pe": [
+    {
+      "type": 0,
+      "value": "DHT 节点"
+    }
+  ],
+  "Cnm0QA": [
+    {
+      "type": 0,
+      "value": "排队"
+    }
+  ],
+  "DurM8l": [
+    {
+      "type": 0,
+      "value": "活动时间"
+    }
+  ],
+  "EWyQH5": [
+    {
+      "type": 0,
+      "value": "全局配置"
+    }
+  ],
+  "Ebg0yQ": [
+    {
+      "type": 0,
+      "value": "这些项目"
+    }
+  ],
+  "F+mMwM": [
+    {
+      "type": 0,
+      "value": "欢迎使用qBittorrent"
+    }
+  ],
+  "FkDkSn": [
+    {
+      "type": 0,
+      "value": "你确定要删除 "
+    },
+    {
+      "type": 1,
+      "value": "itemCount"
+    },
+    {
+      "type": 0,
+      "value": "?"
+    }
+  ],
+  "G4ezCI": [
+    {
+      "type": 0,
+      "value": "上传"
+    }
+  ],
+  "Go06C4": [
+    {
+      "type": 0,
+      "value": "登录失败, "
+    },
+    {
+      "type": 1,
+      "value": "原因"
+    }
+  ],
+  "HAlOn1": [
+    {
+      "type": 0,
+      "value": "名称"
+    }
+  ],
+  "HP5Uui": [
+    {
+      "type": 0,
+      "value": "适用于选择"
+    }
+  ],
+  "HeqCOM": [
+    {
+      "type": 1,
+      "value": "ratio"
+    },
+    {
+      "type": 0,
+      "value": " ratio "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "或"
+        }
+      ],
+      "type": 8,
+      "value": "small"
+    },
+    {
+      "type": 0,
+      "value": " "
+    },
+    {
+      "type": 1,
+      "value": "分钟"
+    },
+    {
+      "type": 0,
+      "value": " 分钟"
+    }
+  ],
+  "IXuOcz": [
+    {
+      "type": 0,
+      "value": "新名称"
+    }
+  ],
+  "IgB6GU": [
+    {
+      "type": 0,
+      "value": "自定义"
+    }
+  ],
+  "JCIgkj": [
+    {
+      "type": 0,
+      "value": "用户名"
+    }
+  ],
+  "JPVHkL": [
+    {
+      "type": 0,
+      "value": "最近活动"
+    }
+  ],
+  "JicsBV": [
+    {
+      "type": 0,
+      "value": "停用"
+    }
+  ],
+  "JjgJTA": [
+    {
+      "type": 0,
+      "value": "用户"
+    }
+  ],
+  "K3r6DQ": [
+    {
+      "type": 0,
+      "value": "删除"
+    }
+  ],
+  "K3uH1C": [
+    {
+      "type": 0,
+      "value": "离线"
+    }
+  ],
+  "KFacRB": [
+    {
+      "type": 0,
+      "value": "比率"
+    }
+  ],
+  "KN7zKn": [
+    {
+      "type": 0,
+      "value": "错误"
+    }
+  ],
+  "KhgiAD": [
+    {
+      "type": 0,
+      "value": "上传限速"
+    }
+  ],
+  "L3+RNP": [
+    {
+      "type": 0,
+      "value": "做种 "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "[F]"
+        }
+      ],
+      "type": 8,
+      "value": "small"
+    }
+  ],
+  "L6waN2": [
+    {
+      "type": 0,
+      "value": "存储种子的路径"
+    }
+  ],
+  "LaM7n1": [
+    {
+      "type": 0,
+      "value": "下载"
+    }
+  ],
+  "LwdDVa": [
+    {
+      "type": 0,
+      "value": "已上传"
+    }
+  ],
+  "M59JhX": [
+    {
+      "type": 0,
+      "value": "手动"
+    }
+  ],
+  "M5Uo3T": [
+    {
+      "type": 0,
+      "value": "下移队列"
+    }
+  ],
+  "MFAoD8": [
+    {
+      "type": 1,
+      "value": "ratio"
+    },
+    {
+      "type": 0,
+      "value": " ratio"
+    }
+  ],
+  "MJhZTD": [
+    {
+      "offset": 0,
+      "options": {
+        "=0": {
+          "value": [
+            {
+              "type": 0,
+              "value": "点击选择文件"
+            }
+          ]
+        },
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " 个文件已被选择"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " 个文件已被选择"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "count"
+    }
+  ],
+  "Ma5clI": [
+    {
+      "type": 0,
+      "value": "上传本地文件"
+    }
+  ],
+  "N2IrpM": [
+    {
+      "type": 0,
+      "value": "确认"
+    }
+  ],
+  "NXI/XL": [
+    {
+      "type": 0,
+      "value": "自动"
+    }
+  ],
+  "OZfkbJ": [
+    {
+      "type": 0,
+      "value": "为项目设置新名称:"
+    }
+  ],
+  "OlwlCi": [
+    {
+      "type": 0,
+      "value": "已下载"
+    }
+  ],
+  "PVl3Rq": [
+    {
+      "type": 0,
+      "value": "预计时间"
+    }
+  ],
+  "PfW4AI": [
+    {
+      "type": 0,
+      "value": "无限制"
+    }
+  ],
+  "QQd4r5": [
+    {
+      "type": 0,
+      "value": "复制磁力链接"
+    }
+  ],
+  "Quy7PF": [
+    {
+      "type": 0,
+      "value": "分配"
+    }
+  ],
+  "R0VtDp": [
+    {
+      "type": 0,
+      "value": "自动管理 "
+    },
+    {
+      "children": [
+        {
+          "type": 1,
+          "value": "stats"
+        }
+      ],
+      "type": 8,
+      "value": "b"
+    },
+    {
+      "type": 0,
+      "value": " on "
+    },
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " item"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " items"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "itemCount"
+    }
+  ],
+  "SDuF98": [
+    {
+      "type": 0,
+      "value": "更新失败 {category}"
+    }
+  ],
+  "UIc25b": [
+    {
+      "type": 0,
+      "value": "管理模式"
+    }
+  ],
+  "UWFphS": [
+    {
+      "type": 0,
+      "value": "已复制 "
+    },
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " 个HASH"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " 个HASH"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "itemCount"
+    },
+    {
+      "type": 0,
+      "value": " 到剪贴板"
+    }
+  ],
+  "UkFz0c": [
+    {
+      "type": 0,
+      "value": "删除失败 {category}"
+    }
+  ],
+  "V2T7Eg": [
+    {
+      "type": 0,
+      "value": "下载限速"
+    }
+  ],
+  "V4DdBL": [
+    {
+      "type": 0,
+      "value": "Apply to selection "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "("
+        },
+        {
+          "type": 1,
+          "value": "count"
+        },
+        {
+          "type": 0,
+          "value": ")"
+        }
+      ],
+      "type": 8,
+      "value": "small"
+    }
+  ],
+  "VG+Z9f": [
+    {
+      "type": 0,
+      "value": "比率限制"
+    }
+  ],
+  "VKb1MS": [
+    {
+      "type": 0,
+      "value": "类别"
+    }
+  ],
+  "VNNgop": [
+    {
+      "type": 0,
+      "value": "做种"
+    }
+  ],
+  "VzzYJk": [
+    {
+      "type": 0,
+      "value": "创建"
+    }
+  ],
+  "W+1MOm": [
+    {
+      "type": 0,
+      "value": "类型"
+    }
+  ],
+  "XSvdcz": [
+    {
+      "type": 0,
+      "value": "种子"
+    }
+  ],
+  "YXbtum": [
+    {
+      "type": 0,
+      "value": "移动"
+    }
+  ],
+  "YeKWbP": [
+    {
+      "type": 0,
+      "value": "验证"
+    }
+  ],
+  "ZROXxK": [
+    {
+      "type": 0,
+      "value": "创建类别"
+    }
+  ],
+  "ZjWGgI": [
+    {
+      "type": 0,
+      "value": "移动到队列最后"
+    }
+  ],
+  "agOXPD": [
+    {
+      "type": 0,
+      "value": "选定大小"
+    }
+  ],
+  "cWcKDP": [
+    {
+      "type": 0,
+      "value": "联机受限"
+    }
+  ],
+  "cZP25r": [
+    {
+      "type": 0,
+      "value": "同时从硬盘删除"
+    }
+  ],
+  "ccXLVi": [
+    {
+      "type": 0,
+      "value": "类别"
+    }
+  ],
+  "coM7+7": [
+    {
+      "type": 0,
+      "value": "已复制 "
+    },
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " 名称"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " 名称"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "itemCount"
+    },
+    {
+      "type": 0,
+      "value": " 到剪贴板"
+    }
+  ],
+  "ekXood": [
+    {
+      "type": 0,
+      "value": "无限制"
+    }
+  ],
+  "eypWNM": [
+    {
+      "type": 0,
+      "value": "自动管理"
+    }
+  ],
+  "f/yZba": [
+    {
+      "type": 0,
+      "value": "按顺序下载"
+    }
+  ],
+  "fCBjOc": [
+    {
+      "type": 0,
+      "value": "已复制 "
+    },
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " 个磁力链接"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " 个磁力链接"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "itemCount"
+    },
+    {
+      "type": 0,
+      "value": " 到剪贴板"
+    }
+  ],
+  "g+bno4": [
+    {
+      "type": 0,
+      "value": "强制继续 "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "活动"
+        }
+      ],
+      "type": 8,
+      "value": "b"
+    },
+    {
+      "type": 0,
+      "value": " on "
+    },
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " item"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " items"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "itemCount"
+    }
+  ],
+  "gKhP3B": [
+    {
+      "type": 0,
+      "value": "上传速度"
+    }
+  ],
+  "hBAWHR": [
+    {
+      "type": 0,
+      "value": "这个项目"
+    }
+  ],
+  "hVIj7Y": [
+    {
+      "type": 0,
+      "value": "自定义"
+    }
+  ],
+  "hceE/7": [
+    {
+      "type": 0,
+      "value": "强制恢复"
+    }
+  ],
+  "iO050q": [
+    {
+      "type": 0,
+      "value": "未分类"
+    }
+  ],
+  "iXNbPf": [
+    {
+      "type": 0,
+      "value": "重命名"
+    }
+  ],
+  "iZFhin": [
+    {
+      "type": 0,
+      "value": "你确定要删除 "
+    },
+    {
+      "children": [
+        {
+          "type": 1,
+          "value": "item"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": "?"
+    }
+  ],
+  "j10KuP": [
+    {
+      "type": 0,
+      "value": "重新校验 [F]"
+    }
+  ],
+  "jAGnb0": [
+    {
+      "type": 0,
+      "value": "超级做种"
+    }
+  ],
+  "jU1ATf": [
+    {
+      "type": 0,
+      "value": "上传限速"
+    }
+  ],
+  "jaYJRn": [
+    {
+      "type": 0,
+      "value": "活动"
+    }
+  ],
+  "k8l06l": [
+    {
+      "type": 0,
+      "value": "Stalled"
+    }
+  ],
+  "l8NdEW": [
+    {
+      "children": [
+        {
+          "type": 1,
+          "value": "category"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " 个类别已创建"
+    }
+  ],
+  "lTleCS": [
+    {
+      "type": 0,
+      "value": "校验"
+    }
+  ],
+  "lfHu5/": [
+    {
+      "type": 0,
+      "value": "在队列中上移一位"
+    }
+  ],
+  "lnCIis": [
+    {
+      "type": 0,
+      "value": "free"
+    }
+  ],
+  "lw1zXA": [
+    {
+      "type": 0,
+      "value": "设置新的限速规则 "
+    },
+    {
+      "type": 1,
+      "value": "itemCount"
+    },
+    {
+      "type": 0,
+      "value": ":"
+    }
+  ],
+  "mZwdRJ": [
+    {
+      "type": 0,
+      "value": "设置目录"
+    }
+  ],
+  "mefwlE": [
+    {
+      "type": 0,
+      "value": "移动到队列最前"
+    }
+  ],
+  "pOWHaJ": [
+    {
+      "type": 0,
+      "value": "重新汇报 [F]"
+    }
+  ],
+  "pbYuwH": [
+    {
+      "type": 0,
+      "value": "总大小"
+    }
+  ],
+  "pwFP+o": [
+    {
+      "type": 0,
+      "value": "更新 "
+    },
+    {
+      "type": 1,
+      "value": "type"
+    },
+    {
+      "type": 0,
+      "value": " 限制速度"
+    }
+  ],
+  "qWbV6K": [
+    {
+      "type": 0,
+      "value": "优先处理第一块/最后一块"
+    }
+  ],
+  "qY8vs4": [
+    {
+      "type": 0,
+      "value": "和 "
+    },
+    {
+      "type": 1,
+      "value": "count"
+    },
+    {
+      "type": 0,
+      "value": " 更多项目..."
+    }
+  ],
+  "qjvc+L": [
+    {
+      "type": 0,
+      "value": "暂停 "
+    },
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " item"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " items"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "itemCount"
+    }
+  ],
+  "r4lEtC": [
+    {
+      "type": 0,
+      "value": "超级做种 "
+    },
+    {
+      "children": [
+        {
+          "type": 1,
+          "value": "state"
+        }
+      ],
+      "type": 8,
+      "value": "b"
+    },
+    {
+      "type": 0,
+      "value": " 在 "
+    },
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " 个项目"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " 个项目"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "itemCount"
+    }
+  ],
+  "rMDyRQ": [
+    {
+      "type": 0,
+      "value": "下载限速"
+    }
+  ],
+  "rtGl5i": [
+    {
+      "type": 0,
+      "value": "确认删除"
+    }
+  ],
+  "rw0/aE": [
+    {
+      "children": [
+        {
+          "type": 1,
+          "value": "category"
+        }
+      ],
+      "type": 8,
+      "value": "strong"
+    },
+    {
+      "type": 0,
+      "value": " 类别已更新"
+    }
+  ],
+  "rzuqCK": [
+    {
+      "type": 0,
+      "value": "下载限速"
+    }
+  ],
+  "sIMS7i": [
+    {
+      "type": 0,
+      "value": "进度"
+    }
+  ],
+  "tBpyZ7": [
+    {
+      "type": 0,
+      "value": "强制重新汇报 "
+    },
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " 个项目"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " 个项目"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "itemCount"
+    }
+  ],
+  "tFFMkF": [
+    {
+      "type": 0,
+      "value": "暂停"
+    }
+  ],
+  "tS6Alu": [
+    {
+      "type": 0,
+      "value": "下载速度"
+    }
+  ],
+  "tzMNF3": [
+    {
+      "type": 0,
+      "value": "状态"
+    }
+  ],
+  "uU7FbM": [
+    {
+      "type": 0,
+      "value": "新的分享限制比率适用于 "
+    },
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": " 个项目"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " 个项目"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "itemCount"
+    }
+  ],
+  "uUCYxK": [
+    {
+      "type": 0,
+      "value": "首先下载/最后一件"
+    }
+  ],
+  "ubROvH": [
+    {
+      "type": 0,
+      "value": "恢复种子"
+    }
+  ],
+  "v3MWTZ": [
+    {
+      "type": 0,
+      "value": "在线"
+    }
+  ],
+  "v97Te1": [
+    {
+      "type": 0,
+      "value": "Checking resume data"
+    }
+  ],
+  "vEYtiq": [
+    {
+      "type": 0,
+      "value": "类别名称"
+    }
+  ],
+  "vgeCVD": [
+    {
+      "type": 0,
+      "value": "修改类别"
+    }
+  ],
+  "vzu1AA": [
+    {
+      "type": 0,
+      "value": "数据源下载"
+    }
+  ],
+  "wNCvfg": [
+    {
+      "type": 0,
+      "value": "添加于"
+    }
+  ],
+  "wkjp48": [
+    {
+      "type": 0,
+      "value": "新的 "
+    },
+    {
+      "type": 1,
+      "value": "type"
+    },
+    {
+      "type": 0,
+      "value": " 适用于 "
+    },
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " item"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " items"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "itemCount"
+    }
+  ],
+  "xMpvRG": [
+    {
+      "type": 0,
+      "value": "复制 Hash"
+    }
+  ],
+  "xR/RMM": [
+    {
+      "type": 0,
+      "value": "更新位置"
+    }
+  ],
+  "xmcVZ0": [
+    {
+      "type": 0,
+      "value": "搜索"
+    }
+  ],
+  "yZvfrh": [
+    {
+      "type": 0,
+      "value": "保存路径"
+    }
+  ],
+  "yiy6QW": [
+    {
+      "type": 0,
+      "value": "排队上传"
+    }
+  ],
+  "za0KfF": [
+    {
+      "type": 0,
+      "value": "本次会话上传"
+    }
+  ],
+  "zmJ4SQ": [
+    {
+      "type": 0,
+      "value": "文件丢失"
+    }
+  ],
+  "zmx/Ju": [
+    {
+      "type": 0,
+      "value": "全局设置"
+    }
+  ],
+  "zwurmB": [
+    {
+      "type": 0,
+      "value": "Cookie"
+    }
+  ]
+}
