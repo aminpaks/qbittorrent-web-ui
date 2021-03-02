@@ -1,0 +1,479 @@
+{
+  "11WYT7": {
+    "defaultMessage": "复制名称"
+  },
+  "1EYCdR": {
+    "defaultMessage": "标签"
+  },
+  "1M6M38": {
+    "defaultMessage": "设置新位置 {itemCount}:"
+  },
+  "1mQAJl": {
+    "defaultMessage": "修改类别"
+  },
+  "1w0KAb": {
+    "defaultMessage": "添加新任务"
+  },
+  "2/2yg+": {
+    "defaultMessage": "添加"
+  },
+  "2GURFS": {
+    "defaultMessage": "暂停任务"
+  },
+  "2goucs": {
+    "defaultMessage": "删除类别"
+  },
+  "38Uuxq": {
+    "defaultMessage": "设置新的限制比率 {itemCount}:"
+  },
+  "3BG+4W": {
+    "defaultMessage": "分享率"
+  },
+  "3STmV0": {
+    "defaultMessage": "从URL下载"
+  },
+  "3y9DGg": {
+    "defaultMessage": "恢复"
+  },
+  "47FYwb": {
+    "defaultMessage": "取消"
+  },
+  "4AWEqx": {
+    "defaultMessage": "会话下载"
+  },
+  "4rBTD/": {
+    "defaultMessage": "切换第一个/最后一个优先级为 {itemCount, plural, one {# 项目} other {# 项目} }"
+  },
+  "4xq39n": {
+    "defaultMessage": "更新分享率限制比例"
+  },
+  "5IioVR": {
+    "defaultMessage": "新建失败 '{category}'"
+  },
+  "5jeq8P": {
+    "defaultMessage": "未知"
+  },
+  "5sg7KC": {
+    "defaultMessage": "密码"
+  },
+  "7hccGY": {
+    "defaultMessage": "每行一个URL /链接，按Enter键可添加其他内容"
+  },
+  "7uWmG1": {
+    "defaultMessage": "删除任务"
+  },
+  "8AXy/H": {
+    "defaultMessage": "下载 <small>[F]</small>"
+  },
+  "8JMAIc": {
+    "defaultMessage": "名称已更新"
+  },
+  "95stPq": {
+    "defaultMessage": "完成"
+  },
+  "96hNL1": {
+    "defaultMessage": "<strong>{category}</strong> 类别已删除"
+  },
+  "9CV2vm": {
+    "defaultMessage": "URLs"
+  },
+  "9g2jKz": {
+    "defaultMessage": "全部类别"
+  },
+  "9naK/J": {
+    "defaultMessage": "切换顺序下载 {itemCount, plural, one {# 个项目} other {# 个项目} }"
+  },
+  "A6sL8J": {
+    "defaultMessage": "记住我"
+  },
+  "AL6Naj": {
+    "defaultMessage": "更新名称"
+  },
+  "AYXyuk": {
+    "defaultMessage": "下载"
+  },
+  "AyGauy": {
+    "defaultMessage": "登录"
+  },
+  "BPnK5w": {
+    "defaultMessage": "位置已更新 {itemCount, plural, one {# 个项目} other {# 个项目} }"
+  },
+  "BWpuKl": {
+    "defaultMessage": "更新"
+  },
+  "Bw/0Hs": {
+    "defaultMessage": "上传限速"
+  },
+  "C2iTEH": {
+    "defaultMessage": "暂停"
+  },
+  "CBxIPI": {
+    "defaultMessage": "开始强制重新校验 {itemCount, plural, one {# 个项目} other {# 个项目} }"
+  },
+  "CEKX3Y": {
+    "defaultMessage": "已恢复 {itemCount, plural, one {# 个项目} other {# 个项目} }"
+  },
+  "CQg6pe": {
+    "defaultMessage": "DHT 节点"
+  },
+  "Cnm0QA": {
+    "defaultMessage": "队列"
+  },
+  "DurM8l": {
+    "defaultMessage": "活动时间"
+  },
+  "EWyQH5": {
+    "defaultMessage": "全局"
+  },
+  "Ebg0yQ": {
+    "defaultMessage": "这些项目"
+  },
+  "F+mMwM": {
+    "defaultMessage": "欢迎使用 qBittorrent"
+  },
+  "FkDkSn": {
+    "defaultMessage": "您确定要删除吗 {itemCount}?"
+  },
+  "G4ezCI": {
+    "defaultMessage": "上传"
+  },
+  "Go06C4": {
+    "defaultMessage": "登录失败, {reason}"
+  },
+  "HAlOn1": {
+    "defaultMessage": "名称"
+  },
+  "HP5Uui": {
+    "defaultMessage": "适用于选择"
+  },
+  "HeqCOM": {
+    "defaultMessage": "{ratio} 比率 <small>或</small> {minutes} 分钟"
+  },
+  "IXuOcz": {
+    "defaultMessage": "新名称"
+  },
+  "IgB6GU": {
+    "defaultMessage": "个人"
+  },
+  "JCIgkj": {
+    "defaultMessage": "账号"
+  },
+  "JPVHkL": {
+    "defaultMessage": "最后获得"
+  },
+  "JicsBV": {
+    "defaultMessage": "停用"
+  },
+  "JjgJTA": {
+    "defaultMessage": "用户"
+  },
+  "K3r6DQ": {
+    "defaultMessage": "删除"
+  },
+  "K3uH1C": {
+    "defaultMessage": "离线"
+  },
+  "KFacRB": {
+    "defaultMessage": "比率"
+  },
+  "KN7zKn": {
+    "defaultMessage": "错误"
+  },
+  "KhgiAD": {
+    "defaultMessage": "限制上传速率"
+  },
+  "L3+RNP": {
+    "defaultMessage": "做种 <small>[F]</small>"
+  },
+  "L6waN2": {
+    "defaultMessage": "存储种子的路径"
+  },
+  "LaM7n1": {
+    "defaultMessage": "下载"
+  },
+  "LwdDVa": {
+    "defaultMessage": "已上传"
+  },
+  "M59JhX": {
+    "defaultMessage": "手动"
+  },
+  "M5Uo3T": {
+    "defaultMessage": "在队列中下移一位"
+  },
+  "MFAoD8": {
+    "defaultMessage": "{ratio} 比率"
+  },
+  "MJhZTD": {
+    "defaultMessage": "{count, plural, =0 {点击这里选择文件} one {# 个文件已选择} other {# 个文件已选择}}"
+  },
+  "Ma5clI": {
+    "defaultMessage": "从本地上传文件"
+  },
+  "N2IrpM": {
+    "defaultMessage": "确认"
+  },
+  "NXI/XL": {
+    "defaultMessage": "自动"
+  },
+  "OZfkbJ": {
+    "defaultMessage": "在下面的项目中设置新名称:"
+  },
+  "OlwlCi": {
+    "defaultMessage": "已下载"
+  },
+  "PVl3Rq": {
+    "defaultMessage": "预计时间"
+  },
+  "PfW4AI": {
+    "defaultMessage": "无限制"
+  },
+  "QQd4r5": {
+    "defaultMessage": "复制磁力链接"
+  },
+  "Quy7PF": {
+    "defaultMessage": "分配"
+  },
+  "R0VtDp": {
+    "defaultMessage": "自动管理 <b>{state}</b> 在 {itemCount, plural, one {# 个项目} other {# 个项目} }"
+  },
+  "SDuF98": {
+    "defaultMessage": "更新失败 '{category}'"
+  },
+  "UIc25b": {
+    "defaultMessage": "管理模式"
+  },
+  "UWFphS": {
+    "defaultMessage": "已复制 {itemCount, plural, one {# 个HASH} other {# 个HASH} } 到剪切板"
+  },
+  "UkFz0c": {
+    "defaultMessage": "删除失败 '{category}'"
+  },
+  "V2T7Eg": {
+    "defaultMessage": "限制下载速率"
+  },
+  "V4DdBL": {
+    "defaultMessage": "适用于选择 <small>({count})</small>"
+  },
+  "VG+Z9f": {
+    "defaultMessage": "比率限制"
+  },
+  "VKb1MS": {
+    "defaultMessage": "类别"
+  },
+  "VNNgop": {
+    "defaultMessage": "做种"
+  },
+  "VzzYJk": {
+    "defaultMessage": "创建"
+  },
+  "W+1MOm": {
+    "defaultMessage": "模式"
+  },
+  "XSvdcz": {
+    "defaultMessage": "种子"
+  },
+  "YXbtum": {
+    "defaultMessage": "移动"
+  },
+  "YeKWbP": {
+    "defaultMessage": "验证"
+  },
+  "ZROXxK": {
+    "defaultMessage": "创建类别"
+  },
+  "ZjWGgI": {
+    "defaultMessage": "移至队列底部"
+  },
+  "agOXPD": {
+    "defaultMessage": "大小"
+  },
+  "cWcKDP": {
+    "defaultMessage": "联机受限"
+  },
+  "cZP25r": {
+    "defaultMessage": "同时从硬盘删除"
+  },
+  "ccXLVi": {
+    "defaultMessage": "类别"
+  },
+  "coM7+7": {
+    "defaultMessage": "已复制 {itemCount, plural, one {# 个名称} other {# 个名称} } 到剪切板"
+  },
+  "ekXood": {
+    "defaultMessage": "无限制"
+  },
+  "eypWNM": {
+    "defaultMessage": "自动管理"
+  },
+  "f/yZba": {
+    "defaultMessage": "按顺序下载"
+  },
+  "fCBjOc": {
+    "defaultMessage": "已复制 {itemCount, plural, one {# 个磁力链接} other {# 个磁力链接} } 到剪切板"
+  },
+  "g+bno4": {
+    "defaultMessage": "强制恢复 <b>活动</b> 的 {itemCount, plural, one {# 个项目} other {# 个项目} }"
+  },
+  "gKhP3B": {
+    "defaultMessage": "上传速度"
+  },
+  "hBAWHR": {
+    "defaultMessage": "这个项目"
+  },
+  "hVIj7Y": {
+    "defaultMessage": "受限"
+  },
+  "hceE/7": {
+    "defaultMessage": "强制恢复"
+  },
+  "iO050q": {
+    "defaultMessage": "未分类"
+  },
+  "iXNbPf": {
+    "defaultMessage": "重命名"
+  },
+  "iZFhin": {
+    "defaultMessage": "您确定要删除吗 <strong>{item}</strong>?"
+  },
+  "j10KuP": {
+    "defaultMessage": "重新校验 [F]"
+  },
+  "jAGnb0": {
+    "defaultMessage": "超级做种"
+  },
+  "jU1ATf": {
+    "defaultMessage": "限制上传速率"
+  },
+  "jaYJRn": {
+    "defaultMessage": "活动"
+  },
+  "k8l06l": {
+    "defaultMessage": "停止"
+  },
+  "l8NdEW": {
+    "defaultMessage": "<strong>{category}</strong> 创建类别"
+  },
+  "lTleCS": {
+    "defaultMessage": "校验中"
+  },
+  "lfHu5/": {
+    "defaultMessage": "在队列中上移一位"
+  },
+  "lnCIis": {
+    "defaultMessage": "空闲"
+  },
+  "lw1zXA": {
+    "defaultMessage": "设置新的限制率 {itemCount}:"
+  },
+  "mZwdRJ": {
+    "defaultMessage": "设定位置"
+  },
+  "mefwlE": {
+    "defaultMessage": "移至队列顶部"
+  },
+  "pOWHaJ": {
+    "defaultMessage": "重新汇报 [F]"
+  },
+  "pbYuwH": {
+    "defaultMessage": "总计大小"
+  },
+  "pwFP+o": {
+    "defaultMessage": "上传 {type} 限制速度"
+  },
+  "qWbV6K": {
+    "defaultMessage": "优先处理第一块/最后一块"
+  },
+  "qY8vs4": {
+    "defaultMessage": "和 {count} 个项目..."
+  },
+  "qjvc+L": {
+    "defaultMessage": "暂停 {itemCount, plural, one {# 个项目} other {# 个项目} }"
+  },
+  "r4lEtC": {
+    "defaultMessage": "超级做种 <b>{state}</b> 在 {itemCount, plural, one {# 个项目} other {# 个项目} }"
+  },
+  "rMDyRQ": {
+    "defaultMessage": "限制下载速率"
+  },
+  "rtGl5i": {
+    "defaultMessage": "确认删除"
+  },
+  "rw0/aE": {
+    "defaultMessage": "<strong>{category}</strong> 类别已更新"
+  },
+  "rzuqCK": {
+    "defaultMessage": "下载限速"
+  },
+  "sIMS7i": {
+    "defaultMessage": "进度"
+  },
+  "tBpyZ7": {
+    "defaultMessage": "强制重新汇报 {itemCount, plural, one {# 个项目} other {# 个项目} }"
+  },
+  "tFFMkF": {
+    "defaultMessage": "暂停"
+  },
+  "tS6Alu": {
+    "defaultMessage": "下载速率"
+  },
+  "tzMNF3": {
+    "defaultMessage": "状态"
+  },
+  "uU7FbM": {
+    "defaultMessage": "新分享率限制适用于 {itemCount, plural, one {# 个项目} other {# 个项目} }"
+  },
+  "uUCYxK": {
+    "defaultMessage": "首先下载第一/最后一件"
+  },
+  "ubROvH": {
+    "defaultMessage": "恢复任务"
+  },
+  "v3MWTZ": {
+    "defaultMessage": "联机"
+  },
+  "v97Te1": {
+    "defaultMessage": "校验数据"
+  },
+  "vEYtiq": {
+    "defaultMessage": "类别名称"
+  },
+  "vgeCVD": {
+    "defaultMessage": "修改类别"
+  },
+  "vzu1AA": {
+    "defaultMessage": "数据源下载"
+  },
+  "wNCvfg": {
+    "defaultMessage": "已添加"
+  },
+  "wkjp48": {
+    "defaultMessage": "新的 {type} 限制适用于 {itemCount, plural, one {# 个项目} other {# 个项目} }"
+  },
+  "xMpvRG": {
+    "defaultMessage": "复制 Hash"
+  },
+  "xR/RMM": {
+    "defaultMessage": "更新位置"
+  },
+  "xmcVZ0": {
+    "defaultMessage": "搜索"
+  },
+  "yZvfrh": {
+    "defaultMessage": "保存路径"
+  },
+  "yiy6QW": {
+    "defaultMessage": "队列上传
+  },
+  "za0KfF": {
+    "defaultMessage": "会话上传"
+  },
+  "zmJ4SQ": {
+    "defaultMessage": "文件丢失"
+  },
+  "zmx/Ju": {
+    "defaultMessage": "全局限制"
+  },
+  "zwurmB": {
+    "defaultMessage": "Cookie"
+  }
+}
