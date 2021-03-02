@@ -420,7 +420,7 @@
     "defaultMessage": "Status"
   },
   "uU7FbM": {
-    "defaultMessage": "New share limit applied to {itemCount, plural, one {one item} other {# items} }"
+    "defaultMessage": "New share limit applied to {itemCount, plural, one {# item} other {# items} }"
   },
   "uUCYxK": {
     "defaultMessage": "Download First/Last Piece First"
