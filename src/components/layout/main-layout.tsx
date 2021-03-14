@@ -11,11 +11,21 @@ const useStyles = mStyles(() => ({
     width: '100vw',
     height: 'var(--height)',
     display: 'flex',
+    overflow: 'hidden',
     flexDirection: 'column',
   },
   mainLayoutContainer: {
-    display: 'flex',
+    display: 'inline-block',
     flex: '1 0 auto',
+    position: 'relative',
+  },
+  mainLayoutContainerHolder: {
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    position: 'absolute',
+    display: 'flex',
     alignItems: 'flex-start',
   },
   appChildren: {
@@ -31,20 +41,20 @@ export const MainLayout: FC<{
   qbtVersion: string;
   className?: string;
 }> = ({ header, statusBar, sideBar = <div />, qbtVersion, children, className }) => {
-  const [height, setHeight] = useState(0);
-  const classes = useStyles({ height });
+  const classes = useStyles();
 
   useWindowResize(({ height }) => {
-    setHeight(height);
-    console.log({ height });
+    document.body.style.setProperty('--height', `${height}px`);
   });
 
   return (
-    <div className={classes.mainLayoutRoot} style={{ '--height': `${height}px` } as any}>
+    <div className={classes.mainLayoutRoot}>
       <AppBar position="static">{header || <AppHeader qbtVersion={qbtVersion} />}</AppBar>
       <div className={classes.mainLayoutContainer}>
-        {sideBar}
-        <div className={clsx(classes.appChildren, className)}>{children}</div>
+        <div className={classes.mainLayoutContainerHolder}>
+          {sideBar}
+          <div className={clsx(classes.appChildren, className)}>{children}</div>
+        </div>
       </div>
       {statusBar || <AppStatusBar />}
     </div>

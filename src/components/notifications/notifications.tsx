@@ -6,13 +6,14 @@ import { useEffect } from 'react';
 const useStyles = mStyles(() => ({
   containerRoot: {
     left: 0,
-    bottom: 30,
+    top: 'calc(var(--height) - 30px)',
     width: '100%',
     position: 'fixed',
-    zIndex: 999,
+    zIndex: 9999,
 
     '& .custom--snackbar': {
       position: 'absolute',
+      padding: 10,
       transition: '300ms ease-in-out bottom',
     },
   },

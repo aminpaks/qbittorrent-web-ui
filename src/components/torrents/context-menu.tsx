@@ -17,6 +17,10 @@ import { useTorrentsOperationMutation } from '../data';
 import { useNotifications } from '../notifications';
 
 const useStyles = mStyles(({ spacing }) => ({
+  popoverRoot: {
+    bottom: 'auto !important',
+    height: 'var(--height) !important',
+  },
   popoverWrapper: {
     margin: 0,
     padding: 0,
@@ -36,7 +40,7 @@ const useStyles = mStyles(({ spacing }) => ({
   },
 }));
 
-export const TorrentContextMenu: FC = memo(props => {
+export const TorrentContextMenu: FC = memo(() => {
   const classes = useStyles();
   const [state, setState] = useState({ top: 0, left: 0 });
   const { formatMessage } = useIntl();
@@ -240,7 +244,13 @@ export const TorrentContextMenu: FC = memo(props => {
   }, [isOpen]);
 
   return (
-    <Popover keepMounted open={isOpen} anchorPosition={state} anchorReference="anchorPosition">
+    <Popover
+      classes={{ root: classes.popoverRoot }}
+      keepMounted
+      open={isOpen}
+      anchorPosition={state}
+      anchorReference="anchorPosition"
+    >
       <List dense className={classes.listRoot}>
         {ops.map(
           (operation, index, all) =>

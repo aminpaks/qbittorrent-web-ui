@@ -36,6 +36,11 @@ const theme = createMuiTheme({
         'body .MuiFormControl-root': {
           margin: 8,
         },
+        'html,body': {
+          height: 'var(--height)',
+          overflow: 'hidden',
+          '-webkit-overflow-scrolling': 'touch',
+        },
       },
     },
   },
