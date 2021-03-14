@@ -16,7 +16,7 @@ import {
 import { useTorrentSortFilterState, useUiState } from '../state';
 import { HeaderActions } from './types';
 
-const useStyles = mStyles(({ spacing, palette }) => ({
+const useStyles = mStyles(({ spacing, breakpoints }) => ({
   headerRoot: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -28,6 +28,9 @@ const useStyles = mStyles(({ spacing, palette }) => ({
       flex: '0 0 auto',
       paddingLeft: spacing(1),
       paddingRight: spacing(1),
+      [breakpoints.down('sm')]: {
+        flex: '1 0 auto',
+      },
     },
     '& .qbt--icon': {
       transform: 'rotate(90deg)',
@@ -38,6 +41,14 @@ const useStyles = mStyles(({ spacing, palette }) => ({
         display: 'flex',
         flex: '0 0 auto',
         alignItems: 'center',
+      },
+    },
+  },
+  headerTitle: {
+    [breakpoints.down('sm')]: {
+      margin: '0 auto',
+      '& .MuiTypography-root': {
+        fontSize: '1.2rem',
       },
     },
   },
@@ -60,6 +71,16 @@ const useStyles = mStyles(({ spacing, palette }) => ({
     },
     '&.MuiInput-underline:hover:not(.Mui-disabled):before': {
       borderBottomColor: '#fff',
+    },
+  },
+
+  langContainer: {
+    paddingTop: spacing(1),
+    paddingBottom: spacing(1),
+    [breakpoints.down('sm')]: {
+      '& > div': {
+        marginLeft: 'auto',
+      },
     },
   },
 }));
@@ -109,7 +130,7 @@ export const AppHeader: FC<{ qbtVersion: string }> = ({ qbtVersion }) => {
   return (
     <div className={classes.headerRoot}>
       <div>
-        <div>
+        <div className={classes.headerTitle}>
           <Typography variant="body1">qBittorrent {qbtVersion}</Typography>
         </div>
       </div>
@@ -177,8 +198,8 @@ export const AppHeader: FC<{ qbtVersion: string }> = ({ qbtVersion }) => {
           onChange={handleSearchInputChange}
         />
       </div>
-      <div>
-        <Box>Lang: {intl.locale}</Box>
+      <div className={classes.langContainer}>
+        <div>Lang: {intl.locale}</div>
       </div>
     </div>
   );
