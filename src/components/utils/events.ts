@@ -41,3 +41,29 @@ export const useDocumentEvents = <T extends keyof DocumentEventMap>(
     };
   });
 };
+
+export const useWindowResize = (
+  callback: (bound: { width: number; height: number }) => void,
+  debounceMs = 500
+) => {
+  useEffect(() => {
+    let timer = -1;
+    function handleEvent() {
+      if (timer > 0) {
+        window.clearTimeout(timer);
+      }
+      window.setTimeout(() => {
+        callback({ width: window.innerWidth, height: window.innerHeight });
+      }, debounceMs);
+    }
+
+    window.addEventListener('resize', handleEvent);
+    window.addEventListener('orientationchange', handleEvent);
+
+    window.dispatchEvent(new Event('resize'));
+    return () => {
+      window.removeEventListener('resize', handleEvent);
+      window.removeEventListener('orientationchange', handleEvent);
+    };
+  }, []);
+};

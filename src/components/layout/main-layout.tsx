@@ -1,14 +1,15 @@
-import { FC, ReactElement } from 'react';
+import clsx from 'clsx';
+import { FC, ReactElement, useState } from 'react';
 import AppHeader from '../header';
 import { AppStatusBar } from '../app-statusbar';
 import { mStyles } from '../common';
 import { AppBar } from '../material-ui-core';
-import clsx from 'clsx';
+import { useWindowResize } from '../utils';
 
-const useStyles = mStyles(({ spacing, zIndex }) => ({
+const useStyles = mStyles(() => ({
   mainLayoutRoot: {
     width: '100vw',
-    height: '100vh',
+    height: 'var(--height)',
     display: 'flex',
     flexDirection: 'column',
   },
@@ -30,10 +31,16 @@ export const MainLayout: FC<{
   qbtVersion: string;
   className?: string;
 }> = ({ header, statusBar, sideBar = <div />, qbtVersion, children, className }) => {
-  const classes = useStyles();
+  const [height, setHeight] = useState(0);
+  const classes = useStyles({ height });
+
+  useWindowResize(({ height }) => {
+    setHeight(height);
+    console.log({ height });
+  });
 
   return (
-    <div className={classes.mainLayoutRoot}>
+    <div className={classes.mainLayoutRoot} style={{ '--height': `${height}px` } as any}>
       <AppBar position="static">{header || <AppHeader qbtVersion={qbtVersion} />}</AppBar>
       <div className={classes.mainLayoutContainer}>
         {sideBar}

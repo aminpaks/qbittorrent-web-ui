@@ -1,5 +1,5 @@
 import { Fallback } from '../types';
-import { tryCatchSync } from './tryCatch';
+import { tryCatchSync } from './try-catch';
 
 const version = '0.0.1';
 type KeyValue<V> = {
