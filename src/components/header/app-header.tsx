@@ -178,7 +178,7 @@ export const AppHeader: FC<{ qbtVersion: string }> = ({ qbtVersion }) => {
         />
       </div>
       <div>
-        <Box>Language: {intl.locale}</Box>
+        <Box>Lang: {intl.locale}</Box>
       </div>
     </div>
   );
