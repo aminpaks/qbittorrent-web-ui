@@ -10,17 +10,17 @@ import {
   WifiOffIcon,
 } from './material-ui-icons';
 import { FormattedMessage } from 'react-intl';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 
 const useStyles = mStyles(({ spacing }) => ({
   footerRoot: {
     minHeight: 34,
-    display: 'flex',
-    justifyContent: 'flex-end',
     position: 'relative',
     borderTop: `1px solid transparent`,
     borderTopColor: colorAlpha('#000', 0.02).string(),
     zIndex: 10,
-    padding: spacing(1),
+    overflow: 'hidden',
+    overflowX: 'scroll',
 
     '&::before': {
       top: 0,
@@ -33,10 +33,16 @@ const useStyles = mStyles(({ spacing }) => ({
       backgroundColor: '#fff',
     },
   },
-  footerContainer: {
-    flex: '0 0 100%',
+  footerWrapper: {
     display: 'flex',
-    justifyContent: 'flex-end',
+    left: 'auto',
+    padding: spacing(1),
+    paddingLeft: '10%',
+  },
+  footerContainer: {
+    display: 'flex',
+    flex: '0 0 auto',
+    marginLeft: 'auto',
     '& > div': {
       display: 'flex',
       flex: '0 0 auto',
@@ -76,68 +82,77 @@ export const AppStatusBar = () => {
     free_space_on_disk,
   } = useServerState();
   const isConnected = connection_status == 'connected' || connection_status === 'firewalled';
+  const rootRef = useRef<HTMLElement>(null);
+
+  useLayoutEffect(() => {
+    if (rootRef.current) {
+      rootRef.current.scrollLeft = 9999999;
+    }
+  }, [connection_status]);
 
   return (
-    <footer className={classes.footerRoot}>
-      <div className={classes.footerContainer}>
-        <div className="footer--connection">
-          <span>{isConnected ? <WifiIcon fontSize="small" /> : <WifiOffIcon fontSize="small" />}</span>
-          <span>{getConnectionStatusString(connection_status)}</span>
+    <footer ref={rootRef} className={classes.footerRoot}>
+      <div className={classes.footerWrapper}>
+        <div className={classes.footerContainer}>
+          <div className="footer--connection">
+            <span>{isConnected ? <WifiIcon fontSize="small" /> : <WifiOffIcon fontSize="small" />}</span>
+            <span>{getConnectionStatusString(connection_status)}</span>
+          </div>
+          {typeof free_space_on_disk === 'number' && (
+            <div>
+              <span>
+                <StorageIcon fontSize="small" />
+              </span>
+              <span>{humanFileSize(free_space_on_disk)}</span>
+              <span>
+                <FormattedMessage defaultMessage="free" tagName="small" />
+              </span>
+            </div>
+          )}
+          {dht_nodes && (
+            <div>
+              <span>
+                <GrainIcon fontSize="small" />
+              </span>
+              <span>{dht_nodes}</span>
+              <span>
+                <FormattedMessage defaultMessage="DHT nodes" tagName="small" />
+              </span>
+            </div>
+          )}
+          {typeof dl_info_speed === 'number' && (
+            <div className="footer--download">
+              <span>
+                <ArrowDownwardIcon fontSize="small" />
+              </span>
+              <span>
+                {humanFileSize(dl_info_speed)}
+                <small>/s</small>
+              </span>
+              <span>
+                [{humanFileSize(dl_rate_limit)}
+                <small>/s</small>]
+              </span>
+              <span>({humanFileSize(dl_info_data)})</span>
+            </div>
+          )}
+          {typeof up_info_speed == 'number' && (
+            <div className="footer--upload">
+              <span>
+                <ArrowUpwardIcon fontSize="small" />
+              </span>
+              <span>
+                {humanFileSize(up_info_speed)}
+                <small>/s</small>
+              </span>
+              <span>
+                [{humanFileSize(up_rate_limit)}
+                <small>/s</small>]
+              </span>
+              <span>({humanFileSize(up_info_data)})</span>
+            </div>
+          )}
         </div>
-        {typeof free_space_on_disk === 'number' && (
-          <div>
-            <span>
-              <StorageIcon fontSize="small" />
-            </span>
-            <span>{humanFileSize(free_space_on_disk)}</span>
-            <span>
-              <FormattedMessage defaultMessage="free" tagName="small" />
-            </span>
-          </div>
-        )}
-        {dht_nodes && (
-          <div>
-            <span>
-              <GrainIcon fontSize="small" />
-            </span>
-            <span>{dht_nodes}</span>
-            <span>
-              <FormattedMessage defaultMessage="DHT nodes" tagName="small" />
-            </span>
-          </div>
-        )}
-        {typeof dl_info_speed === 'number' && (
-          <div className="footer--download">
-            <span>
-              <ArrowDownwardIcon fontSize="small" />
-            </span>
-            <span>
-              {humanFileSize(dl_info_speed)}
-              <small>/s</small>
-            </span>
-            <span>
-              [{humanFileSize(dl_rate_limit)}
-              <small>/s</small>]
-            </span>
-            <span>({humanFileSize(dl_info_data)})</span>
-          </div>
-        )}
-        {typeof up_info_speed == 'number' && (
-          <div className="footer--upload">
-            <span>
-              <ArrowUpwardIcon fontSize="small" />
-            </span>
-            <span>
-              {humanFileSize(up_info_speed)}
-              <small>/s</small>
-            </span>
-            <span>
-              [{humanFileSize(up_rate_limit)}
-              <small>/s</small>]
-            </span>
-            <span>({humanFileSize(up_info_data)})</span>
-          </div>
-        )}
       </div>
     </footer>
   );
