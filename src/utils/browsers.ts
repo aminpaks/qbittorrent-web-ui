@@ -1,5 +1,5 @@
 import { storageGet, storageSet } from './storage';
-import { tryCatch, tryCatchSync } from './tryCatch';
+import { tryCatch, tryCatchSync } from './try-catch';
 
 const CLIENT_LOCALE = 'clientLocale';
 

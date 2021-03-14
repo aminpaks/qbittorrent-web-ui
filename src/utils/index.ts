@@ -7,4 +7,4 @@ export * from './functions';
 export * from './numbers';
 export * from './objects';
 export * from './storage';
-export * from './tryCatch';
+export * from './try-catch';

@@ -22,6 +22,10 @@ import { CategoryDeleteDialog } from './category-delete-dialog';
 import { CategoryAction } from './types';
 
 const useStyles = mStyles(() => ({
+  popoverRoot: {
+    bottom: 'auto !important',
+    height: 'var(--height) !important',
+  },
   listRoot: {
     '& .MuiListItemSecondaryAction-root': {
       '&:hover': {
@@ -197,7 +201,12 @@ export const Categories = () => {
           );
         })}
       </List>
-      <Popover keepMounted open={!!(state.anchor && state.category)} anchorEl={state.anchor}>
+      <Popover
+        keepMounted
+        open={!!(state.anchor && state.category)}
+        anchorEl={state.anchor}
+        classes={{ root: classes.popoverRoot }}
+      >
         <List ref={listRef} dense className={classes.listRoot}>
           {contextMenuActions.map((action, idx) =>
             action === 'divider' ? (
