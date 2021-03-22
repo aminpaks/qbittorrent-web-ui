@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { FC, ReactElement, useState } from 'react';
+import { FC, ReactElement } from 'react';
 import AppHeader from '../header';
 import { AppStatusBar } from '../app-statusbar';
 import { mStyles } from '../common';
@@ -29,6 +29,7 @@ const useStyles = mStyles(() => ({
     alignItems: 'flex-start',
   },
   appChildren: {
+    position: 'relative',
     height: '100%',
     flex: '1 0 auto',
   },

@@ -8,11 +8,12 @@ import { TorrentRenameDialog } from './rename-dialog';
 import { TorrentLimitRateDialog } from './limit-rate-dialog';
 import { TorrentShareLimitDialog } from './limit-share-dialog';
 import { TorrentAddNewDialog } from './add-new-dialog';
+import { TorrentDetails } from './details';
 
 export const TorrentsContainer: FC = () => {
   return (
     <>
-      <TorrentList />
+      <TorrentDetails list={<TorrentList />} />
 
       <TorrentContextMenu />
 
