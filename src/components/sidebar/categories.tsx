@@ -78,7 +78,12 @@ export const Categories = () => {
   const categoryCollection = useCategories();
   const [
     { torrentListSelection },
-    { updateCategoryAddEditDialogOpen, updateCategoryDeleteDialogOpen, updateDeleteConfirmationDialogIsOpen },
+    {
+      updateTorrentSelectionList,
+      updateCategoryAddEditDialogOpen,
+      updateCategoryDeleteDialogOpen,
+      updateDeleteConfirmationDialogIsOpen,
+    },
   ] = useUiState();
   const [{ category: selectedCategoryName }, updateFilter] = useTorrentSortFilterState();
   const { create: createNotification } = useNotifications();
@@ -97,7 +102,9 @@ export const Categories = () => {
   );
 
   const { mutate: update } = useCategoryOperationsMutation({
-    onSuccess: () => {},
+    onSuccess: () => {
+      updateTorrentSelectionList({ type: 'only', list: [] });
+    },
   });
   const { mutate: torrentsOperates } = useTorrentsOperationMutation();
 
