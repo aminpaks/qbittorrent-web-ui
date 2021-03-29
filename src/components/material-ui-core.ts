@@ -39,11 +39,15 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Select from '@material-ui/core/Select';
 import Snackbar from '@material-ui/core/Snackbar';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
 export {
   Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Alert,
   AppBar,
   Box,
@@ -82,8 +86,8 @@ export {
   Select,
   Snackbar,
   SvgIconTypeMap,
+  Tab,
+  Tabs,
   TextField,
   Typography,
-  AccordionDetails,
-  AccordionSummary,
 };

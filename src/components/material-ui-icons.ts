@@ -49,6 +49,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import SpeedIcon from '@material-ui/icons/Speed';
 import StorageIcon from '@material-ui/icons/Storage';
 import SubtitlesIcon from '@material-ui/icons/Subtitles';
+import TocIcon from '@material-ui/icons/Toc';
 import TrackChangesIcon from '@material-ui/icons/TrackChanges';
 import TrendingDownIcon from '@material-ui/icons/TrendingDown';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
@@ -110,6 +111,7 @@ export {
   SpeedIcon,
   StorageIcon,
   SubtitlesIcon,
+  TocIcon,
   TrackChangesIcon,
   TrendingDownIcon,
   TrendingUpIcon,

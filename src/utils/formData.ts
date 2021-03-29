@@ -1,3 +1,11 @@
+export const buildSearchParams = (params: object) => {
+  const searchParams = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    searchParams.set(key, value);
+  });
+  return searchParams;
+};
+
 export const getFormData = (obj: object) => {
   const body = new FormData();
   Object.entries(obj).forEach(([key, value]) => {
